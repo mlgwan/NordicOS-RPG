@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/city1.unity
+    guid: b3576c9106e7c9644be4fee3bbcf9877
+  - enabled: 1
+    path: Assets/Scenes/overworld.unity
+    guid: 31e140d7237aee9458b1c99debab6564
+  - enabled: 1
+    path: Assets/Scenes/battle.unity
+    guid: b37cb5f5f7f3ac344aa786dc2014df30
+  m_configObjects: {}
