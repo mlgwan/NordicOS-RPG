@@ -71,8 +71,8 @@ private CharacterStat plStat;
             Vector3 targetLocation = hit.point;
             /*
              * Modify the target location so that the object is being perfectly aligned with the ground (if it's flat).
-             */
-            targetLocation += new Vector3(0, transform.localScale.y / 2, 0);
+             */ // CHANGES MODIFIER FROM 1/2 to 16 to fit with the terrain
+            targetLocation += new Vector3(0, transform.localScale.y * 16 , 0);
             /*
              * Move the object to the target location.
              */
