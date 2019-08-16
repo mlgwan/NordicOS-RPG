@@ -9,63 +9,98 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1701457025795098}
+  m_RootGameObject: {fileID: 1802085990476268}
   m_IsPrefabAsset: 1
---- !u!1 &1701457025795098
+--- !u!1 &1802085990476268
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4153726827116456}
-  - component: {fileID: 212786357980981856}
-  - component: {fileID: 114409531691834850}
+  - component: {fileID: 4995942588538450}
+  - component: {fileID: 212066887167567488}
+  - component: {fileID: 95199593320102598}
+  - component: {fileID: 114837540827162636}
   m_Layer: 0
-  m_Name: EnemyImp
-  m_TagString: Untagged
+  m_Name: Rikkr
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4153726827116456
+--- !u!4 &4995942588538450
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1701457025795098}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 1802085990476268}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.15, y: 1.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114409531691834850
+--- !u!95 &95199593320102598
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1802085990476268}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e3dcc8610ea5c61458da7d6e6655bd6e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114837540827162636
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1701457025795098}
+  m_GameObject: {fileID: 1802085990476268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbac084e6b85b9249b88d2e5611914cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 23b8b0393a90d764d8d53e574d856729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedPoints: 4
-  hitPoints: 10
-  manaPoints: 0
-  attackPoints: 5
-  defensePoints: 2
-  lowerAttackBound: 1
-  higherAttackBound: 3
-  experienceRewardPoints: 50
---- !u!212 &212786357980981856
+  player:
+    theName: Rikkr
+    baseHP: 10
+    curHP: 10
+    baseMP: 10
+    curMP: 10
+    baseATK: 12
+    curATK: 12
+    baseDEF: 8
+    curDEF: 8
+    baseSTR: 8
+    curSTR: 8
+    baseINT: 14
+    curINT: 14
+    baseDEX: 12
+    curDEX: 12
+    baseSPD: 10
+    curSPD: 10
+    level: 3
+    currentExperiencePoints: 0
+    totalExperiencePoints: 3000
+  currentState: 0
+  healthBar: {fileID: 0}
+  manaBar: {fileID: 0}
+--- !u!212 &212066887167567488
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1701457025795098}
+  m_GameObject: {fileID: 1802085990476268}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -95,12 +130,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 1f79fa20980dd4e49ba7470d7cb9bce1, type: 3}
+  m_Sprite: {fileID: 21300030, guid: d4c83439a4f70364e864c0cf4d706eec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 16, y: 17}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

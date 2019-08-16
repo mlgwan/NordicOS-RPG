@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{190436AB-06F7-8DF3-4B4F-0EDB00309837}</ProjectGuid>
+    <ProjectGuid>{035C3D1A-9A31-77E2-FF83-6F86034F7F4D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -61,39 +61,46 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\BasePlayer\BasePlayer.cs" />
-    <Compile Include="Assets\Scripts\BasePlayer\CreateNewCharacter.cs" />
     <Compile Include="Assets\Scripts\CharacterClasses\BaseCharacterClass.cs" />
     <Compile Include="Assets\Scripts\CharacterClasses\BaseMageClass.cs" />
     <Compile Include="Assets\Scripts\CharacterClasses\BaseWarriorClass.cs" />
+    <Compile Include="Assets\Scripts\Characters\BaseCharacter.cs" />
+    <Compile Include="Assets\Scripts\Characters\Enemy\BaseEnemy.cs" />
+    <Compile Include="Assets\Scripts\Characters\Enemy\EnemyStats.cs" />
+    <Compile Include="Assets\Scripts\Characters\Player\BasePlayer.cs" />
+    <Compile Include="Assets\Scripts\Characters\Player\CreateNewCharacter.cs" />
     <Compile Include="Assets\Scripts\CharacterStat.cs" />
-    <Compile Include="Assets\Scripts\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\GameInformation.cs" />
-    <Compile Include="Assets\Scripts\GUI.cs" />
+    <Compile Include="Assets\Scripts\GUI\GUI.cs" />
+    <Compile Include="Assets\Scripts\GUI\TargetButton.cs" />
     <Compile Include="Assets\Scripts\Items\BaseConsumable.cs" />
     <Compile Include="Assets\Scripts\Items\BaseEquipment.cs" />
     <Compile Include="Assets\Scripts\Items\BaseItem.cs" />
     <Compile Include="Assets\Scripts\Items\BaseStatItem.cs" />
     <Compile Include="Assets\Scripts\Items\BaseWeapon.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
+    <Compile Include="Assets\Scripts\Renderer Scripts\ChangeLayerForMesh.cs" />
+    <Compile Include="Assets\Scripts\Renderer Scripts\InitialSceneCamera.cs" />
     <Compile Include="Assets\Scripts\SavingAndLoading\LoadInformation.cs" />
     <Compile Include="Assets\Scripts\SavingAndLoading\PPSerialization.cs" />
     <Compile Include="Assets\Scripts\SavingAndLoading\SaveInformation.cs" />
     <Compile Include="Assets\Scripts\SceneWarp.cs" />
-    <Compile Include="Assets\Scripts\TurnBasedCombat\BattleManager.cs" />
-    <Compile Include="Assets\Scripts\TurnBasedCombat\TurnBasedCombatStateMachine.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\BattleStateMachine.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\EnemyStateMachine.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\HandleTurn.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\PlayerStateMachine.cs" />
     <Compile Include="Assets\Scripts\Warp.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/G-wan/Documents/Nordic RPG/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/G-wan/Documents/GitHub/NordicOS-RPG/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/G-wan/Documents/Nordic RPG/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/G-wan/Documents/GitHub/NordicOS-RPG/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/G-wan/Documents/Nordic RPG/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/G-wan/Documents/GitHub/NordicOS-RPG/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/G-wan/Documents/Nordic RPG/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/G-wan/Documents/GitHub/NordicOS-RPG/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

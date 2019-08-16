@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseCharacterClass : MonoBehaviour {
+public class BaseCharacterClass {
 
     private string characterClassName;
     private string characterClassDescription;
