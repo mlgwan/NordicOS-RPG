@@ -13,5 +13,5 @@ public class BasePlayer : BaseCharacter
 
 
 
-    //public List<BaseAttack> MagicAttacks = new List<BaseAttack>();
+
 }

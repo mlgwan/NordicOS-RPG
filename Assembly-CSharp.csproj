@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\CharacterClasses\BaseCharacterClass.cs" />
     <Compile Include="Assets\Scripts\CharacterClasses\BaseMageClass.cs" />
     <Compile Include="Assets\Scripts\CharacterClasses\BaseWarriorClass.cs" />
@@ -71,25 +72,32 @@
     <Compile Include="Assets\Scripts\Characters\Player\CreateNewCharacter.cs" />
     <Compile Include="Assets\Scripts\CharacterStat.cs" />
     <Compile Include="Assets\Scripts\GameInformation.cs" />
-    <Compile Include="Assets\Scripts\GUI\GUI.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GUI\PlayerPanelStats.cs" />
     <Compile Include="Assets\Scripts\GUI\TargetButton.cs" />
     <Compile Include="Assets\Scripts\Items\BaseConsumable.cs" />
     <Compile Include="Assets\Scripts\Items\BaseEquipment.cs" />
     <Compile Include="Assets\Scripts\Items\BaseItem.cs" />
     <Compile Include="Assets\Scripts\Items\BaseStatItem.cs" />
     <Compile Include="Assets\Scripts\Items\BaseWeapon.cs" />
-    <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\Renderer Scripts\ChangeLayerForMesh.cs" />
     <Compile Include="Assets\Scripts\Renderer Scripts\InitialSceneCamera.cs" />
     <Compile Include="Assets\Scripts\SavingAndLoading\LoadInformation.cs" />
     <Compile Include="Assets\Scripts\SavingAndLoading\PPSerialization.cs" />
     <Compile Include="Assets\Scripts\SavingAndLoading\SaveInformation.cs" />
-    <Compile Include="Assets\Scripts\SceneWarp.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Abilities\Mana\Fire1.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Abilities\Mana\Ice1.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Abilities\Stamina\Smash.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\AbilityButton.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Attacks\Slash.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\BaseAttack.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\BattleStateMachine.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\EnemyStateMachine.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\HandleTurn.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\PlayerStateMachine.cs" />
-    <Compile Include="Assets\Scripts\Warp.cs" />
+    <Compile Include="Assets\Scripts\World\Movement.cs" />
+    <Compile Include="Assets\Scripts\World\RegionData.cs" />
+    <Compile Include="Assets\Scripts\World\Warp.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/G-wan/Documents/GitHub/NordicOS-RPG/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

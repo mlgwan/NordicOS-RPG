@@ -11,6 +11,24 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1802085990476268}
   m_IsPrefabAsset: 1
+--- !u!1 &1035655984640656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4152670584097852}
+  - component: {fileID: 33924851530750624}
+  - component: {fileID: 23520677178561176}
+  - component: {fileID: 65418817229706224}
+  m_Layer: 0
+  m_Name: Selector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &1802085990476268
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,19 +47,87 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4152670584097852
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035655984640656}
+  m_LocalRotation: {x: 0.36339748, y: -0.2895939, z: 0.119953685, w: 0.8773191}
+  m_LocalPosition: {x: 0, y: 0.98, z: 0.0000000152923}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_Children: []
+  m_Father: {fileID: 4995942588538450}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 45.000004, y: -36.535, z: 0}
 --- !u!4 &4995942588538450
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1802085990476268}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15, y: 1.76, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.4, y: 0.4, z: 2.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4152670584097852}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23520677178561176
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035655984640656}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: 54b7f5e856db1cd4c844166048459361, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33924851530750624
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035655984640656}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65418817229706224
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035655984640656}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95199593320102598
 Animator:
   serializedVersion: 3
@@ -73,10 +159,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     theName: Rikkr
-    baseHP: 10
-    curHP: 10
-    baseMP: 10
-    curMP: 10
+    baseHP: 100
+    curHP: 100
+    baseMP: 100
+    curMP: 100
     baseATK: 12
     curATK: 12
     baseDEF: 8
@@ -89,12 +175,22 @@ MonoBehaviour:
     curDEX: 12
     baseSPD: 10
     curSPD: 10
+    basicAttack: {fileID: 114774734056888852, guid: 8c3f8c3c9c430a1418288ef14886e6e7,
+      type: 2}
+    abilities:
+    - {fileID: 114206486882188202, guid: 0fb2defbd97dab64ba59ba5990d070bc, type: 2}
+    - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
     level: 3
     currentExperiencePoints: 0
     totalExperiencePoints: 3000
+  selector: {fileID: 1035655984640656}
   currentState: 0
-  healthBar: {fileID: 0}
-  manaBar: {fileID: 0}
+  playerIcon: {fileID: 21300000, guid: d4c83439a4f70364e864c0cf4d706eec, type: 3}
+  targetOffset: 1.5
+  enemyToAttack: {fileID: 0}
+  animSpeed: 20
+  playerPanel: {fileID: 1423041348481006, guid: ff9c6bfa9a7d0f3438907c32e5d35550,
+    type: 2}
 --- !u!212 &212066887167567488
 SpriteRenderer:
   m_ObjectHideFlags: 1

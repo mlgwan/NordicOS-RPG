@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - DeadPlayer
+  - DeadEnemy
+  - EncounterZone
+  - Warp
   layers:
   - Default
   - TransparentFX

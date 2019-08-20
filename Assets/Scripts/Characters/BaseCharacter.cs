@@ -33,6 +33,6 @@ public class BaseCharacter
     public int baseSPD;
     public int curSPD;
 
-    //public List<BaseAttack> attacks = new List<BaseAttack>();
-
+    public BaseAttack basicAttack;
+    public List<BaseAttack> abilities = new List<BaseAttack>();
 }
