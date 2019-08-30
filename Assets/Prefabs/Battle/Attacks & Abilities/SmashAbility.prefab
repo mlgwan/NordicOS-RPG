@@ -55,3 +55,4 @@ MonoBehaviour:
   attackDescription: A heavy smash
   attackDamage: 40
   attackCost: 10
+  isAOE: 1

@@ -11,4 +11,5 @@ public class PlayerPanelStats : MonoBehaviour {
     public Image PlayerHPBar;
     public Image PlayerMPBar;
     public Sprite PlayerIcon;
+    public Text PlayerLevel;
 }

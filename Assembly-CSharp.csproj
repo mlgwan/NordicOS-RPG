@@ -67,11 +67,7 @@
     <Compile Include="Assets\Scripts\CharacterClasses\BaseWarriorClass.cs" />
     <Compile Include="Assets\Scripts\Characters\BaseCharacter.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\BaseEnemy.cs" />
-    <Compile Include="Assets\Scripts\Characters\Enemy\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\BasePlayer.cs" />
-    <Compile Include="Assets\Scripts\Characters\Player\CreateNewCharacter.cs" />
-    <Compile Include="Assets\Scripts\CharacterStat.cs" />
-    <Compile Include="Assets\Scripts\GameInformation.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GUI\PlayerPanelStats.cs" />
     <Compile Include="Assets\Scripts\GUI\TargetButton.cs" />
@@ -82,9 +78,6 @@
     <Compile Include="Assets\Scripts\Items\BaseWeapon.cs" />
     <Compile Include="Assets\Scripts\Renderer Scripts\ChangeLayerForMesh.cs" />
     <Compile Include="Assets\Scripts\Renderer Scripts\InitialSceneCamera.cs" />
-    <Compile Include="Assets\Scripts\SavingAndLoading\LoadInformation.cs" />
-    <Compile Include="Assets\Scripts\SavingAndLoading\PPSerialization.cs" />
-    <Compile Include="Assets\Scripts\SavingAndLoading\SaveInformation.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Abilities\Mana\Fire1.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Abilities\Mana\Ice1.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Abilities\Stamina\Smash.cs" />

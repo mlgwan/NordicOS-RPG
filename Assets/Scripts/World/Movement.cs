@@ -23,7 +23,7 @@ public class Movement : MonoBehaviour
     Vector3 currentPosition, lastPosition;
 
 
-private CharacterStat plStat;
+
 
     void Start()
     {

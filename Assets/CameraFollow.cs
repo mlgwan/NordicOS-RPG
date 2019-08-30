@@ -11,8 +11,13 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        // Calculate the initial offset.
-        StartCoroutine(waitForAnimationToFinish());
+        if (gameObject.GetComponent<Animator>().hasBoundPlayables)
+        {
+            StartCoroutine(waitForAnimationToFinish());
+        }
+        else {
+            followTarget();
+        }
 
         
     }
@@ -20,7 +25,7 @@ public class CameraFollow : MonoBehaviour
     void FixedUpdate()
     {
         if (target != null) {
-            Debug.Log("hey");
+
         // Create a postion the camera is aiming for based on the offset from the target.
         Vector3 targetCamPos = target.position + offset;
 
@@ -35,6 +40,10 @@ public class CameraFollow : MonoBehaviour
     {
 
         yield return new WaitForSeconds(gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        followTarget();
+    }
+
+    private void followTarget() {
         while (target == null) {
             target = GameObject.FindWithTag("Player").transform;
         }

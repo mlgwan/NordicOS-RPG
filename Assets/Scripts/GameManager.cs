@@ -12,8 +12,11 @@ public class GameManager : MonoBehaviour {
     //spawnpoints
     public string nextSpawnPoint;
 
-    //hero
+    //player & heroes 
     public GameObject playerCharacter;
+
+    public List<GameObject> heroes;
+    public GameObject ulf;
 
     //Positions
     public Vector3 nextPlayerPosition;
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour {
     public bool isWalking;
     public bool canGetEncountered;
     public bool gotAttacked;
+    private static bool ulfWasAdded;
 
     public enum GameStates {
         WORLD_STATE,
@@ -44,6 +48,12 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
+        if (!ulfWasAdded) { //ulf gets added once at the beginning of the game
+            ulf.GetComponent<PlayerStateMachine>().player.reset();
+            heroes.Add(ulf);
+            ulfWasAdded = true;
+        }
+
         //to make sure there is only one instance of our GameManager
         if (instance == null)
         {
@@ -70,6 +80,7 @@ public class GameManager : MonoBehaviour {
                 }
                 if (gotAttacked) {
                     gameState = GameStates.BATTLE_STATE;
+ 
                 }
                 break;
 
@@ -117,7 +128,7 @@ public class GameManager : MonoBehaviour {
         enemyAmount = Random.Range(1,currentRegion.maxAmountEnemies + 1);
         //which enemies
         for (int i = 0; i < enemyAmount; i++) {
-            enemiesToBattle.Add(currentRegion.possibleEnemies[Random.Range(0, currentRegion.maxAmountEnemies)]);
+            enemiesToBattle.Add(currentRegion.possibleEnemies[Random.Range(0, currentRegion.possibleEnemies.Count)]);
         }
 
         lastPlayerPosition = GameObject.Find("PlayerCharacter").gameObject.transform.position;

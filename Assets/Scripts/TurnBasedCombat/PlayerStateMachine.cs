@@ -186,7 +186,19 @@ public class PlayerStateMachine : MonoBehaviour {
     void DealDamage()
     {
         int calculatedDamage = (int)((player.curATK / 10 + 1) * BSM.performList[0].chosenAttack.attackDamage); //simple damage formula, position 0 will always hold the current performer
-        enemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calculatedDamage);
+        player.curMP -= BSM.performList[0].chosenAttack.attackCost;
+        if (BSM.performList[0].chosenAttack.isAOE)
+        {
+            for (int i = 0; i < BSM.GetComponent<BattleStateMachine>().enemiesInBattle.Count; i++)
+            {
+                BSM.GetComponent<BattleStateMachine>().enemiesInBattle[i].GetComponent<EnemyStateMachine>().TakeDamage(calculatedDamage);
+            }
+        }
+        else {
+            enemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calculatedDamage);
+        }
+        
+        UpdateResourceBars();
 
     }
 
@@ -213,7 +225,8 @@ public class PlayerStateMachine : MonoBehaviour {
 
         stats.PlayerHP.text = "HP: " +  player.curHP + " / " + player.baseHP;
         originalText = stats.PlayerMP.text;
-        stats.PlayerMP.text = originalText + player.curMP + " / " + player.baseMP;
+        stats.PlayerMP.text = originalText + player.curMP + " / " + player.baseMP; //Because of the visual distinction between mana and stamina
+        stats.PlayerLevel.text = player.level.ToString();
         
         healthBar = stats.PlayerHPBar;
         manaBar = stats.PlayerMPBar;

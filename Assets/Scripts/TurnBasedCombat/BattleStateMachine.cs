@@ -22,6 +22,7 @@ public class BattleStateMachine : MonoBehaviour {
     public List<HandleTurn> performList = new List<HandleTurn>();
 
     public List<GameObject> enemiesInBattle = new List<GameObject>();
+    public List<GameObject> totalEnemiesInBattle = new List<GameObject>();
     public List<GameObject> playersInBattle = new List<GameObject>();
 
     private bool enemiesHaveChosen;
@@ -57,15 +58,26 @@ public class BattleStateMachine : MonoBehaviour {
     private List<GameObject> enemyButtons = new List<GameObject>();
 
     //spawnpoints
-    public List<Transform> spawnPoints = new List<Transform>();
+    public List<Transform> enemySpawnPoints = new List<Transform>();
+    public List<Transform> playerSpawnPoints = new List<Transform>();
 
     private void Awake()
     {
+
         for (int i = 0; i < GameManager.instance.enemyAmount; i++) {
-            GameObject NewEnemy = Instantiate(GameManager.instance.enemiesToBattle[i], spawnPoints[i].position, Quaternion.identity) as GameObject;
-            NewEnemy.name = NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName += " " + (i + 1);
-            NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName = NewEnemy.name;
-            enemiesInBattle.Add(NewEnemy);
+            GameObject newEnemy = Instantiate(GameManager.instance.enemiesToBattle[i], enemySpawnPoints[i].position, Quaternion.identity) as GameObject;
+            newEnemy.name = newEnemy.GetComponent<EnemyStateMachine>().enemy.theName += " " + (i + 1);
+            newEnemy.GetComponent<EnemyStateMachine>().enemy.theName = newEnemy.name;
+            enemiesInBattle.Add(newEnemy);
+        }
+
+        totalEnemiesInBattle = new List<GameObject>(enemiesInBattle);
+
+        for (int i = 0; i < GameManager.instance.heroes.Count; i++) {
+            GameObject newPlayer = Instantiate(GameManager.instance.heroes[i], playerSpawnPoints[i].position, Quaternion.identity) as GameObject;
+            newPlayer.name = GameManager.instance.heroes[i].GetComponent<PlayerStateMachine>().player.theName;
+            playersInBattle.Add(newPlayer);
+
         }
     }
 
@@ -73,7 +85,6 @@ public class BattleStateMachine : MonoBehaviour {
     {
         currentState = BattleStates.STARTOFTURN;
 
-        playersInBattle.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         playerInput = PlayerGUI.ACTIVATE;
 
         actionPanel.SetActive(false);
@@ -152,7 +163,7 @@ public class BattleStateMachine : MonoBehaviour {
                     for (int i = 0; i < playersInBattle.Count; i++) {
                         if (performList[0].attackersTarget == playersInBattle[i])
                         {
-                            Debug.Log("hey");
+
                             ESM.playerToAttack = performList[0].attackersTarget;
                             ESM.currentState = EnemyStateMachine.TurnState.ACTION;
   
@@ -189,6 +200,7 @@ public class BattleStateMachine : MonoBehaviour {
                 }
                 else if (enemiesInBattle.Count < 1)
                 {
+                    Debug.Log("You won! Press left mouse button to continue.");
                     currentState = BattleStates.WIN;
                 }
                 else {
@@ -199,13 +211,20 @@ public class BattleStateMachine : MonoBehaviour {
                 break;
                 
             case (BattleStates.WIN):
-                for (int i = 0; i < playersInBattle.Count; i++) {
-                    playersInBattle[i].GetComponent<PlayerStateMachine>().currentState = PlayerStateMachine.TurnState.WAITING;
+
+                if (Input.GetMouseButtonDown(0)) { //will change this to button press or something similar
+                    for (int i = 0; i < playersInBattle.Count; i++) //Reward the players heroes with experience
+                    {
+                        playersInBattle[i].GetComponent<PlayerStateMachine>().currentState = PlayerStateMachine.TurnState.WAITING;
+                        RewardExperience(playersInBattle[i], totalEnemiesInBattle);
+                        GameManager.instance.heroes[i].GetComponent<PlayerStateMachine>().player = playersInBattle[i].GetComponent<PlayerStateMachine>().player;
+                    }
+
+                    GameManager.instance.LoadSceneAfterBattle();
+                    GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
+                    GameManager.instance.enemiesToBattle.Clear();
                 }
 
-                GameManager.instance.LoadSceneAfterBattle();
-                GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
-                GameManager.instance.enemiesToBattle.Clear();
                 break;
 
             case (BattleStates.LOSE):
@@ -289,13 +308,17 @@ public class BattleStateMachine : MonoBehaviour {
     }
 
     public void Input4(BaseAttack chosenAbility) { //for choosing an ability, will be reworked
+        if(playersToManage[0].GetComponent<PlayerStateMachine>().player.curMP >= chosenAbility.attackCost)
+        {
         playerChoice.attackersName = playersToManage[0].GetComponent<PlayerStateMachine>().player.theName;
         playerChoice.attackersType = "Player";
         playerChoice.attackersGameObject = playersToManage[0];
-
         playerChoice.chosenAttack = chosenAbility;
         abilitiesPanel.SetActive(false);
         selectPanel.SetActive(true);
+
+        }
+
     }
 
 
@@ -367,6 +390,23 @@ public class BattleStateMachine : MonoBehaviour {
         else
         {
             abilitiesButton.GetComponent<Button>().interactable = false; // if a player knows no abilties
+        }
+    }
+
+    public void RewardExperience(GameObject player, List<GameObject> enemiesInBattle)
+    {
+
+        for (int i = 0; i < enemiesInBattle.Count; i++)
+        {
+            player.GetComponent<PlayerStateMachine>().player.currentExperiencePoints += enemiesInBattle[i].GetComponent<EnemyStateMachine>().enemy.experienceToReward;
+            player.GetComponent<PlayerStateMachine>().player.totalExperiencePoints += enemiesInBattle[i].GetComponent<EnemyStateMachine>().enemy.experienceToReward;
+            if (player.GetComponent<PlayerStateMachine>().player.currentExperiencePoints >= (int)(Mathf.Pow(player.GetComponent<PlayerStateMachine>().player.level,2) * 100)) //simple quadratic level curve for now
+            { //level up
+                player.GetComponent<PlayerStateMachine>().player.currentExperiencePoints = player.GetComponent<PlayerStateMachine>().player.currentExperiencePoints % (int)(Mathf.Pow(player.GetComponent<PlayerStateMachine>().player.level, 2) * 100);
+                player.GetComponent<PlayerStateMachine>().player.level += 1;
+                player.GetComponent<PlayerStateMachine>().player.curHP = player.GetComponent<PlayerStateMachine>().player.baseHP;
+                player.GetComponent<PlayerStateMachine>().player.curMP = player.GetComponent<PlayerStateMachine>().player.baseMP;
+            }
         }
     }
 

@@ -8,5 +8,6 @@ public class BaseAttack : MonoBehaviour {
     public string attackDescription;
     public int attackDamage;
     public int attackCost;
+    public bool isAOE; //AOE - Area of Effect
     
 }
