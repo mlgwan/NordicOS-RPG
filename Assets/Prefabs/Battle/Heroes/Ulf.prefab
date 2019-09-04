@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1304162769487314}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalPosition: {x: -346.80002, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4614635980714190}
@@ -179,6 +179,8 @@ MonoBehaviour:
       type: 2}
     abilities:
     - {fileID: 114357530170344402, guid: e5a1ff3efee9c65419164c3458f3766b, type: 2}
+    currentStatus: 0
+    dotToTake: 0
     level: 1
     currentExperiencePoints: 0
     totalExperiencePoints: 0
@@ -188,6 +190,7 @@ MonoBehaviour:
   targetOffset: 1.5
   enemyToAttack: {fileID: 0}
   animSpeed: 20
+  tickApplied: 0
   playerPanel: {fileID: 1551563265445530, guid: 770a6f57103a03349b973407a2fdf07c,
     type: 2}
 --- !u!212 &212254328749749156

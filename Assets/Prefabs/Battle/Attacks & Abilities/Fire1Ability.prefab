@@ -53,11 +53,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Fire 1
   attackDescription: A small burst of flame.
-  attackDamage: 1
+  attackDamageLowerBound: 0
+  attackDamageHigherBound: 1
+  critChance: 0
+  hitChance: 0
   attackCost: 10
   isAOE: 1
   applicationChance: 100
-  statusEffectToApply: 3
-  poisonDamage: 2000
-  burnDamage: 0
+  statusEffectToApply: 2
+  poisonDamage: 0
+  burnDamage: 2000
   frostBurnDamage: 0
+  isCrit: 0

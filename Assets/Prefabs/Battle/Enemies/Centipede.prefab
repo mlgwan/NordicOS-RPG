@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1403838469766450}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.23, y: 3, z: 2.71}
+  m_LocalPosition: {x: -361.05002, y: 1.6, z: 2.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4970063623158638}
@@ -190,6 +190,7 @@ MonoBehaviour:
   playerToAttack: {fileID: 0}
   animSpeed: 20
   hasChosenAnAction: 0
+  tickApplied: 0
 --- !u!212 &212306115662517290
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -6,7 +6,10 @@ using UnityEngine;
 public class BaseAttack : MonoBehaviour {
     public string attackName;
     public string attackDescription;
-    public int attackDamage;
+    public int attackDamageLowerBound;
+    public int attackDamageHigherBound;
+    public int critChance;
+    public int hitChance; //accuracy
     public int attackCost;
     public bool isAOE; //AOE - Area of Effect
 
@@ -23,5 +26,5 @@ public class BaseAttack : MonoBehaviour {
 
     public int poisonDamage;
     public int burnDamage;
-    public int frostBurnDamage; 
+    public int frostBurnDamage;
 }

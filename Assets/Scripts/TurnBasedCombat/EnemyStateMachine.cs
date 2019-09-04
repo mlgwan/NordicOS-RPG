@@ -10,6 +10,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private BattleStateMachine BSM;
     public BaseEnemy enemy;
     public GameObject enemySelector;
+    private Popups popups;
 
     public enum TurnState
     {
@@ -35,13 +36,19 @@ public class EnemyStateMachine : MonoBehaviour {
 
     //death
     private bool dead;
-
+    private bool hasCritted;
+    public bool hasBeenCritted;
     //status effects
-    private bool isPoisoned;
+    //private bool isPoisoned;
     private bool isBurned;
     private bool isFrostBurned;
     private bool isStunned;
     public bool tickApplied;
+
+    private void Awake()
+    {
+        popups = GameObject.Find("PopupManager").GetComponent<Popups>();
+    }
 
     void Start () {
         currentState = TurnState.WAITING;
@@ -152,7 +159,7 @@ public class EnemyStateMachine : MonoBehaviour {
         }
         actionStarted = true;
 
-        bool statusCheck = CheckWhetherStatusAffectsTurn(enemy.currentStatus);
+        bool statusCheck = CheckWhetherStatusAffectsTurn();
         Vector3 enemyPosition;
         if (!statusCheck)
         {
@@ -196,7 +203,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
         if (isStunned) {
             isStunned = false;
-            enemy.currentStatus = BaseCharacter.Status.UNHARMED;
+            enemy.stunned = false;
         }
         currentState = TurnState.WAITING;
 
@@ -208,33 +215,50 @@ public class EnemyStateMachine : MonoBehaviour {
 
     void DealDamage()
     {
-        int calculatedDamage = (int)((enemy.curATK / 10 + 1) *  BSM.performList[0].chosenAttack.attackDamage); //simple damage formula, position 0 will always hold the current performer
+        int calculatedDamage = (int)((enemy.curATK / 10 + 1) *  Random.Range(BSM.performList[0].chosenAttack.attackDamageLowerBound, BSM.performList[0].chosenAttack.attackDamageHigherBound + 1)); //simple damage formula, position 0 will always hold the current performer
 
+        int n = Random.Range(0, 100);
+        if (n < BSM.performList[0].chosenAttack.critChance)
+        {
+            calculatedDamage *= 2;
+            hasCritted = true;
+        }
         if (BSM.performList[0].chosenAttack.isAOE)
         {
             for (int i = 0; i < BSM.GetComponent<BattleStateMachine>().playersInBattle.Count; i++)
             {
                 CheckForStatusToApply(BSM.GetComponent<BattleStateMachine>().playersInBattle[i]);
-                BSM.GetComponent<BattleStateMachine>().playersInBattle[i].GetComponent<PlayerStateMachine>().TakeDamage(calculatedDamage);
+                BSM.GetComponent<BattleStateMachine>().playersInBattle[i].GetComponent<PlayerStateMachine>().hasBeenCritted = hasCritted;
+                BSM.GetComponent<BattleStateMachine>().playersInBattle[i].GetComponent<PlayerStateMachine>().TakeDamage(calculatedDamage, false);
             }
         }
         else
         {
             CheckForStatusToApply(playerToAttack);
-            playerToAttack.GetComponent<PlayerStateMachine>().TakeDamage(calculatedDamage);
+            playerToAttack.GetComponent<PlayerStateMachine>().hasBeenCritted = hasCritted;
+            playerToAttack.GetComponent<PlayerStateMachine>().TakeDamage(calculatedDamage, false);
         }
 
     }
 
-    public void TakeDamage(int damageAmount)
+    public void TakeDamage(int damageAmount, bool statusDamage)
     {
 
         if (damageAmount <= 1)
         {
-            enemy.curHP -= 1;
+            damageAmount = 1;
         }
 
-        enemy.curHP -= (int)(damageAmount - (enemy.curDEF / 10)); //simple armor calculation
+        if (statusDamage)
+        {
+            enemy.curHP -= damageAmount;
+            popups.Create(gameObject, damageAmount, true, false);
+        }
+        else {
+            enemy.curHP -= (int)(damageAmount - (enemy.curDEF / 10)); //simple armor calculation
+            popups.Create(gameObject, (int)(damageAmount - (enemy.curDEF / 10)), true, hasBeenCritted);
+        }
+ 
 
 
         if (enemy.curHP <= 0)
@@ -252,9 +276,9 @@ public class EnemyStateMachine : MonoBehaviour {
             return;
         }
 
-        else { 
+        else {
 
-        int num = Random.Range(1, 101);
+            int num = Random.Range(1, 101);
 
             switch (BSM.performList[0].chosenAttack.statusEffectToApply)
             {
@@ -263,87 +287,80 @@ public class EnemyStateMachine : MonoBehaviour {
 
                     if (num < BSM.performList[0].chosenAttack.applicationChance)
                     {
-                        attackedPlayer.GetComponent<PlayerStateMachine>().player.currentStatus = BaseCharacter.Status.PARALYSED;
+                        attackedPlayer.GetComponent<PlayerStateMachine>().player.paralysed = true;
+                        popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.PARALYSIS);
+
                     }
                     break;
 
                 case (BaseAttack.StatusEffects.POISON):
                     if (num < BSM.performList[0].chosenAttack.applicationChance)
                     {
-                        attackedPlayer.GetComponent<PlayerStateMachine>().player.currentStatus = BaseCharacter.Status.POISONED;
+                        if (!attackedPlayer.GetComponent<PlayerStateMachine>().player.poisoned)
+                        {
+                            attackedPlayer.GetComponent<PlayerStateMachine>().player.poisoned = true;
+                            popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.POISON);
+                            attackedPlayer.GetComponent<PlayerStateMachine>().player.dotToTake += BSM.performList[0].chosenAttack.poisonDamage;
+                        }
+                        
                     }
                     break;
 
                 case (BaseAttack.StatusEffects.BURN):
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (!attackedPlayer.GetComponent<PlayerStateMachine>().player.burned)
                     {
-                        attackedPlayer.GetComponent<PlayerStateMachine>().player.currentStatus = BaseCharacter.Status.BURNED;
+                        attackedPlayer.GetComponent<PlayerStateMachine>().player.burned = true;
+                        popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.BURN);
+                        attackedPlayer.GetComponent<PlayerStateMachine>().player.dotToTake += BSM.performList[0].chosenAttack.burnDamage;
                     }
                     break;
 
                 case (BaseAttack.StatusEffects.FROSTBURN):
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (!attackedPlayer.GetComponent<PlayerStateMachine>().player.frostburned)
                     {
-                        attackedPlayer.GetComponent<PlayerStateMachine>().player.currentStatus = BaseCharacter.Status.FROSTBURNED;
+                        attackedPlayer.GetComponent<PlayerStateMachine>().player.frostburned = true;
+                        popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.FROSTBURN);
+                        attackedPlayer.GetComponent<PlayerStateMachine>().player.dotToTake += BSM.performList[0].chosenAttack.frostBurnDamage;
                     }
                     break;
 
                 case (BaseAttack.StatusEffects.STUN):
                     if (num < BSM.performList[0].chosenAttack.applicationChance)
                     {
-                        attackedPlayer.GetComponent<PlayerStateMachine>().player.currentStatus = BaseCharacter.Status.STUNNED;
+                        attackedPlayer.GetComponent<PlayerStateMachine>().player.stunned = true;
+                        popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.STUN);
                     }
                     break;
             }
         }
     }
 
-    bool CheckWhetherStatusAffectsTurn(BaseCharacter.Status status) {
-        switch (status)
+    bool CheckWhetherStatusAffectsTurn() {
+
+        if (enemy.dotToTake > 0) {
+            TakeDamage(enemy.dotToTake, true);
+        }
+        
+
+        if (currentState == TurnState.DEAD)
         {
+            return true;
+        }
 
-            case (BaseCharacter.Status.UNHARMED):
-                return false;
+        if (enemy.paralysed)
+        {
+            return true;
+        }
 
-            case (BaseCharacter.Status.PARALYSED):
-                return true;
+        else if (enemy.stunned) {
 
-            case (BaseCharacter.Status.POISONED):
-                if (!isPoisoned)
-                {
-                    enemy.dotToTake += BSM.performList[0].chosenAttack.poisonDamage;
-                    isPoisoned = true;
-                }
+            isStunned = true;
+            return true;
+        }
 
-                if (!tickApplied)
-                {
-                    TakeDamage(enemy.dotToTake);
-                    tickApplied = true;
-                }
-
-
-                if (currentState == TurnState.DEAD)
-                {
-                    return true;
-                }
-
-                else
-                {
-                    return false;
-                }
-    
-            case (BaseCharacter.Status.BURNED):
-                return false;
-
-            case (BaseCharacter.Status.FROSTBURNED):
-                return false;
-            case (BaseCharacter.Status.STUNNED):
-                isStunned = true;
-                return true;
-
-            default:
-
-                return false;
+        else
+        {
+            return false;
         }
 
     }
