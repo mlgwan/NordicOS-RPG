@@ -163,32 +163,35 @@ MonoBehaviour:
     curHP: 100
     baseMP: 100
     curMP: 100
-    baseATK: 12
-    curATK: 12
-    baseDEF: 8
-    curDEF: 8
+    baseATK: 10
+    curATK: 10
+    baseDEF: 10
+    curDEF: 10
     baseSTR: 8
     curSTR: 8
-    baseINT: 14
-    curINT: 14
+    baseINT: 15
+    curINT: 15
     baseDEX: 12
     curDEX: 12
-    baseSPD: 10
-    curSPD: 10
+    baseSPD: 8
+    curSPD: 8
     basicAttack: {fileID: 114774734056888852, guid: 8c3f8c3c9c430a1418288ef14886e6e7,
       type: 2}
     abilities:
     - {fileID: 114206486882188202, guid: 0fb2defbd97dab64ba59ba5990d070bc, type: 2}
     - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
-    level: 3
+    currentStatus: 0
+    dotToTake: 0
+    level: 2
     currentExperiencePoints: 0
-    totalExperiencePoints: 3000
+    totalExperiencePoints: 100
   selector: {fileID: 1035655984640656}
   currentState: 0
   playerIcon: {fileID: 21300000, guid: d4c83439a4f70364e864c0cf4d706eec, type: 3}
   targetOffset: 1.5
   enemyToAttack: {fileID: 0}
   animSpeed: 20
+  tickApplied: 0
   playerPanel: {fileID: 1423041348481006, guid: ff9c6bfa9a7d0f3438907c32e5d35550,
     type: 2}
 --- !u!212 &212066887167567488

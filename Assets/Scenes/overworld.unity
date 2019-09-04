@@ -554,6 +554,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 114714928035183156, guid: 56c1009955ff6bf48a9a6141e9705526,
         type: 2}
+      propertyPath: heroes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114714928035183156, guid: 56c1009955ff6bf48a9a6141e9705526,
+        type: 2}
       propertyPath: regions.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -620,6 +625,18 @@ Prefab:
       propertyPath: ulf
       value: 
       objectReference: {fileID: 1304162769487314, guid: 337e385bb8b344c49a185d02f735d488,
+        type: 2}
+    - target: {fileID: 114714928035183156, guid: 56c1009955ff6bf48a9a6141e9705526,
+        type: 2}
+      propertyPath: heroes.Array.data[0]
+      value: 
+      objectReference: {fileID: 1802085990476268, guid: c356dd64364fdf941842de23eccd07e4,
+        type: 2}
+    - target: {fileID: 114714928035183156, guid: 56c1009955ff6bf48a9a6141e9705526,
+        type: 2}
+      propertyPath: heroes.Array.data[1]
+      value: 
+      objectReference: {fileID: 1802085990476268, guid: c356dd64364fdf941842de23eccd07e4,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56c1009955ff6bf48a9a6141e9705526, type: 2}
@@ -1366,7 +1383,7 @@ Prefab:
     - target: {fileID: 114841627416135994, guid: 62ae23a26ee8beb42a483374477bc4db,
         type: 2}
       propertyPath: possibleEnemies.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4902665646391208, guid: 62ae23a26ee8beb42a483374477bc4db, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1404,7 +1421,7 @@ Prefab:
         type: 2}
       propertyPath: possibleEnemies.Array.data[0]
       value: 
-      objectReference: {fileID: 1403838469766450, guid: 3e48bd40050e562478f99c1ed8171310,
+      objectReference: {fileID: 1403838469766450, guid: 57bd30e62c260bf4fbb329d1dc527c15,
         type: 2}
     - target: {fileID: 114841627416135994, guid: 62ae23a26ee8beb42a483374477bc4db,
         type: 2}
@@ -1415,7 +1432,7 @@ Prefab:
     - target: {fileID: 114841627416135994, guid: 62ae23a26ee8beb42a483374477bc4db,
         type: 2}
       propertyPath: maxAmountEnemies
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114841627416135994, guid: 62ae23a26ee8beb42a483374477bc4db,
         type: 2}

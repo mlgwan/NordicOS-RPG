@@ -35,4 +35,17 @@ public class BaseCharacter
 
     public BaseAttack basicAttack;
     public List<BaseAttack> abilities = new List<BaseAttack>();
+
+    public enum Status {
+        UNHARMED,
+        PARALYSED,
+        BURNED,
+        POISONED,
+        FROSTBURNED,
+        STUNNED
+    }
+
+    public Status currentStatus;
+
+    public int dotToTake; //dot - damage over time
 }

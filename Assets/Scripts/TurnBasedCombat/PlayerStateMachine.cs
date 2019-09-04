@@ -40,6 +40,13 @@ public class PlayerStateMachine : MonoBehaviour {
     //death
     private bool dead;
 
+    //status effects
+    private bool isPoisoned;
+    private bool isBurned;
+    private bool isFrostBurned;
+    private bool isStunned;
+    public bool tickApplied;
+
     //GUI
     private PlayerPanelStats stats;
     public GameObject playerPanel;
@@ -137,11 +144,18 @@ public class PlayerStateMachine : MonoBehaviour {
         {
             yield break;
         }
-
         actionStarted = true;
 
-        //animate the enemy towards the enemy
-        Vector3 playerPosition = new Vector3(enemyToAttack.transform.position.x + targetOffset, enemyToAttack.transform.position.y, enemyToAttack.transform.position.z);
+        bool statusCheck = CheckWhetherStatusAffectsTurn(player.currentStatus);
+        Vector3 playerPosition;
+        if (!statusCheck)
+        {
+            playerPosition = new Vector3(enemyToAttack.transform.position.x + targetOffset, enemyToAttack.transform.position.y, enemyToAttack.transform.position.z);
+        }
+        else {
+            playerPosition = startPosition;
+        }
+        //animate the player towards the enemy
         while (MoveTowardsTarget(playerPosition))
         {
             yield return null;
@@ -151,7 +165,10 @@ public class PlayerStateMachine : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
 
         //do damage
-        DealDamage();
+        if (!statusCheck) {
+            DealDamage();
+        }
+       
 
         //animate back to startPosition
         Vector3 firstPosition = startPosition;
@@ -166,16 +183,24 @@ public class PlayerStateMachine : MonoBehaviour {
             BSM.currentState = BattleStateMachine.BattleStates.WAITING;
             currentState = TurnState.CHOOSEACTION;
         }
-        else {
+        else
+        {
             currentState = TurnState.WAITING;
         }
-        
+
 
         //end coroutine
         actionStarted = false;
 
-        //reset this players state
+        tickApplied = false;
+
+        if (isStunned)
+        {
+            isStunned = false;
+            player.currentStatus = BaseCharacter.Status.UNHARMED;
+        }
         currentState = TurnState.WAITING;
+   
     }
 
     private bool MoveTowardsTarget(Vector3 target)
@@ -191,10 +216,12 @@ public class PlayerStateMachine : MonoBehaviour {
         {
             for (int i = 0; i < BSM.GetComponent<BattleStateMachine>().enemiesInBattle.Count; i++)
             {
+                CheckForStatusToApply(BSM.GetComponent<BattleStateMachine>().enemiesInBattle[i]);
                 BSM.GetComponent<BattleStateMachine>().enemiesInBattle[i].GetComponent<EnemyStateMachine>().TakeDamage(calculatedDamage);
             }
         }
         else {
+            CheckForStatusToApply(enemyToAttack);
             enemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calculatedDamage);
         }
         
@@ -233,5 +260,112 @@ public class PlayerStateMachine : MonoBehaviour {
         stats.PlayerIcon = playerIcon;
         playerPanel.transform.SetParent(playerPanelSpacer, false);
         UpdateResourceBars();
+    }
+
+    public void CheckForStatusToApply(GameObject attackedEnemy)
+    {
+
+        if (BSM.performList[0].chosenAttack.statusEffectToApply == BaseAttack.StatusEffects.NONE)
+        {
+            return;
+        }
+
+        else
+        {
+
+            int num = Random.Range(1, 101);
+
+            switch (BSM.performList[0].chosenAttack.statusEffectToApply)
+            {
+
+                case (BaseAttack.StatusEffects.PARALYSIS):
+
+                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    {
+                        attackedEnemy.GetComponent<EnemyStateMachine>().enemy.currentStatus = BaseCharacter.Status.PARALYSED;
+                    }
+                    break;
+
+                case (BaseAttack.StatusEffects.POISON):
+                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    {
+                        attackedEnemy.GetComponent<EnemyStateMachine>().enemy.currentStatus = BaseCharacter.Status.POISONED;
+                        attackedEnemy.GetComponent<EnemyStateMachine>().enemy.dotToTake += BSM.performList[0].chosenAttack.poisonDamage;
+                    }
+                    break;
+
+                case (BaseAttack.StatusEffects.BURN):
+                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    {
+                        attackedEnemy.GetComponent<EnemyStateMachine>().enemy.currentStatus = BaseCharacter.Status.BURNED;
+                    }
+                    break;
+
+                case (BaseAttack.StatusEffects.FROSTBURN):
+                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    {
+                        attackedEnemy.GetComponent<EnemyStateMachine>().enemy.currentStatus = BaseCharacter.Status.FROSTBURNED;
+                    }
+                    break;
+
+                case (BaseAttack.StatusEffects.STUN):
+                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    {
+                        attackedEnemy.GetComponent<EnemyStateMachine>().enemy.currentStatus = BaseCharacter.Status.STUNNED;
+                    }
+                    break;
+            }
+        }
+    }
+
+    bool CheckWhetherStatusAffectsTurn(BaseCharacter.Status status)
+    {
+        switch (status)
+        {
+
+            case (BaseCharacter.Status.UNHARMED):
+                return false;
+
+            case (BaseCharacter.Status.PARALYSED):
+                return true;
+
+            case (BaseCharacter.Status.POISONED):
+                if (!isPoisoned)
+                {
+                    player.dotToTake += BSM.performList[0].chosenAttack.poisonDamage;
+                    isPoisoned = true;
+                }
+
+                if (!tickApplied)
+                {
+                    TakeDamage(player.dotToTake);
+                    tickApplied = true;
+                }
+
+
+                if (currentState == TurnState.DEAD)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+
+            case (BaseCharacter.Status.BURNED):
+                return false;
+
+            case (BaseCharacter.Status.FROSTBURNED):
+                return false;
+            case (BaseCharacter.Status.STUNNED):
+                isStunned = true;
+                return true;
+
+            default:
+
+                return false;
+        }
+
     }
 }

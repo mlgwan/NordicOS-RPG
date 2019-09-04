@@ -51,3 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 535110bd204773246bbe21c2b2ec7fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Fire 1
+  attackDescription: A small burst of flame.
+  attackDamage: 1
+  attackCost: 10
+  isAOE: 1
+  applicationChance: 100
+  statusEffectToApply: 3
+  poisonDamage: 2000
+  burnDamage: 0
+  frostBurnDamage: 0

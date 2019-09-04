@@ -56,3 +56,5 @@ MonoBehaviour:
   attackDamage: 40
   attackCost: 10
   isAOE: 1
+  applicationChance: 100
+  statusEffectToApply: 5

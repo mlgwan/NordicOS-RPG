@@ -99,6 +99,17 @@ public class BattleStateMachine : MonoBehaviour {
         switch (currentState) {
             case (BattleStates.STARTOFTURN):
 
+                if (enemiesInBattle.Count == 0)
+                {
+                    currentState = BattleStates.WIN;
+                }
+
+                else if (playersInBattle.Count == 0) {
+                    currentState = BattleStates.LOSE;
+                }
+
+
+
                 if (performList.Count == (enemiesInBattle.Count + playersInBattle.Count))
                 {
                   
@@ -135,6 +146,7 @@ public class BattleStateMachine : MonoBehaviour {
                     SetToChooseAction(playersInBattle, enemiesInBattle);
                     enemiesHaveChosen = true;
                 }
+
                 break;
 
 
@@ -155,37 +167,46 @@ public class BattleStateMachine : MonoBehaviour {
 
             case (BattleStates.TAKEACTION):
                 GameObject performer = GameObject.Find(performList[0].attackersName);
-                
-                if (performList[0].attackersType == "Enemy") {
-                    
-                    EnemyStateMachine ESM = performer.GetComponent<EnemyStateMachine>();
-                   
-                    for (int i = 0; i < playersInBattle.Count; i++) {
-                        if (performList[0].attackersTarget == playersInBattle[i])
-                        {
 
-                            ESM.playerToAttack = performList[0].attackersTarget;
-                            ESM.currentState = EnemyStateMachine.TurnState.ACTION;
-  
-                        }
-                        else {
-                           
-                            performList[0].attackersTarget = playersInBattle[Random.Range(0, playersInBattle.Count)];
-                            ESM.playerToAttack = performList[0].attackersTarget;
-                            ESM.currentState = EnemyStateMachine.TurnState.ACTION;
-                        }
+ 
+
+
+                    if (performList[0].attackersType == "Enemy") {
+                    
+                        EnemyStateMachine ESM = performer.GetComponent<EnemyStateMachine>();
+
+
+                                for (int i = 0; i < playersInBattle.Count; i++)
+                                {
+                                    if (performList[0].attackersTarget == playersInBattle[i])
+                                    {
+
+                                        ESM.playerToAttack = performList[0].attackersTarget;
+                                        ESM.currentState = EnemyStateMachine.TurnState.ACTION;
+
+                                    }
+                                    else
+                                    {
+
+                                        performList[0].attackersTarget = playersInBattle[Random.Range(0, playersInBattle.Count)];
+                                        ESM.playerToAttack = performList[0].attackersTarget;
+                                        ESM.currentState = EnemyStateMachine.TurnState.ACTION;
+                                    }
+
+                        }        
+
                     }
 
-                }
+                    if (performList[0].attackersType == "Player")
+                    {
+                        PlayerStateMachine PSM = performer.GetComponent<PlayerStateMachine>();
+                        PSM.enemyToAttack = performList[0].attackersTarget;
+                        PSM.currentState = PlayerStateMachine.TurnState.ACTION;
+                    }
 
-                if (performList[0].attackersType == "Player")
-                {
-                    PlayerStateMachine PSM = performer.GetComponent<PlayerStateMachine>();
-                    PSM.enemyToAttack = performList[0].attackersTarget;
-                    PSM.currentState = PlayerStateMachine.TurnState.ACTION;
-                }
+                    currentState = BattleStates.PERFORMACTION;
+                
 
-                currentState = BattleStates.PERFORMACTION;
 
                 break;
 
@@ -206,12 +227,13 @@ public class BattleStateMachine : MonoBehaviour {
                 else {
                     ClearActionPanel();
                     playerInput = PlayerGUI.ACTIVATE;
+                    currentState = BattleStates.WAITING;
                 }
 
                 break;
                 
             case (BattleStates.WIN):
-
+                playerInput = PlayerGUI.WAITING;
                 if (Input.GetMouseButtonDown(0)) { //will change this to button press or something similar
                     for (int i = 0; i < playersInBattle.Count; i++) //Reward the players heroes with experience
                     {
