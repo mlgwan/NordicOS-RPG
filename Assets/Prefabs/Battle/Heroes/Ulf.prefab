@@ -159,37 +159,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     theName: Ulf
-    baseHP: 200
-    curHP: 200
-    baseMP: 50
-    curMP: 50
-    baseATK: 10
-    curATK: 10
-    baseDEF: 10
-    curDEF: 10
-    baseSTR: 15
-    curSTR: 15
-    baseINT: 10
-    curINT: 10
-    baseDEX: 12
-    curDEX: 12
-    baseSPD: 8
-    curSPD: 8
+    maxHP: 0
+    curHP: 0
+    maxMP: 0
+    curMP: 0
+    maxATK: 0
+    curATK: 0
+    maxDEF: 0
+    curDEF: 0
+    maxSTR: 0
+    curSTR: 0
+    maxINT: 0
+    curINT: 0
+    maxDEX: 0
+    curDEX: 0
+    maxSPD: 0
+    curSPD: 0
     basicAttack: {fileID: 114774734056888852, guid: 8c3f8c3c9c430a1418288ef14886e6e7,
       type: 2}
     abilities:
     - {fileID: 114357530170344402, guid: e5a1ff3efee9c65419164c3458f3766b, type: 2}
-    currentStatus: 0
+    paralysed: 0
+    burned: 0
+    poisoned: 0
+    frostburned: 0
+    stunned: 0
     dotToTake: 0
     level: 1
+    toLevelUp: 00000000d00700001816000098280000803e000058570000d1720000b0900000c6b00000f0d200000df70000051d0100c2440100306e01003e990100ddc5010000f40100992302009f54020006870200c5ba0200d4ef02002a260300c05d03008f96030090d00300bd0b0400104804008485040013c40400b9030500714405003686050005c90500d80c0600ad510600809706004cde06000f260700c56e07006cb80700000308007e4e0800e39a08002de808005a360900668509004fd5090013260a00b0770a0022ca0a00691d0b0082710b006bc60b00221c0c00a5720c00f3c90c0009220d00e57a0d0087d40d00ec2e0e00128a0e00f8e50e009e420f0000a00f001dfe0f00f55c100085bc1000cc1c1100ca7d11007cdf1100e1411200f8a41200c0081300386d13005ed2130031381400b09e1400da051500ae6d15002bd61500503f16001ba916008c131700a17e17005aea1700b6561800b4c3180052311900909f19006d0e1a00e97d1a0002ee1a00b75e1b0007d01b00f2411c0078b41c0096271d004d9b1d009b0f1e00
     currentExperiencePoints: 0
     totalExperiencePoints: 0
+    baseHP: 160
+    baseMP: 30
+    baseSTR: 110
+    baseDEX: 65
+    baseINT: 54
+    baseSPD: 42
   selector: {fileID: 1914604665025108}
   currentState: 0
   playerIcon: {fileID: 21300000, guid: d4c83439a4f70364e864c0cf4d706eec, type: 3}
   targetOffset: 1.5
   enemyToAttack: {fileID: 0}
   animSpeed: 20
+  hasBeenCritted: 0
   tickApplied: 0
   playerPanel: {fileID: 1551563265445530, guid: 770a6f57103a03349b973407a2fdf07c,
     type: 2}

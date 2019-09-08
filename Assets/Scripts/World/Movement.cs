@@ -17,6 +17,11 @@ public class Movement : MonoBehaviour
     float vertical;
     float moveLimiter = 0.8f;
 
+    public GameObject startMenu;
+    private GameObject startMenuHolder;
+
+    private bool inventoryIsOpen;
+
 
     float hitLength = 100f;
 
@@ -44,32 +49,51 @@ public class Movement : MonoBehaviour
         moveLeftRight = new Vector3(walkSpeed, 0, 0);
         player = GetComponent<Animator>();
         body = GetComponent<Transform>();
-       
+
+        startMenu = GameObject.Find("MenuCanvas");
+        startMenuHolder = startMenu.transform.Find("MenuHolder").gameObject;
+
+
     }
 
     void FixedUpdate()
     {
-
-        if (Input.GetKey(KeyCode.W)) {
-            player.Play("backwards");
-            body.position += moveForwardBackward;
+        if (!inventoryIsOpen) {
+            if (Input.GetKey(KeyCode.W)) {
+                player.Play("backwards");
+                body.position += moveForwardBackward;
             
+            }
+
+            else if (Input.GetKey(KeyCode.S)) {
+                player.Play("forwards");
+                body.position += -moveForwardBackward;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                player.Play("left");
+                body.position += -moveLeftRight;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                player.Play("right");
+                body.position += moveLeftRight;
+            }
         }
 
-        else if (Input.GetKey(KeyCode.S)) {
-            player.Play("forwards");
-            body.position += -moveForwardBackward;
+        if (Input.GetKeyDown(KeyCode.Escape) && !inventoryIsOpen) {
+            inventoryIsOpen = true;
+            startMenuHolder.SetActive(true);
+            startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.OPTIONS;
         }
-        if (Input.GetKey(KeyCode.A))
-        {
-            player.Play("left");
-            body.position += -moveLeftRight;
+        
+        else if (Input.GetKeyDown(KeyCode.Escape) && inventoryIsOpen && startMenu.GetComponent<InventoryManager>().currentState == InventoryManager.InventoryStates.OPTIONS) {
+            inventoryIsOpen = false;
+            startMenuHolder.SetActive(false);
+            startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.DISABLED;
         }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            player.Play("right");
-            body.position += moveLeftRight;
-        }
+
+       
 
 
         RaycastHit hit;

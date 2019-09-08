@@ -159,36 +159,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy:
     theName: Imp
-    baseHP: 30
-    curHP: 30
-    baseMP: 0
+    maxHP: 0
+    curHP: 0
+    maxMP: 0
     curMP: 0
-    baseATK: 4
-    curATK: 4
-    baseDEF: 3
-    curDEF: 3
-    baseSTR: 3
-    curSTR: 3
-    baseINT: 2
-    curINT: 2
-    baseDEX: 6
-    curDEX: 6
-    baseSPD: 6
-    curSPD: 6
+    maxATK: 0
+    curATK: 0
+    maxDEF: 0
+    curDEF: 0
+    maxSTR: 0
+    curSTR: 0
+    maxINT: 0
+    curINT: 0
+    maxDEX: 0
+    curDEX: 0
+    maxSPD: 0
+    curSPD: 0
+    baseHP: 50
+    baseMP: 50
+    baseSTR: 50
+    baseDEX: 50
+    baseINT: 50
+    baseSPD: 50
     basicAttack: {fileID: 114774734056888852, guid: 8c3f8c3c9c430a1418288ef14886e6e7,
       type: 2}
     abilities: []
-    currentStatus: 0
+    paralysed: 0
+    burned: 0
+    poisoned: 0
+    frostburned: 0
+    stunned: 0
     dotToTake: 0
     EnemyType: 2
     rarity: 0
     experienceToReward: 50
+    level: 3
   enemySelector: {fileID: 1890472180945926}
   currentState: 0
   targetOffset: 1.5
   playerToAttack: {fileID: 0}
   animSpeed: 20
   hasChosenAnAction: 0
+  hasBeenCritted: 0
   tickApplied: 0
 --- !u!212 &212306115662517290
 SpriteRenderer:

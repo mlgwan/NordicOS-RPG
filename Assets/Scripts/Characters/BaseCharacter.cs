@@ -9,29 +9,38 @@ public class BaseCharacter
 
     public string theName;
 
-    public int baseHP;
+    public int maxHP;
     public int curHP;
 
-    public int baseMP;
+    public int maxMP;
     public int curMP;
 
-    public int baseATK;
+    public int maxATK;
     public int curATK;
 
-    public int baseDEF;
+    public int maxDEF;
     public int curDEF;
 
-    public int baseSTR;
+    public int maxSTR;
     public int curSTR;
 
-    public int baseINT;
+    public int maxINT;
     public int curINT;
 
-    public int baseDEX;
+    public int maxDEX;
     public int curDEX;
 
-    public int baseSPD;
+    public int maxSPD;
     public int curSPD;
+
+    // to calculate the maximum stats when leveling up
+    [Header("Base stats")]
+    public int baseHP;
+    public int baseMP;
+    public int baseSTR;
+    public int baseDEX;
+    public int baseINT;
+    public int baseSPD;
 
     public BaseAttack basicAttack;
     public List<BaseAttack> abilities = new List<BaseAttack>();

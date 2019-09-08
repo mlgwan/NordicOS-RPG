@@ -138,11 +138,11 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void UpdateResourceBars() {
-        healthBar.transform.localScale = new Vector2(Mathf.Clamp(((float)(player.curHP) / (float)(player.baseHP)), 0, 1), healthBar.transform.localScale.y);
-        stats.PlayerHP.text = "HP: " + player.curHP + " / " + player.baseHP;
+        healthBar.transform.localScale = new Vector2(Mathf.Clamp(((float)(player.curHP) / (float)(player.maxHP)), 0, 1), healthBar.transform.localScale.y);
+        stats.PlayerHP.text = "HP: " + player.curHP + " / " + player.maxHP;
 
-        manaBar.transform.localScale = new Vector2(Mathf.Clamp(((float)(player.curMP) / (float)(player.baseMP)), 0, 1), healthBar.transform.localScale.y);
-        stats.PlayerMP.text = originalText + player.curMP + " / " + player.baseMP;
+        manaBar.transform.localScale = new Vector2(Mathf.Clamp(((float)(player.curMP) / (float)(player.maxMP)), 0, 1), healthBar.transform.localScale.y);
+        stats.PlayerMP.text = originalText + player.curMP + " / " + player.maxMP;
     }
 
     private IEnumerator TimeForAction()
@@ -275,9 +275,9 @@ public class PlayerStateMachine : MonoBehaviour {
         stats = playerPanel.GetComponent<PlayerPanelStats>();
         stats.PlayerName.text = player.theName;
 
-        stats.PlayerHP.text = "HP: " +  player.curHP + " / " + player.baseHP;
+        stats.PlayerHP.text = "HP: " +  player.curHP + " / " + player.maxHP;
         originalText = stats.PlayerMP.text;
-        stats.PlayerMP.text = originalText + player.curMP + " / " + player.baseMP; //Because of the visual distinction between mana and stamina
+        stats.PlayerMP.text = originalText + player.curMP + " / " + player.maxMP; //Because of the visual distinction between mana and stamina
         stats.PlayerLevel.text = player.level.ToString();
         
         healthBar = stats.PlayerHPBar;

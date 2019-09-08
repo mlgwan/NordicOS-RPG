@@ -50,6 +50,9 @@ public class GameManager : MonoBehaviour {
     {
         if (!ulfWasAdded) { //ulf gets added once at the beginning of the game
             ulf.GetComponent<PlayerStateMachine>().player.reset();
+            ulf.GetComponent<PlayerStateMachine>().player.LevelXPSetUp();
+            ulf.GetComponent<PlayerStateMachine>().player.LevelUp();
+            ulf.GetComponent<PlayerStateMachine>().player.restoreFully();
             heroes.Add(ulf);
             ulfWasAdded = true;
         }

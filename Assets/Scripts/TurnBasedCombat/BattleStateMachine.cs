@@ -68,6 +68,8 @@ public class BattleStateMachine : MonoBehaviour {
             GameObject newEnemy = Instantiate(GameManager.instance.enemiesToBattle[i], enemySpawnPoints[i].position, Quaternion.identity) as GameObject;
             newEnemy.name = newEnemy.GetComponent<EnemyStateMachine>().enemy.theName += " " + (i + 1);
             newEnemy.GetComponent<EnemyStateMachine>().enemy.theName = newEnemy.name;
+            newEnemy.GetComponent<EnemyStateMachine>().enemy.SetupStats();
+           
             enemiesInBattle.Add(newEnemy);
         }
 
@@ -422,13 +424,12 @@ public class BattleStateMachine : MonoBehaviour {
         {
             player.GetComponent<PlayerStateMachine>().player.currentExperiencePoints += enemiesInBattle[i].GetComponent<EnemyStateMachine>().enemy.experienceToReward;
             player.GetComponent<PlayerStateMachine>().player.totalExperiencePoints += enemiesInBattle[i].GetComponent<EnemyStateMachine>().enemy.experienceToReward;
-            if (player.GetComponent<PlayerStateMachine>().player.currentExperiencePoints >= (int)(Mathf.Pow(player.GetComponent<PlayerStateMachine>().player.level,2) * 100)) //simple quadratic level curve for now
-            { //level up
-                player.GetComponent<PlayerStateMachine>().player.currentExperiencePoints = player.GetComponent<PlayerStateMachine>().player.currentExperiencePoints % (int)(Mathf.Pow(player.GetComponent<PlayerStateMachine>().player.level, 2) * 100);
-                player.GetComponent<PlayerStateMachine>().player.level += 1;
-                player.GetComponent<PlayerStateMachine>().player.curHP = player.GetComponent<PlayerStateMachine>().player.baseHP;
-                player.GetComponent<PlayerStateMachine>().player.curMP = player.GetComponent<PlayerStateMachine>().player.baseMP;
+            while (player.GetComponent<PlayerStateMachine>().player.currentExperiencePoints >= player.GetComponent<PlayerStateMachine>().player.toLevelUp[player.GetComponent<PlayerStateMachine>().player.level]) //level up
+            {
+                player.GetComponent<PlayerStateMachine>().player.LevelUp();
             }
+
+          
         }
     }
 
