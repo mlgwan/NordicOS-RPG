@@ -53,15 +53,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Smash
   attackDescription: A heavy smash
-  attackDamageLowerBound: 30
-  attackDamageHigherBound: 40
+  attackDamage: 101
   critChance: 0
   hitChance: 0
   attackCost: 10
   isAOE: 1
-  applicationChance: 100
+  applicationChance: 50
   statusEffectToApply: 5
   poisonDamage: 0
   burnDamage: 0
   frostBurnDamage: 0
-  isCrit: 0
+  scalesWith: 1

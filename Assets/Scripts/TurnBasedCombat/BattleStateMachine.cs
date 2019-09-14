@@ -349,7 +349,6 @@ public class BattleStateMachine : MonoBehaviour {
     void playerInputDone() {
         performList.Add(playerChoice);
         ClearActionPanel();
-
         playersToManage[0].transform.Find("Selector").gameObject.SetActive(false);
         playersToManage.RemoveAt(0);
         playerInput = PlayerGUI.ACTIVATE;

@@ -215,7 +215,33 @@ public class EnemyStateMachine : MonoBehaviour {
 
     void DealDamage()
     {
-        int calculatedDamage = (int)((enemy.curATK / 10 + 1) *  Random.Range(BSM.performList[0].chosenAttack.attackDamageLowerBound, BSM.performList[0].chosenAttack.attackDamageHigherBound + 1)); //simple damage formula, position 0 will always hold the current performer
+        int attackScalingDamage;
+
+        switch (BSM.performList[0].chosenAttack.scalesWith) //position 0 will always hold the current performer
+        {
+            case (BaseAttack.ScalesWith.NOTHING):
+                attackScalingDamage = 0;
+            break;
+
+            case (BaseAttack.ScalesWith.STRENGTH):
+                attackScalingDamage = enemy.curSTR;
+            break;
+
+            case (BaseAttack.ScalesWith.DEXTERITY):
+                attackScalingDamage = enemy.curDEX;
+            break;
+
+            case (BaseAttack.ScalesWith.INT):
+                attackScalingDamage = enemy.curINT;
+            break;
+
+
+            default:
+                attackScalingDamage = 0;
+            break;
+        }
+
+        int calculatedDamage = (int)(((enemy.curATK + attackScalingDamage / (playerToAttack.GetComponent<PlayerStateMachine>().player.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(0.8f, 1.2f));
 
         int n = Random.Range(0, 100);
         if (n < BSM.performList[0].chosenAttack.critChance)
@@ -255,8 +281,8 @@ public class EnemyStateMachine : MonoBehaviour {
             popups.Create(gameObject, damageAmount, true, false);
         }
         else {
-            enemy.curHP -= (int)(damageAmount - (enemy.curDEF / 10)); //simple armor calculation
-            popups.Create(gameObject, (int)(damageAmount - (enemy.curDEF / 10)), true, hasBeenCritted);
+            enemy.curHP -= damageAmount;
+            popups.Create(gameObject, damageAmount, true, hasBeenCritted);
         }
  
 

@@ -5,5 +5,6 @@ using UnityEngine;
 public class Ice1 : BaseAttack {
 
     public Ice1() {
+
     }
 }

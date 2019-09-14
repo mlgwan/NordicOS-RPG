@@ -53,9 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Slash
   attackDescription: A basic slash with a blade or axe
-  attackDamageLowerBound: 10
-  attackDamageHigherBound: 20
-  critChance: 100
+  attackDamage: 20
+  critChance: 50
   hitChance: 0
   attackCost: 0
   isAOE: 0
@@ -64,4 +63,4 @@ MonoBehaviour:
   poisonDamage: 0
   burnDamage: 0
   frostBurnDamage: 0
-  isCrit: 1
+  scalesWith: 2

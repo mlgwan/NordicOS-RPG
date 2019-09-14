@@ -6,8 +6,7 @@ using UnityEngine;
 public class BaseAttack : MonoBehaviour {
     public string attackName;
     public string attackDescription;
-    public int attackDamageLowerBound;
-    public int attackDamageHigherBound;
+    public int attackDamage;
     public int critChance;
     public int hitChance; //accuracy
     public int attackCost;
@@ -27,4 +26,12 @@ public class BaseAttack : MonoBehaviour {
     public int poisonDamage;
     public int burnDamage;
     public int frostBurnDamage;
+
+    public enum ScalesWith {
+        NOTHING,
+        STRENGTH,
+        DEXTERITY,
+        INT
+    }
+    public ScalesWith scalesWith;
 }

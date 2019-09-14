@@ -53,15 +53,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Ice 1
   attackDescription: A slightly freezing shock
-  attackDamageLowerBound: 30
-  attackDamageHigherBound: 45
+  attackDamage: 50
   critChance: 20
   hitChance: 0
   attackCost: 15
   isAOE: 0
   applicationChance: 0
-  statusEffectToApply: 0
+  statusEffectToApply: 4
   poisonDamage: 0
   burnDamage: 0
   frostBurnDamage: 0
-  isCrit: 0
+  scalesWith: 3
