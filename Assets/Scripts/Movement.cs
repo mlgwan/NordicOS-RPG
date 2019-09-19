@@ -58,25 +58,27 @@ private CharacterStat plStat;
             body.position += moveLeftRight;
         }
 
-        RaycastHit hit;
+
+    // Raycasting not needed because of the usage of RigidBody
+      //RaycastHit hit;
         /*
          * Cast a Raycast.
          * If it hits something:
          */
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, hitLength))
-        {
+      //if (Physics.Raycast(transform.position, Vector3.down, out hit, hitLength))
+      //{
             /*
              * Set the target location to the location of the hit.
              */
-            Vector3 targetLocation = hit.point;
+       //   Vector3 targetLocation = hit.point;
             /*
              * Modify the target location so that the object is being perfectly aligned with the ground (if it's flat).
              */ // CHANGES MODIFIER FROM 1/2 to 16 to fit with the terrain
-            targetLocation += new Vector3(0, transform.localScale.y * 16 , 0);
+       //   targetLocation += new Vector3(0, transform.localScale.y * 16 , 0);
             /*
              * Move the object to the target location.
              */
-            transform.position = targetLocation;
-        }
+        //  transform.position = targetLocation;
+     // }
      }
 }

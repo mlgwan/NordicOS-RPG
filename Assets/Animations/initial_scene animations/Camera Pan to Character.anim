@@ -74,6 +74,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 116.35
         value: {x: 29.8, y: 0.702, z: 12.51}
+        inSlope: {x: 0.04402101, y: -0.0040105535, z: 0}
+        outSlope: {x: 0.04402101, y: -0.0040105535, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 120.5
+        value: {x: 30.058, y: 0.683, z: 12.727}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -107,7 +116,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 116.35
+    m_StopTime: 120.51667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -183,6 +192,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 116.35
         value: 29.8
+        inSlope: 0.04402101
+        outSlope: 0.04402101
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 120.5
+        value: 30.058
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -256,6 +274,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 116.35
         value: 0.702
+        inSlope: -0.0040105535
+        outSlope: -0.0040105535
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 120.5
+        value: 0.683
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -335,6 +362,15 @@ AnimationClip:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 120.5
+        value: 12.727
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -349,6 +385,20 @@ AnimationClip:
   m_Events:
   - time: 101.55
     functionName: changeTextActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 120.5
+    functionName: calculateOffset
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 120.51667
+    functionName: toggleFollowingPlayer
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
