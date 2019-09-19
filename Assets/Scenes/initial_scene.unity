@@ -967,6 +967,62 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &296772345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 296772347}
+  - component: {fileID: 296772346}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &296772346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 296772345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4932b08523bade3409c85abf0c88128d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentRegion: {fileID: 0}
+  nextSpawnPoint: 
+  playerCharacter: {fileID: 1463894367}
+  heroes:
+  - {fileID: 1304162769487314, guid: 337e385bb8b344c49a185d02f735d488, type: 2}
+  ulf: {fileID: 1304162769487314, guid: 337e385bb8b344c49a185d02f735d488, type: 2}
+  nextPlayerPosition: {x: 0, y: 0, z: 0}
+  lastPlayerPosition: {x: 0, y: 0, z: 0}
+  sceneToLoad: 
+  lastScene: 
+  isWalking: 0
+  canGetEncountered: 0
+  gotAttacked: 0
+  enemiesToBattle: []
+  enemyAmount: 0
+  gameState: 0
+--- !u!4 &296772347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 296772345}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27.913954, y: -4.7920594, z: 29.628407}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &308962399 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4275639527235066, guid: 499b0192367feae419974aba725ca4f4,
@@ -4041,7 +4097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186a57bdb0fd75345b8739e99897310d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 0.05
+  walkSpeed: 0.005
   startMenu: {fileID: 1584964446638234, guid: d767007ca2512bb41b1141403e0b54a7, type: 2}
 --- !u!95 &1463894371
 Animator:
@@ -4083,7 +4139,7 @@ Rigidbody:
   m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
