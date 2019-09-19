@@ -97,10 +97,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1603332051482906}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16fbbcd2102880d4db2f87e481c222b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 186a57bdb0fd75345b8739e99897310d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 0.2
+  walkSpeed: 0.05
+  startMenu: {fileID: 1584964446638234, guid: d767007ca2512bb41b1141403e0b54a7, type: 2}
 --- !u!212 &212867442432900476
 SpriteRenderer:
   m_ObjectHideFlags: 1
