@@ -9,7 +9,7 @@ public class InitialSceneCamera : MonoBehaviour {
     private void Awake()
     {
         followingPlayer = false;
-        player = GameObject.Find("Player");
+        player = GameObject.Find("PlayerCharacter");
         
 
     }

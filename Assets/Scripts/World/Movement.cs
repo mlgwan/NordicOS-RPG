@@ -59,24 +59,32 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         if (!inventoryIsOpen) {
-            if (Input.GetKey(KeyCode.W)) {
-                player.Play("backwards");
-                body.position += moveForwardBackward;
-            
+            resetToIdle();
+            if (Input.GetKeyDown(KeyCode.W) ||
+                Input.GetKeyDown(KeyCode.S) ||
+                Input.GetKeyDown(KeyCode.A) ||
+                Input.GetKeyDown(KeyCode.D))
+            {
+                resetToIdle();
             }
-
-            else if (Input.GetKey(KeyCode.S)) {
-                player.Play("forwards");
+            if (Input.GetKey(KeyCode.W))
+            {
+                player.SetBool("isBackwards", true);
+                body.position += moveForwardBackward;
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                player.SetBool("isForwards", true);
                 body.position += -moveForwardBackward;
             }
             if (Input.GetKey(KeyCode.A))
             {
-                player.Play("left");
+                player.SetBool("isLeft", true);
                 body.position += -moveLeftRight;
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                player.Play("right");
+                player.SetBool("isRight", true);
                 body.position += moveLeftRight;
             }
         }
@@ -118,6 +126,13 @@ public class Movement : MonoBehaviour
             GameManager.instance.isWalking = true;
         }
         lastPosition = currentPosition;
+    }
+
+    void resetToIdle() {
+        player.SetBool("isForwards", false);
+        player.SetBool("isBackwards", false);
+        player.SetBool("isLeft", false);
+        player.SetBool("isRight", false);
     }
 
     void OnTriggerEnter(Collider other)
