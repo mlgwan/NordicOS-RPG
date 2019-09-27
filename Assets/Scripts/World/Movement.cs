@@ -114,7 +114,7 @@ public class Movement : MonoBehaviour
             /*
              * Set the target location to the location of the hit.
              */
-            transform.position = new Vector3(transform.position.x, hit.point.y + transform.lossyScale.y / 2, transform.position.z); //lossyscale gives the "height" of our overworld hero, so that he always stands on top of the surface
+            transform.position = new Vector3(transform.position.x, hit.point.y + transform.lossyScale.y, transform.position.z); //lossyscale gives the "height" of our overworld hero, so that he always stands on top of the surface
 
         }
 
