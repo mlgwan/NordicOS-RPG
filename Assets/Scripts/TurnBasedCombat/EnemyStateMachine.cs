@@ -180,7 +180,7 @@ public class EnemyStateMachine : MonoBehaviour {
         //do damage
         if (!statusCheck)
         {
-            DealDamage();
+            DealDamage(BSM.performList[0].chosenAttack.isMagic);
         }
         
         //animate back to start position
@@ -213,7 +213,7 @@ public class EnemyStateMachine : MonoBehaviour {
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     }
 
-    void DealDamage()
+    void DealDamage(bool isMagic)
     {
         int attackScalingDamage;
 
@@ -241,14 +241,25 @@ public class EnemyStateMachine : MonoBehaviour {
             break;
         }
 
-        int calculatedDamage = (int)(((enemy.curATK + attackScalingDamage / (playerToAttack.GetComponent<PlayerStateMachine>().player.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(0.8f, 1.2f));
+        int calculatedDamage = 0;
 
-        int n = Random.Range(0, 100);
-        if (n < BSM.performList[0].chosenAttack.critChance)
+        if (!isMagic)
         {
-            calculatedDamage *= 2;
-            hasCritted = true;
+            calculatedDamage = (int)(((enemy.curATK + attackScalingDamage / (playerToAttack.GetComponent<PlayerStateMachine>().player.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+
+            int n = Random.Range(0, 100);
+            if (n < BSM.performList[0].chosenAttack.critChance)
+            {
+                calculatedDamage = (int)(((enemy.curATK + attackScalingDamage / (playerToAttack.GetComponent<PlayerStateMachine>().player.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * BSM.performList[0].chosenAttack.upperRandomBound) * 2;
+
+                hasCritted = true;
+            }
         }
+        else {
+            calculatedDamage = (int)(((enemy.curATK + attackScalingDamage / (playerToAttack.GetComponent<PlayerStateMachine>().player.curMR + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+        }
+
+
         if (BSM.performList[0].chosenAttack.isAOE)
         {
             for (int i = 0; i < BSM.GetComponent<BattleStateMachine>().playersInBattle.Count; i++)
@@ -311,7 +322,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
                 case (BaseAttack.StatusEffects.PARALYSIS):
 
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedPlayer.GetComponent<PlayerStateMachine>().player.curParalysisResist)
                     {
                         attackedPlayer.GetComponent<PlayerStateMachine>().player.paralysed = true;
                         popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.PARALYSIS);
@@ -320,7 +331,7 @@ public class EnemyStateMachine : MonoBehaviour {
                     break;
 
                 case (BaseAttack.StatusEffects.POISON):
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedPlayer.GetComponent<PlayerStateMachine>().player.curPoisonResist)
                     {
                         if (!attackedPlayer.GetComponent<PlayerStateMachine>().player.poisoned)
                         {
@@ -328,30 +339,35 @@ public class EnemyStateMachine : MonoBehaviour {
                             popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.POISON);
                             attackedPlayer.GetComponent<PlayerStateMachine>().player.dotToTake += BSM.performList[0].chosenAttack.poisonDamage;
                         }
-                        
+
                     }
                     break;
 
                 case (BaseAttack.StatusEffects.BURN):
-                    if (!attackedPlayer.GetComponent<PlayerStateMachine>().player.burned)
-                    {
-                        attackedPlayer.GetComponent<PlayerStateMachine>().player.burned = true;
-                        popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.BURN);
-                        attackedPlayer.GetComponent<PlayerStateMachine>().player.dotToTake += BSM.performList[0].chosenAttack.burnDamage;
-                    }
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedPlayer.GetComponent<PlayerStateMachine>().player.curBurnResist) { 
+                        if (!attackedPlayer.GetComponent<PlayerStateMachine>().player.burned)
+                        {
+                            attackedPlayer.GetComponent<PlayerStateMachine>().player.burned = true;
+                            popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.BURN);
+                            attackedPlayer.GetComponent<PlayerStateMachine>().player.dotToTake += BSM.performList[0].chosenAttack.burnDamage;
+                        }
+                     }
                     break;
 
                 case (BaseAttack.StatusEffects.FROSTBURN):
-                    if (!attackedPlayer.GetComponent<PlayerStateMachine>().player.frostburned)
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedPlayer.GetComponent<PlayerStateMachine>().player.curFrostburnResist)
                     {
-                        attackedPlayer.GetComponent<PlayerStateMachine>().player.frostburned = true;
-                        popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.FROSTBURN);
-                        attackedPlayer.GetComponent<PlayerStateMachine>().player.dotToTake += BSM.performList[0].chosenAttack.frostBurnDamage;
+                        if (!attackedPlayer.GetComponent<PlayerStateMachine>().player.frostburned)
+                        {
+                            attackedPlayer.GetComponent<PlayerStateMachine>().player.frostburned = true;
+                            popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.FROSTBURN);
+                            attackedPlayer.GetComponent<PlayerStateMachine>().player.dotToTake += BSM.performList[0].chosenAttack.frostBurnDamage;
+                        }
                     }
                     break;
 
                 case (BaseAttack.StatusEffects.STUN):
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedPlayer.GetComponent<PlayerStateMachine>().player.curStunResist)
                     {
                         attackedPlayer.GetComponent<PlayerStateMachine>().player.stunned = true;
                         popups.CreateStatusText(attackedPlayer, BaseAttack.StatusEffects.STUN);

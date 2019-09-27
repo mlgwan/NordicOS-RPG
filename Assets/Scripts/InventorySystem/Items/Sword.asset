@@ -17,5 +17,12 @@ MonoBehaviour:
   icon: {fileID: 0}
   type: 1
   usableBy: 1
+  bonusHP: 0
+  bonusMP: 0
   damage: 10
   armor: 0
+  bonusSTR: 0
+  bonusDEX: 0
+  bonusINT: 0
+  bonusSPD: 0
+  isEquipped: 1

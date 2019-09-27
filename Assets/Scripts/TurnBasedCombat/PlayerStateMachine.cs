@@ -174,7 +174,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
         //do damage
         if (!statusCheck) {
-            DealDamage();
+            DealDamage(BSM.performList[0].chosenAttack.isMagic);
         }
        
 
@@ -216,7 +216,7 @@ public class PlayerStateMachine : MonoBehaviour {
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     }
 
-    void DealDamage()
+    void DealDamage(bool isMagic)
     {
         player.curMP -= BSM.performList[0].chosenAttack.attackCost;
 
@@ -246,15 +246,27 @@ public class PlayerStateMachine : MonoBehaviour {
                 break;
         }
 
-        int calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(0.8f, 1.2f)); 
+        int calculatedDamage = 0;
 
-
-        int n = Random.Range(0, 100);
-        if (n < BSM.performList[0].chosenAttack.critChance)
+        if (!isMagic)
         {
-            calculatedDamage *= 2;
-            hasCritted = true;
+            calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+
+
+            int n = Random.Range(0, 100);
+            if (n < BSM.performList[0].chosenAttack.critChance)
+            {
+                calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * BSM.performList[0].chosenAttack.upperRandomBound) * 2;
+
+                hasCritted = true;
+            }
+
         }
+        else {
+            calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curMR + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+        }
+
+
         if (BSM.performList[0].chosenAttack.isAOE)
         {
             for (int i = 0; i < BSM.GetComponent<BattleStateMachine>().enemiesInBattle.Count; i++)
@@ -334,7 +346,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
                 case (BaseAttack.StatusEffects.PARALYSIS):
 
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedEnemy.GetComponent<EnemyStateMachine>().enemy.curParalysisResist)
                     {
                         attackedEnemy.GetComponent<EnemyStateMachine>().enemy.paralysed = true;
                         popups.CreateStatusText(attackedEnemy, BaseAttack.StatusEffects.PARALYSIS);
@@ -342,7 +354,7 @@ public class PlayerStateMachine : MonoBehaviour {
                     break;
 
                 case (BaseAttack.StatusEffects.POISON):
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedEnemy.GetComponent<EnemyStateMachine>().enemy.curPoisonResist)
                     {
                         if (!attackedEnemy.GetComponent<EnemyStateMachine>().enemy.poisoned)
                         {
@@ -354,7 +366,7 @@ public class PlayerStateMachine : MonoBehaviour {
                     break;
 
                 case (BaseAttack.StatusEffects.BURN):
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedEnemy.GetComponent<EnemyStateMachine>().enemy.curBurnResist)
                     {
                         if (!attackedEnemy.GetComponent<EnemyStateMachine>().enemy.burned)
                         {
@@ -366,7 +378,7 @@ public class PlayerStateMachine : MonoBehaviour {
                     break;
 
                 case (BaseAttack.StatusEffects.FROSTBURN):
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedEnemy.GetComponent<EnemyStateMachine>().enemy.curFrostburnResist)
                     {
                         if (!attackedEnemy.GetComponent<EnemyStateMachine>().enemy.frostburned)
                         {
@@ -378,7 +390,7 @@ public class PlayerStateMachine : MonoBehaviour {
                     break;
 
                 case (BaseAttack.StatusEffects.STUN):
-                    if (num < BSM.performList[0].chosenAttack.applicationChance)
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedEnemy.GetComponent<EnemyStateMachine>().enemy.curStunResist)
                     {
                         attackedEnemy.GetComponent<EnemyStateMachine>().enemy.stunned = true;
                         popups.CreateStatusText(attackedEnemy, BaseAttack.StatusEffects.STUN);
