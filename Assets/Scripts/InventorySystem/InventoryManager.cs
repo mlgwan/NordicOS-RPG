@@ -188,6 +188,13 @@ public class InventoryManager : MonoBehaviour {
 
         }
 
+        //Use
+
+        if (Input.GetKeyDown(KeyCode.Return)) {
+            Inventory.instance.inventoryList[currentInventoryOption].item.UseItem(GameManager.instance.ulf);
+            InventoryUI.instance.RecreateList();
+        }
+
         //Order
         if (Input.GetKeyDown(KeyCode.Backspace) && selectedItem == -1)
         {

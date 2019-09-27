@@ -11,6 +11,10 @@ public class BaseAttack : MonoBehaviour {
     public int hitChance; //accuracy
     public int attackCost;
     public bool isAOE; //AOE - Area of Effect
+    public bool isMagic;
+
+    public float lowerRandomBound;  
+    public float upperRandomBound;
 
     public int applicationChance;
     public enum StatusEffects {

@@ -15,7 +15,10 @@ public class Item : ScriptableObject {
         CONSUMABLE,
         WEAPON,
         ARMOR,
-        ACCESSORY
+        HELMET,
+        BOOTS,
+        RING,
+        AMULET
     }
     public ItemTypes type;
 
@@ -26,5 +29,7 @@ public class Item : ScriptableObject {
     }
     public UsableBy usableBy;
 
-    public virtual void UseItem() { }
+    public virtual void UseItem(GameObject user) {
+        
+    }
 }
