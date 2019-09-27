@@ -2521,6 +2521,11 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: -1.1
       objectReference: {fileID: 0}
+    - target: {fileID: 114041182604559144, guid: 87f5b227807b91443b9a5b9b78ef0210,
+        type: 2}
+      propertyPath: maxAmountEnemies
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87f5b227807b91443b9a5b9b78ef0210, type: 2}
   m_IsPrefabAsset: 0
@@ -3311,7 +3316,7 @@ Terrain:
   serializedVersion: 3
   m_TerrainData: {fileID: 15600000, guid: 3ea9e6af6a848814e889a2315b8ec6a4, type: 2}
   m_TreeDistance: 2000
-  m_TreeBillboardDistance: 50
+  m_TreeBillboardDistance: 5
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
   m_DetailObjectDistance: 10
