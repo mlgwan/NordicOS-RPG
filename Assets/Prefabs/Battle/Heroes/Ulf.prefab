@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4163399881776802}
   - component: {fileID: 212254328749749156}
-  - component: {fileID: 95783224505841762}
   - component: {fileID: 114504165365657918}
+  - component: {fileID: 95157973700573924}
   m_Layer: 0
   m_Name: Ulf
   m_TagString: Player
@@ -128,7 +128,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!95 &95783224505841762
+--- !u!95 &95157973700573924
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -137,7 +137,7 @@ Animator:
   m_GameObject: {fileID: 1304162769487314}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e3dcc8610ea5c61458da7d6e6655bd6e, type: 2}
+  m_Controller: {fileID: 9100000, guid: f3432ce8ac5b2d5419bfd52e26286e8a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -252,7 +252,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300030, guid: d4c83439a4f70364e864c0cf4d706eec, type: 3}
+  m_Sprite: {fileID: 21300020, guid: 308cbbb0db948e848b5ae952946a2164, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
