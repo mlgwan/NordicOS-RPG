@@ -109,7 +109,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 492}
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 0
-  controlID: 5819
+  controlID: 115
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 5820
+  controlID: 116
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 5821
+  controlID: 117
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -257,10 +257,10 @@ MonoBehaviour:
     y: 0
     width: 443
     height: 731
-  m_MinSize: {x: 277, y: 192}
-  m_MaxSize: {x: 4002, y: 8042}
+  m_MinSize: {x: 277, y: 171}
+  m_MaxSize: {x: 4002, y: 8021}
   vertical: 1
-  controlID: 5896
+  controlID: 102
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -304,8 +304,8 @@ MonoBehaviour:
     y: 487
     width: 443
     height: 244
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 22}
   m_Panes:
   - {fileID: 22}
@@ -417,9 +417,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: b00c0100
-    m_LastClickedID: 68784
-    m_ExpandedIDs: 3814e8ff0e83e8ff1083e8ff1a83e8ff4a83e8ff4c83e8ff9283e8ff9483e8fff0e4e8ff2ae5e8ff72e5e8ff74e5e8ff76e5e8ff9ce5e8ffc6ede9ffd0ede9ff12eee9ff14eee9ff76eee9ffeef9e9ffde47eaffec47eaff2473f8ff2673f8ff3073f8ff6073f8ff6273f8ffa873f8ffaa73f8ffc473f8fff873f8ffe878f8ffb2e3f8ffe42afaff2a8afcff10f7fffff4ffffff00000000d0340000e234000094350000f835000004770000b48c0000e68c0000068d0000188d00003c8d0000ca8d00002e8e0000
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: 5af1ffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -506,7 +506,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.18341231, y: 0.02123293, z: -0.003963607, w: 0.9828054}
     speed: 2
-    m_Value: {x: 0.18341114, y: 0.021232793, z: -0.0039635813, w: 0.98279905}
+    m_Value: {x: -0.1834123, y: -0.021232927, z: 0.003963607, w: -0.9828053}
   m_Size:
     m_Target: 18.449139
     speed: 2
@@ -660,20 +660,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\Uni\MS 6\Projekt C\NordicOS-RPG
+  m_LastProjectPath: C:\Users\G-wan\Documents\GitHub\NordicOS-RPG
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 43}
-    m_SelectedIDs: e8300000
-    m_LastClickedID: 12520
-    m_ExpandedIDs: 00000000be2f0000ea2f0000ee310000263200005c32000000ca9a3b
+    m_SelectedIDs: c2320000
+    m_LastClickedID: 12994
+    m_ExpandedIDs: 00000000c2320000e432000082350000c8350000fc35000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -701,7 +701,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000be2f0000ea2f00004230000040310000ee3100005c320000103300002033000000ca9a3b
+    m_ExpandedIDs: 00000000c2320000e432000082350000c8350000fc350000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -728,7 +728,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000462d0000862e00000c2d000030350000523000007007e7ff00000000c62a00002afee9ff
     m_RenameOverlay:
       m_UserAcceptedRename: 0
