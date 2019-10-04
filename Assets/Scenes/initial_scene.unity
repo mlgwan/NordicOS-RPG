@@ -4672,7 +4672,7 @@ Light:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1229042959}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 0.7851572, b: 0.52400005, a: 1}
@@ -5791,6 +5791,20 @@ Prefab:
     - target: {fileID: 4081945114967662, guid: 02c1f0799fd3b5746adbfc6f500eec50, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702551374526272, guid: 02c1f0799fd3b5746adbfc6f500eec50, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.0038
+      objectReference: {fileID: 0}
+    - target: {fileID: 108942478477553628, guid: 02c1f0799fd3b5746adbfc6f500eec50,
+        type: 2}
+      propertyPath: m_Intensity
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 108942478477553628, guid: 02c1f0799fd3b5746adbfc6f500eec50,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02c1f0799fd3b5746adbfc6f500eec50, type: 2}
