@@ -25,4 +25,4 @@ MonoBehaviour:
   bonusDEX: 0
   bonusINT: 0
   bonusSPD: 0
-  isEquipped: 1
+  isEquipped: 0
