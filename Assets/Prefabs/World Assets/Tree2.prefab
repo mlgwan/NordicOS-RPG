@@ -9,17 +9,19 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1308573309297274}
+  m_RootGameObject: {fileID: 1218773686080704}
   m_IsPrefabAsset: 1
---- !u!1 &1308573309297274
+--- !u!1 &1218773686080704
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4180202690991880}
-  - component: {fileID: 212613129445163520}
+  - component: {fileID: 4242829032690218}
+  - component: {fileID: 212620255868844158}
+  - component: {fileID: 65239918334131588}
+  - component: {fileID: 114934892505204590}
   m_Layer: 0
   m_Name: Tree2
   m_TagString: Untagged
@@ -27,25 +29,48 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4180202690991880
+--- !u!4 &4242829032690218
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1308573309297274}
+  m_GameObject: {fileID: 1218773686080704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.568, y: 1.08, z: -0.748}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &212613129445163520
+--- !u!65 &65239918334131588
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1218773686080704}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 1.508928, z: 0.09878521}
+  m_Center: {x: -0.07, y: 0, z: 0}
+--- !u!114 &114934892505204590
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1218773686080704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292af5d4a84a82543ba453a5b928ba17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &212620255868844158
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1308573309297274}
+  m_GameObject: {fileID: 1218773686080704}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
