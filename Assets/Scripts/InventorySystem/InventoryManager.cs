@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 
 public class InventoryManager : MonoBehaviour {
 
@@ -17,6 +18,8 @@ public class InventoryManager : MonoBehaviour {
 
     public InventoryStates currentState;
 
+    private bool inSubMenu;
+
     public GameObject finger;
     public GameObject blinkingFinger;
 
@@ -24,12 +27,20 @@ public class InventoryManager : MonoBehaviour {
     public GameObject equipmentPanel;
     public GameObject optionsPanel;
     public GameObject inventoryPanel;
+    public GameObject itemOptionsPopupPanel;
+    public GameObject itemDescriptionPanel;
+
+    private GameObject tempPopup;
+    private string tempItemName;
 
     public List<GameObject> optionsList = new List<GameObject>();
     public List<GameObject> inventoryOptionsList = new List<GameObject>();
+    public List<GameObject> equipmentOptionsList = new List<GameObject>();
+    public List<Transform> itemOptionsPopupList = new List<Transform>();
 
     private int currentOption;
     private int currentInventoryOption;
+    private int currentItemOption;
 
     private int selectedItem = -1; //placeholder number 
 
@@ -51,6 +62,9 @@ public class InventoryManager : MonoBehaviour {
                 break;
 
             case InventoryStates.EQUIPMENT:
+
+                EquipmentSelect();
+
                 break;
 
             case InventoryStates.INVENTORY:
@@ -143,9 +157,56 @@ public class InventoryManager : MonoBehaviour {
 
     }
 
-    void UseAndOrder() {
+    void EquipmentSelect()
+    {
+
+        blinkingFinger.SetActive(false);
+        inventoryPanel.SetActive(false);
+        equipmentPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+
+        if (Input.GetKeyDown(KeyCode.W) && currentInventoryOption > 0)
+        {
+            currentInventoryOption--;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.S) && currentInventoryOption < equipmentOptionsList.Count - 1)
+        {
+            currentInventoryOption++;
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            currentInventoryOption = 0;
+            currentState = InventoryStates.OPTIONS;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.Return) && currentInventoryOption == 0)
+        {
+            currentState = InventoryStates.INVENTORY_USE;
+            InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
+            fingerCounter = 1;
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) && currentInventoryOption == 1)
+        {
+            //sort items
+            //Inventory.instance.inventoryList = Inventory.instance.inventoryList.OrderBy(x => x.item.itemID).ToList(); // By ID
+            Inventory.instance.inventoryList = Inventory.instance.inventoryList.OrderBy(x => x.item.type).ThenBy(x => x.item.name).ToList(); // By Type first and then by name
+            //recreate
+            InventoryUI.instance.RecreateList();
+
+
+        }
+
+        finger.transform.position = equipmentOptionsList[currentInventoryOption].transform.position;
+
+    }
+
+
+    void UseAndOrder() {
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !inSubMenu)
         {
             selectedItem = -1;
             currentInventoryOption = 0;
@@ -157,7 +218,7 @@ public class InventoryManager : MonoBehaviour {
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && currentInventoryOption > 0) {
+        if (Input.GetKeyDown(KeyCode.W) && currentInventoryOption > 0 && !inSubMenu) {
             currentInventoryOption--;
 
             if (fingerCounter > 1)
@@ -172,7 +233,7 @@ public class InventoryManager : MonoBehaviour {
 
         }
 
-        else if (Input.GetKeyDown(KeyCode.S) && currentInventoryOption < InventoryUI.instance.itemHolderList.Count - 1) {
+        else if (Input.GetKeyDown(KeyCode.S) && currentInventoryOption < InventoryUI.instance.itemHolderList.Count - 1 && !inSubMenu) {
             currentInventoryOption++;
 
             if (fingerCounter < maxAmountOfItemsToDisplay)
@@ -190,26 +251,30 @@ public class InventoryManager : MonoBehaviour {
 
         //Use
 
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            Inventory.instance.inventoryList[currentInventoryOption].item.UseItem(GameManager.instance.ulf);
-            InventoryUI.instance.RecreateList();
+        if (Input.GetKeyDown(KeyCode.Return) && !inSubMenu) {
+            
+            tempPopup = Instantiate(itemOptionsPopupPanel, InventoryUI.instance.itemHolderList[currentInventoryOption].transform.position + new Vector3(250,0,0), Quaternion.identity, GameObject.Find("ItemOptionsPopupPanelHolder").transform.Find("Holder")) as GameObject;
+            foreach (Transform point in tempPopup.transform.Find("SelectPoints").GetComponentInChildren<Transform>()) {
+                itemOptionsPopupList.Add(point);
+            }
+            tempItemName = Inventory.instance.inventoryList[currentInventoryOption].item.name;
+            inSubMenu = true;
         }
 
         //Order
-        if (Input.GetKeyDown(KeyCode.Backspace) && selectedItem == -1)
+        if (Input.GetKeyDown(KeyCode.Backspace) && selectedItem == -1 && !inSubMenu)
         {
             blinkingFinger.SetActive(true);
             blinkingFinger.transform.position = finger.transform.position;
             selectedItem = currentInventoryOption;
         }
 
-        else if (Input.GetKeyDown(KeyCode.Backspace) && (selectedItem != -1) && (selectedItem != currentInventoryOption)) {
+        else if (Input.GetKeyDown(KeyCode.Backspace) && (selectedItem != -1) && (selectedItem != currentInventoryOption) && !inSubMenu) {
             //Rearrange items
             Inventory.instance.SwapItems(selectedItem, currentInventoryOption);
             selectedItem = -1;
             blinkingFinger.SetActive(false);
             InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
-
         }
 
         if (blinkingFinger.activeInHierarchy) {
@@ -217,7 +282,55 @@ public class InventoryManager : MonoBehaviour {
             
         }
 
-        finger.transform.position = InventoryUI.instance.itemHolderList[currentInventoryOption].GetComponent<ItemHolder>().itemSelectPoint.transform.position;
+        if (!inSubMenu)
+        {
 
+            finger.transform.position = InventoryUI.instance.itemHolderList[currentInventoryOption].GetComponent<ItemHolder>().itemSelectPoint.transform.position;
+
+        }
+
+        else {
+
+            finger.transform.position = itemOptionsPopupList[currentItemOption].position;
+
+            if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 0) // USE
+            {
+                Inventory.instance.inventoryList[currentInventoryOption].item.UseItem(GameManager.instance.ulf);
+                InventoryUI.instance.RecreateList();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 1) // INSPECT
+            {
+                itemDescriptionPanel.SetActive(true);
+                itemDescriptionPanel.transform.Find("DescriptionText").GetComponent<TextMeshPro>().text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 2) // DELETE
+            {
+                Inventory.instance.RemoveItem(Inventory.instance.inventoryList[currentInventoryOption].item);
+                InventoryUI.instance.RecreateList();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape) || tempItemName != Inventory.instance.inventoryList[currentInventoryOption].item.name || (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 3)) //Escape or one runs out of item or CANCEL
+            {
+                currentItemOption = 0;
+                itemOptionsPopupList.Clear();
+                Destroy(tempPopup);
+                inSubMenu = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.W) && currentItemOption > 0)
+            {
+                currentItemOption--;
+            }
+
+            else if (Input.GetKeyDown(KeyCode.S) && currentItemOption < itemOptionsPopupList.Count - 1)
+            {
+                currentItemOption++;
+            }
+
+            
+        }
+     
     }
 }
