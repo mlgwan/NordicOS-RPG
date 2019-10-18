@@ -118,10 +118,10 @@ MonoBehaviour:
     frostburned: 0
     stunned: 0
     dotToTake: 0
-    EnemyType: 2
+    EnemyType: 0
     rarity: 0
     experienceToReward: 50
-    level: 3
+    level: 1
   enemySelector: {fileID: 1890472180945926, guid: 3e48bd40050e562478f99c1ed8171310,
     type: 2}
   currentState: 0

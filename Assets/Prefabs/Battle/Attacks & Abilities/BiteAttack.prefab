@@ -63,7 +63,7 @@ MonoBehaviour:
   lowerRandomBound: 0
   upperRandomBound: 0
   applicationChance: 80
-  statusEffectToApply: 0
+  statusEffectToApply: 6
   poisonDamage: 0
   burnDamage: 0
   frostBurnDamage: 0

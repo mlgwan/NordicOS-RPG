@@ -48,6 +48,7 @@ public class PlayerStateMachine : MonoBehaviour {
     private bool isBurned;
     private bool isFrostBurned;
     private bool isStunned;
+    private bool isBleeding;
     public bool tickApplied;
 
     //GUI
@@ -394,6 +395,17 @@ public class PlayerStateMachine : MonoBehaviour {
                     {
                         attackedEnemy.GetComponent<EnemyStateMachine>().enemy.stunned = true;
                         popups.CreateStatusText(attackedEnemy, BaseAttack.StatusEffects.STUN);
+                    }
+                    break;
+                case (BaseAttack.StatusEffects.BLEED):
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedEnemy.GetComponent<EnemyStateMachine>().enemy.curFrostburnResist)
+                    {
+                        if (!attackedEnemy.GetComponent<EnemyStateMachine>().enemy.frostburned)
+                        {
+                            attackedEnemy.GetComponent<EnemyStateMachine>().enemy.frostburned = true;
+                            popups.CreateStatusText(attackedEnemy, BaseAttack.StatusEffects.FROSTBURN);
+                            attackedEnemy.GetComponent<EnemyStateMachine>().enemy.dotToTake += BSM.performList[0].chosenAttack.frostBurnDamage;
+                        }
                     }
                     break;
             }

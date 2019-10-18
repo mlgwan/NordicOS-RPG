@@ -44,6 +44,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private bool isFrostBurned;
     private bool isStunned;
     public bool tickApplied;
+    private bool isBleeding;
 
     private void Awake()
     {
