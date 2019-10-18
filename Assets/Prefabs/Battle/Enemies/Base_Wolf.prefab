@@ -1,0 +1,178 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1032673087740892}
+  m_IsPrefabAsset: 1
+--- !u!1 &1032673087740892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4058487396092984}
+  - component: {fileID: 212517754077891326}
+  - component: {fileID: 95960844305438484}
+  - component: {fileID: 114785008817196794}
+  m_Layer: 0
+  m_Name: Base_Wolf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4058487396092984
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1032673087740892}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &95960844305438484
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1032673087740892}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114785008817196794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1032673087740892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7719a83836952c4796f15a79f63ec85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy:
+    theName: Wolf
+    maxHP: 0
+    curHP: 0
+    maxMP: 0
+    curMP: 0
+    maxATK: 0
+    curATK: 0
+    maxDEF: 0
+    curDEF: 0
+    maxMR: 0
+    curMR: 0
+    maxSTR: 0
+    curSTR: 0
+    maxINT: 0
+    curINT: 0
+    maxDEX: 0
+    curDEX: 0
+    maxSPD: 0
+    curSPD: 0
+    maxParalysisResist: 0
+    curParalysisResist: 0
+    maxPoisonResist: 0
+    curPoisonResist: 0
+    maxBurnResist: 0
+    curBurnResist: 0
+    maxFrostburnResist: 0
+    curFrostburnResist: 0
+    maxStunResist: 0
+    curStunResist: 0
+    baseHP: 50
+    baseMP: 50
+    baseSTR: 50
+    baseDEX: 50
+    baseINT: 50
+    baseSPD: 50
+    basicAttack: {fileID: 114702011212673348, guid: 5c62d3be549566e468e8bef18fb4deb7,
+      type: 2}
+    abilities:
+    - {fileID: 114437461171163456, guid: 46388d563a485f14ebe93348961bb6f0, type: 2}
+    paralysed: 0
+    poisoned: 0
+    burned: 0
+    frostburned: 0
+    stunned: 0
+    dotToTake: 0
+    EnemyType: 2
+    rarity: 0
+    experienceToReward: 50
+    level: 3
+  enemySelector: {fileID: 1890472180945926, guid: 3e48bd40050e562478f99c1ed8171310,
+    type: 2}
+  currentState: 0
+  targetOffset: 1.5
+  playerToAttack: {fileID: 0}
+  animSpeed: 20
+  hasChosenAnAction: 0
+  hasBeenCritted: 0
+  tickApplied: 0
+--- !u!212 &212517754077891326
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1032673087740892}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300002, guid: f2a816311eb4d084aaa25c918b7b441d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 2.2, y: 2.2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0

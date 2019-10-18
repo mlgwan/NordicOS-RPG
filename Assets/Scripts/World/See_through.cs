@@ -8,7 +8,7 @@ public class See_through : MonoBehaviour {
     private GameObject player;
     private Vector3 playerPosition, position, difference;
 
-    public float seeThroughValue = 1f, distanceMultiplier = 10; 
+    public float seeThroughValue = 1f, distanceMultiplier = 15; 
 	// Use this for initialization
 	void Start () {
         rend = GetComponent<Renderer>();
@@ -25,7 +25,7 @@ public class See_through : MonoBehaviour {
         {
             float differenceX = Mathf.Abs(difference.x) * distanceMultiplier;
             if (differenceX > seeThroughValue) differenceX = seeThroughValue;
-            if (differenceX < 0.2f) differenceX = 0.2f;
+            if (differenceX < 0.3f) differenceX = 0.3f;
           
             print(differenceX);
             threshold = seeThroughValue - differenceX;
