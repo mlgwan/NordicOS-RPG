@@ -121,7 +121,7 @@ MonoBehaviour:
     EnemyType: 0
     rarity: 0
     experienceToReward: 50
-    level: 1
+    level: 10
   enemySelector: {fileID: 1890472180945926, guid: 3e48bd40050e562478f99c1ed8171310,
     type: 2}
   currentState: 0
