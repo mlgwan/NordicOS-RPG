@@ -46,7 +46,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4042918368040108
 Transform:
   m_ObjectHideFlags: 1
@@ -167,6 +167,8 @@ MonoBehaviour:
     curATK: 0
     maxDEF: 0
     curDEF: 0
+    maxMR: 0
+    curMR: 0
     maxSTR: 0
     curSTR: 0
     maxINT: 0
@@ -175,6 +177,16 @@ MonoBehaviour:
     curDEX: 0
     maxSPD: 0
     curSPD: 0
+    maxParalysisResist: 0
+    curParalysisResist: 0
+    maxPoisonResist: 0
+    curPoisonResist: 0
+    maxBurnResist: 0
+    curBurnResist: 0
+    maxFrostburnResist: 0
+    curFrostburnResist: 0
+    maxStunResist: 0
+    curStunResist: 0
     baseHP: 50
     baseMP: 50
     baseSTR: 50
@@ -185,8 +197,8 @@ MonoBehaviour:
       type: 2}
     abilities: []
     paralysed: 0
-    burned: 0
     poisoned: 0
+    burned: 0
     frostburned: 0
     stunned: 0
     dotToTake: 0

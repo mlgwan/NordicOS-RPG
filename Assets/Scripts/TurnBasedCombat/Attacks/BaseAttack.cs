@@ -23,13 +23,15 @@ public class BaseAttack : MonoBehaviour {
         BURN,
         POISON,
         FROSTBURN,
-        STUN
+        STUN, 
+        BLEED
     }
     public StatusEffects statusEffectToApply;
 
     public int poisonDamage;
     public int burnDamage;
     public int frostBurnDamage;
+    public int bleedDamage;
 
     public enum ScalesWith {
         NOTHING,
