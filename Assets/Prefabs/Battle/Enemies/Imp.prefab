@@ -163,8 +163,8 @@ MonoBehaviour:
     curHP: 0
     maxMP: 0
     curMP: 0
-    maxATK: 0
-    curATK: 0
+    maxATK: 10
+    curATK: 10
     maxDEF: 0
     curDEF: 0
     maxMR: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
     EnemyType: 2
     rarity: 0
     experienceToReward: 50
-    level: 3
+    level: 91
   enemySelector: {fileID: 1890472180945926}
   currentState: 0
   targetOffset: 1.5
