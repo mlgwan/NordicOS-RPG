@@ -163,10 +163,12 @@ MonoBehaviour:
     curHP: 0
     maxMP: 0
     curMP: 0
-    maxATK: 0
-    curATK: 0
+    maxATK: 10
+    curATK: 10
     maxDEF: 0
     curDEF: 0
+    maxMR: 0
+    curMR: 0
     maxSTR: 0
     curSTR: 0
     maxINT: 0
@@ -175,6 +177,16 @@ MonoBehaviour:
     curDEX: 0
     maxSPD: 0
     curSPD: 0
+    maxParalysisResist: 0
+    curParalysisResist: 0
+    maxPoisonResist: 0
+    curPoisonResist: 0
+    maxBurnResist: 0
+    curBurnResist: 0
+    maxFrostburnResist: 0
+    curFrostburnResist: 0
+    maxStunResist: 0
+    curStunResist: 0
     baseHP: 50
     baseMP: 50
     baseSTR: 50
@@ -185,15 +197,15 @@ MonoBehaviour:
       type: 2}
     abilities: []
     paralysed: 0
-    burned: 0
     poisoned: 0
+    burned: 0
     frostburned: 0
     stunned: 0
     dotToTake: 0
     EnemyType: 2
     rarity: 0
     experienceToReward: 50
-    level: 3
+    level: 91
   enemySelector: {fileID: 1890472180945926}
   currentState: 0
   targetOffset: 1.5

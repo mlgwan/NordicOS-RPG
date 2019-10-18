@@ -159,30 +159,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     theName: Rikkr
-    baseHP: 100
+    maxHP: 100
     curHP: 100
-    baseMP: 100
+    maxMP: 100
     curMP: 100
-    baseATK: 10
+    maxATK: 10
     curATK: 10
-    baseDEF: 10
+    maxDEF: 10
     curDEF: 10
-    baseSTR: 8
+    maxMR: 0
+    curMR: 0
+    maxSTR: 0
     curSTR: 8
-    baseINT: 15
+    maxINT: 15
     curINT: 15
-    baseDEX: 12
+    maxDEX: 12
     curDEX: 12
-    baseSPD: 8
+    maxSPD: 8
     curSPD: 8
+    maxParalysisResist: 0
+    curParalysisResist: 0
+    maxPoisonResist: 0
+    curPoisonResist: 0
+    maxBurnResist: 0
+    curBurnResist: 0
+    maxFrostburnResist: 0
+    curFrostburnResist: 0
+    maxStunResist: 0
+    curStunResist: 0
+    baseHP: 100
+    baseMP: 100
+    baseSTR: 8
+    baseDEX: 12
+    baseINT: 15
+    baseSPD: 8
     basicAttack: {fileID: 114774734056888852, guid: 8c3f8c3c9c430a1418288ef14886e6e7,
       type: 2}
     abilities:
     - {fileID: 114206486882188202, guid: 0fb2defbd97dab64ba59ba5990d070bc, type: 2}
     - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
-    currentStatus: 0
+    paralysed: 0
+    poisoned: 0
+    burned: 0
+    frostburned: 0
+    stunned: 0
     dotToTake: 0
     level: 2
+    toLevelUp: 
     currentExperiencePoints: 0
     totalExperiencePoints: 100
   selector: {fileID: 1035655984640656}
@@ -191,8 +214,11 @@ MonoBehaviour:
   targetOffset: 1.5
   enemyToAttack: {fileID: 0}
   animSpeed: 20
+  hasBeenCritted: 0
   tickApplied: 0
   playerPanel: {fileID: 1423041348481006, guid: ff9c6bfa9a7d0f3438907c32e5d35550,
+    type: 2}
+  EquipscreenCharacterPanel: {fileID: 1681997199842756, guid: cde020929f2d32e49b801d39c13183e7,
     type: 2}
 --- !u!212 &212066887167567488
 SpriteRenderer:
