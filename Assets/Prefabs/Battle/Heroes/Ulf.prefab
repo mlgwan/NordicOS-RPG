@@ -198,8 +198,6 @@ MonoBehaviour:
   tickApplied: 0
   playerPanel: {fileID: 1551563265445530, guid: 770a6f57103a03349b973407a2fdf07c,
     type: 2}
-  EquipscreenCharacterPanel: {fileID: 1681997199842756, guid: 8789ac8ad19cef945906a10012918271,
-    type: 2}
 --- !u!212 &212254328749749156
 SpriteRenderer:
   m_ObjectHideFlags: 1

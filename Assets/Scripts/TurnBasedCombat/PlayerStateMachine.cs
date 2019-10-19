@@ -56,8 +56,6 @@ public class PlayerStateMachine : MonoBehaviour {
     public GameObject playerPanel;
     private Transform playerPanelSpacer;
 
-    public GameObject EquipscreenCharacterPanel;
-
     private void Awake()
     {
         popups = GameObject.Find("PopupManager").GetComponent<Popups>();

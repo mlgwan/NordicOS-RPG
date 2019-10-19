@@ -58,9 +58,6 @@ MonoBehaviour:
   hitChance: 0
   attackCost: 0
   isAOE: 0
-  isMagic: 0
-  lowerRandomBound: 0.8
-  upperRandomBound: 1.2
   applicationChance: 0
   statusEffectToApply: 0
   poisonDamage: 0
