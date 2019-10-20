@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour {
 
+    private Animator animator;
     private BattleStateMachine BSM;
     public BasePlayer player;
     public GameObject selector;
@@ -59,6 +60,7 @@ public class PlayerStateMachine : MonoBehaviour {
     private void Awake()
     {
         popups = GameObject.Find("PopupManager").GetComponent<Popups>();
+        animator = gameObject.GetComponent<Animator>();
     }
 
     private void Start()
@@ -167,11 +169,13 @@ public class PlayerStateMachine : MonoBehaviour {
         //animate the player towards the enemy
         while (MoveTowardsTarget(playerPosition))
         {
+            animator.SetBool("isWalkToAttack", true);
             yield return null;
         }
 
         //wait a bit
-        yield return new WaitForSeconds(0.5f);
+        
+        yield return new WaitForSeconds(1.2f);
 
         //do damage
         if (!statusCheck) {
@@ -181,8 +185,12 @@ public class PlayerStateMachine : MonoBehaviour {
 
         //animate back to startPosition
         Vector3 firstPosition = startPosition;
-        while (MoveTowardsTarget(firstPosition)) { yield return null; }
+        while (MoveTowardsTarget(firstPosition)) {
+            
+            yield return null;
+        }
 
+        animator.SetBool("isWalkFromAttack", false);
         //remove this performer from the performList in BSM to not perform the action twice
         BSM.performList.RemoveAt(0);
 
