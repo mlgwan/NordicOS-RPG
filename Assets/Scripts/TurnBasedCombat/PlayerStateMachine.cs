@@ -167,15 +167,18 @@ public class PlayerStateMachine : MonoBehaviour {
             playerPosition = startPosition;
         }
         //animate the player towards the enemy
+        animator.SetBool("isWalkToAttack", true);
         while (MoveTowardsTarget(playerPosition))
         {
-            animator.SetBool("isWalkToAttack", true);
             yield return null;
         }
 
         //wait a bit
-        
-        yield return new WaitForSeconds(1.2f);
+        animator.SetBool("isWalkToAttack", false);
+        animator.SetBool("isAttack", true);
+        yield return new WaitForSeconds(1.25f);
+        animator.SetBool("isAttack", false);
+        animator.SetBool("isWalkFromAttack", true);
 
         //do damage
         if (!statusCheck) {
@@ -186,11 +189,10 @@ public class PlayerStateMachine : MonoBehaviour {
         //animate back to startPosition
         Vector3 firstPosition = startPosition;
         while (MoveTowardsTarget(firstPosition)) {
-            
             yield return null;
         }
-
         animator.SetBool("isWalkFromAttack", false);
+
         //remove this performer from the performList in BSM to not perform the action twice
         BSM.performList.RemoveAt(0);
 
