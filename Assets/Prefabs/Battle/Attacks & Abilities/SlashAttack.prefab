@@ -66,4 +66,5 @@ MonoBehaviour:
   poisonDamage: 0
   burnDamage: 0
   frostBurnDamage: 0
+  bleedDamage: 0
   scalesWith: 2

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour {
 
+    private Animator animator;
     private BattleStateMachine BSM;
     public BasePlayer player;
     public GameObject selector;
@@ -48,6 +49,7 @@ public class PlayerStateMachine : MonoBehaviour {
     private bool isBurned;
     private bool isFrostBurned;
     private bool isStunned;
+    private bool isBleeding;
     public bool tickApplied;
 
     //GUI
@@ -55,11 +57,10 @@ public class PlayerStateMachine : MonoBehaviour {
     public GameObject playerPanel;
     private Transform playerPanelSpacer;
 
-    public GameObject EquipscreenCharacterPanel;
-
     private void Awake()
     {
         popups = GameObject.Find("PopupManager").GetComponent<Popups>();
+        animator = gameObject.GetComponent<Animator>();
     }
 
     private void Start()
@@ -166,13 +167,18 @@ public class PlayerStateMachine : MonoBehaviour {
             playerPosition = startPosition;
         }
         //animate the player towards the enemy
+        animator.SetBool("isWalkToAttack", true);
         while (MoveTowardsTarget(playerPosition))
         {
             yield return null;
         }
 
         //wait a bit
-        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("isWalkToAttack", false);
+        animator.SetBool("isAttack", true);
+        yield return new WaitForSeconds(1.25f);
+        animator.SetBool("isAttack", false);
+        animator.SetBool("isWalkFromAttack", true);
 
         //do damage
         if (!statusCheck) {
@@ -182,7 +188,12 @@ public class PlayerStateMachine : MonoBehaviour {
 
         //animate back to startPosition
         Vector3 firstPosition = startPosition;
-        while (MoveTowardsTarget(firstPosition)) { yield return null; }
+        while (MoveTowardsTarget(firstPosition)) {
+            yield return null;
+        }
+        animator.SetBool("isWalkFromAttack", false);
+        yield return new WaitForSeconds(1f);
+
 
         //remove this performer from the performList in BSM to not perform the action twice
         BSM.performList.RemoveAt(0);
@@ -252,20 +263,20 @@ public class PlayerStateMachine : MonoBehaviour {
 
         if (!isMagic)
         {
-            calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+            calculatedDamage = (int)(((player.curATK + attackScalingDamage + 1/ (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
 
 
             int n = Random.Range(0, 100);
             if (n < BSM.performList[0].chosenAttack.critChance)
             {
-                calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * BSM.performList[0].chosenAttack.upperRandomBound) * 2;
+                calculatedDamage = (int)(((player.curATK + attackScalingDamage + 1/ (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * BSM.performList[0].chosenAttack.upperRandomBound) * 2;
 
                 hasCritted = true;
             }
 
         }
         else {
-            calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curMR + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+            calculatedDamage = (int)(((player.curATK + attackScalingDamage + 1/ (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curMR + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
         }
 
 
@@ -289,7 +300,7 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void TakeDamage(int damageAmount, bool statusDamage) {
-
+        animator.SetBool("takeDamage", true);
         if (damageAmount <= 1) {
             damageAmount = 1;
         }
@@ -311,6 +322,7 @@ public class PlayerStateMachine : MonoBehaviour {
             currentState = TurnState.DEAD;
         }
         UpdateResourceBars();
+
     }
 
     void CreatePlayerPanel() {
@@ -398,6 +410,17 @@ public class PlayerStateMachine : MonoBehaviour {
                         popups.CreateStatusText(attackedEnemy, BaseAttack.StatusEffects.STUN);
                     }
                     break;
+                case (BaseAttack.StatusEffects.BLEED):
+                    if (num < BSM.performList[0].chosenAttack.applicationChance - attackedEnemy.GetComponent<EnemyStateMachine>().enemy.curFrostburnResist)
+                    {
+                        if (!attackedEnemy.GetComponent<EnemyStateMachine>().enemy.frostburned)
+                        {
+                            attackedEnemy.GetComponent<EnemyStateMachine>().enemy.frostburned = true;
+                            popups.CreateStatusText(attackedEnemy, BaseAttack.StatusEffects.FROSTBURN);
+                            attackedEnemy.GetComponent<EnemyStateMachine>().enemy.dotToTake += BSM.performList[0].chosenAttack.frostBurnDamage;
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -430,5 +453,9 @@ public class PlayerStateMachine : MonoBehaviour {
             return false;
         }
 
+    }
+
+    public void resetTakeDamageAnimation() {
+        animator.SetBool("takeDamage", false);
     }
 }

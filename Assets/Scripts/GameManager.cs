@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour {
     public bool gotAttacked;
     private static bool ulfWasAdded;
 
+    public static bool[] scriptedEncounters = new bool[100];
+    public List<GameObject> scriptedEncounterZones;
+    
+
     public enum GameStates {
         WORLD_STATE,
         TOWN_STATE,
@@ -71,6 +75,8 @@ public class GameManager : MonoBehaviour {
             GameObject player = Instantiate(playerCharacter, nextPlayerPosition, Quaternion.identity) as GameObject;
             player.name = "PlayerCharacter";
         }
+
+        CheckScriptedEncounters();
     }
 
     private void Update()
@@ -97,7 +103,7 @@ public class GameManager : MonoBehaviour {
 
             case (GameStates.BATTLE_STATE):
                 StartBattle();
-
+         
                 gameState = GameStates.IDLE;
 
                 break;
@@ -105,6 +111,14 @@ public class GameManager : MonoBehaviour {
             case (GameStates.IDLE):
 
                 break;       
+        }
+    }
+
+    public void CheckScriptedEncounters() {
+        for (int i = 0; i < scriptedEncounterZones.Count; i++) {
+            if (!scriptedEncounters[i]) {
+                scriptedEncounterZones[i].SetActive(true);
+            }
         }
     }
 
@@ -117,12 +131,22 @@ public class GameManager : MonoBehaviour {
     }
 
     void RandomEncounter() {
-        if (isWalking && canGetEncountered) {
-            if (Random.Range(0, 1000) < 10) {
+        if (isWalking && canGetEncountered)
+        {
+            if (currentRegion != null && currentRegion.isScriptedEncounter) {
+                
+                gotAttacked = true;
+                
+            }
+            else if (Random.Range(0, 1000) < 10)
+            {
                 Debug.Log("I got attacked");
                 gotAttacked = true;
             }
+         
         }
+
+         
         
     }
 
@@ -145,4 +169,6 @@ public class GameManager : MonoBehaviour {
         gotAttacked = false;
         canGetEncountered = false;
     }
+
+    
 }

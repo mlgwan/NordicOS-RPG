@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4163399881776802}
   - component: {fileID: 212254328749749156}
   - component: {fileID: 114504165365657918}
-  - component: {fileID: 95157973700573924}
+  - component: {fileID: 95174725172932780}
+  - component: {fileID: 114733159432790046}
   m_Layer: 0
   m_Name: Ulf
   m_TagString: Player
@@ -128,7 +129,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!95 &95157973700573924
+--- !u!95 &95174725172932780
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -163,10 +164,10 @@ MonoBehaviour:
     curHP: 16
     maxMP: 11
     curMP: 11
-    maxATK: 0
-    curATK: 0
-    maxDEF: 0
-    curDEF: 0
+    maxATK: 10
+    curATK: 10
+    maxDEF: 10
+    curDEF: 10
     maxMR: 0
     curMR: 0
     maxSTR: 6
@@ -212,13 +213,22 @@ MonoBehaviour:
   playerIcon: {fileID: 21300000, guid: d4c83439a4f70364e864c0cf4d706eec, type: 3}
   targetOffset: 1.5
   enemyToAttack: {fileID: 0}
-  animSpeed: 20
+  animSpeed: 5
   hasBeenCritted: 0
   tickApplied: 0
   playerPanel: {fileID: 1551563265445530, guid: 770a6f57103a03349b973407a2fdf07c,
     type: 2}
-  EquipscreenCharacterPanel: {fileID: 1681997199842756, guid: 8789ac8ad19cef945906a10012918271,
-    type: 2}
+--- !u!114 &114733159432790046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1304162769487314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab0a80195b59c546956565a0685f5d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212254328749749156
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -234,7 +244,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 01b1e875f2e9c934082b0cf420a92c52, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

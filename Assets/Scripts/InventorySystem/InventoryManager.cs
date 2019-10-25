@@ -161,7 +161,6 @@ public class InventoryManager : MonoBehaviour {
     void EquipmentSelect()
     {
 
-
         blinkingFinger.SetActive(false);
         inventoryPanel.SetActive(false);
         equipmentPanel.SetActive(true);
@@ -170,13 +169,11 @@ public class InventoryManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.W) && currentInventoryOption > 0)
         {
             currentInventoryOption--;
-            EquipmentUI.instance.UpdateCharacterStats();
         }
 
         else if (Input.GetKeyDown(KeyCode.S) && currentInventoryOption < equipmentOptionsList.Count - 1)
         {
             currentInventoryOption++;
-            EquipmentUI.instance.UpdateCharacterStats();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -185,6 +182,23 @@ public class InventoryManager : MonoBehaviour {
             currentState = InventoryStates.OPTIONS;
         }
 
+
+        if (Input.GetKeyDown(KeyCode.Return) && currentInventoryOption == 0)
+        {
+            currentState = InventoryStates.INVENTORY_USE;
+            InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
+            fingerCounter = 1;
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) && currentInventoryOption == 1)
+        {
+            //sort items
+            //Inventory.instance.inventoryList = Inventory.instance.inventoryList.OrderBy(x => x.item.itemID).ToList(); // By ID
+            Inventory.instance.inventoryList = Inventory.instance.inventoryList.OrderBy(x => x.item.type).ThenBy(x => x.item.name).ToList(); // By Type first and then by name
+            //recreate
+            InventoryUI.instance.RecreateList();
+
+
+        }
 
         finger.transform.position = equipmentOptionsList[currentInventoryOption].transform.position;
 
@@ -203,49 +217,51 @@ public class InventoryManager : MonoBehaviour {
         if(InventoryUI.instance.itemHolderList.Count <= 0)
         {
             return;
-        }     
+        }
+
+        if (Input.GetKeyDown(KeyCode.W) && currentInventoryOption > 0 && !inSubMenu) {
+            currentInventoryOption--;
+
+            if (fingerCounter > 1)
+            {
+                fingerCounter--;
+            }
+            else if (fingerCounter == 1) {
+                itemScrollRect.verticalNormalizedPosition += (float)1 / (InventoryUI.instance.itemHolderList.Count - maxAmountOfItemsToDisplay);
+            }
+
+            InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
+
+        }
+
+        else if (Input.GetKeyDown(KeyCode.S) && currentInventoryOption < InventoryUI.instance.itemHolderList.Count - 1 && !inSubMenu) {
+            currentInventoryOption++;
+
+            if (fingerCounter < maxAmountOfItemsToDisplay)
+            {
+                fingerCounter++;
+            }
+            else if (fingerCounter == maxAmountOfItemsToDisplay)
+            {
+                itemScrollRect.verticalNormalizedPosition -= (float)1 / (InventoryUI.instance.itemHolderList.Count - maxAmountOfItemsToDisplay);
+            }
+
+            InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
+
+        }
+
+
 
         if (!inSubMenu)
         {
-
-            finger.transform.position = InventoryUI.instance.itemHolderList[currentInventoryOption].GetComponent<ItemHolder>().itemSelectPoint.transform.position;
-            if (Input.GetKeyDown(KeyCode.W) && currentInventoryOption > 0) {
-                        currentInventoryOption--;
-
-                        if (fingerCounter > 1)
-                        {
-                            fingerCounter--;
-                        }
-                        else if (fingerCounter == 1) {
-                            itemScrollRect.verticalNormalizedPosition += (float)1 / (InventoryUI.instance.itemHolderList.Count - maxAmountOfItemsToDisplay);
-                        }
-
-                        InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
-
-                    }
-
-            else if (Input.GetKeyDown(KeyCode.S) && currentInventoryOption < InventoryUI.instance.itemHolderList.Count - 1) {
-                currentInventoryOption++;
-
-                if (fingerCounter < maxAmountOfItemsToDisplay)
-                {
-                    fingerCounter++;
-                }
-                else if (fingerCounter == maxAmountOfItemsToDisplay)
-                {
-                    itemScrollRect.verticalNormalizedPosition -= (float)1 / (InventoryUI.instance.itemHolderList.Count - maxAmountOfItemsToDisplay);
-                }
-
-                InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
-
-            }
-
             //Use
 
-            if (Input.GetKeyDown(KeyCode.Return)) {
-            
-                tempPopup = Instantiate(itemOptionsPopupPanel, InventoryUI.instance.itemHolderList[currentInventoryOption].transform.position + new Vector3(250,0,0), Quaternion.identity, GameObject.Find("ItemOptionsPopupPanelHolder").transform.Find("Holder")) as GameObject;
-                foreach (Transform point in tempPopup.transform.Find("SelectPoints").GetComponentInChildren<Transform>()) {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+
+                tempPopup = Instantiate(itemOptionsPopupPanel, InventoryUI.instance.itemHolderList[currentInventoryOption].transform.position + new Vector3(250, 0, 0), Quaternion.identity, GameObject.Find("ItemOptionsPopupPanelHolder").transform.Find("Holder")) as GameObject;
+                foreach (Transform point in tempPopup.transform.Find("SelectPoints").GetComponentInChildren<Transform>())
+                {
                     itemOptionsPopupList.Add(point);
                 }
                 tempItemName = Inventory.instance.inventoryList[currentInventoryOption].item.name;
@@ -260,7 +276,8 @@ public class InventoryManager : MonoBehaviour {
                 selectedItem = currentInventoryOption;
             }
 
-            else if (Input.GetKeyDown(KeyCode.Backspace) && (selectedItem != -1) && (selectedItem != currentInventoryOption)) {
+            else if (Input.GetKeyDown(KeyCode.Backspace) && (selectedItem != -1) && (selectedItem != currentInventoryOption))
+            {
                 //Rearrange items
                 Inventory.instance.SwapItems(selectedItem, currentInventoryOption);
                 selectedItem = -1;
@@ -268,13 +285,18 @@ public class InventoryManager : MonoBehaviour {
                 InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
             }
 
-            if (blinkingFinger.activeInHierarchy) {
+            if (blinkingFinger.activeInHierarchy)
+            {
                 blinkingFinger.transform.position = InventoryUI.instance.itemHolderList[selectedItem].GetComponent<ItemHolder>().itemSelectPoint.transform.position;
-            
+
             }
+
+            finger.transform.position = InventoryUI.instance.itemHolderList[currentInventoryOption].GetComponent<ItemHolder>().itemSelectPoint.transform.position;
+
         }
 
-        else if (inSubMenu && !isInspecting){
+        else if (inSubMenu && !isInspecting)
+        {
 
             finger.transform.position = itemOptionsPopupList[currentItemOption].position;
 
@@ -287,10 +309,9 @@ public class InventoryManager : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 1) // INSPECT
             {
                 itemDescriptionPanel.SetActive(true);
-                itemDescriptionPanel.transform.Find("DescriptionText").gameObject.GetComponent<TextMeshProUGUI>().text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
                 finger.SetActive(false);
+                itemDescriptionPanel.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>().text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
                 isInspecting = true;
-                
             }
 
             if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 2) // DELETE
@@ -317,15 +338,14 @@ public class InventoryManager : MonoBehaviour {
                 currentItemOption++;
             }
 
-            
+
         }
 
-        else if (inSubMenu && isInspecting) {
-
+        else if (isInspecting) {
             if (Input.anyKeyDown) {
-                isInspecting = false;
                 itemDescriptionPanel.SetActive(false);
                 finger.SetActive(true);
+                isInspecting = false;
             }
         }
      
