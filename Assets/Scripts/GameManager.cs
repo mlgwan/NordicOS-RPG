@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour {
 
             case (GameStates.BATTLE_STATE):
                 StartBattle();
-
+         
                 gameState = GameStates.IDLE;
 
                 break;

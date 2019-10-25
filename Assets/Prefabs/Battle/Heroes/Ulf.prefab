@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4163399881776802}
   - component: {fileID: 212254328749749156}
   - component: {fileID: 114504165365657918}
+  - component: {fileID: 95174725172932780}
+  - component: {fileID: 114733159432790046}
   m_Layer: 0
   m_Name: Ulf
   m_TagString: Player
@@ -127,6 +129,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &95174725172932780
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1304162769487314}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f3432ce8ac5b2d5419bfd52e26286e8a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114504165365657918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,6 +218,17 @@ MonoBehaviour:
   tickApplied: 0
   playerPanel: {fileID: 1551563265445530, guid: 770a6f57103a03349b973407a2fdf07c,
     type: 2}
+--- !u!114 &114733159432790046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1304162769487314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab0a80195b59c546956565a0685f5d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212254328749749156
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -213,7 +244,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 01b1e875f2e9c934082b0cf420a92c52, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
