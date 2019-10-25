@@ -183,7 +183,7 @@ public class EnemyStateMachine : MonoBehaviour {
         {
             DealDamage(BSM.performList[0].chosenAttack.isMagic);
         }
-        
+        yield return new WaitForSeconds(0.5f);
         //animate back to start position
         Vector3 firstPosition = startPosition;
         while (MoveTowardsTarget(firstPosition))

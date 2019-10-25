@@ -192,6 +192,8 @@ public class PlayerStateMachine : MonoBehaviour {
             yield return null;
         }
         animator.SetBool("isWalkFromAttack", false);
+        yield return new WaitForSeconds(1f);
+
 
         //remove this performer from the performList in BSM to not perform the action twice
         BSM.performList.RemoveAt(0);
@@ -298,7 +300,7 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void TakeDamage(int damageAmount, bool statusDamage) {
-
+        animator.SetBool("takeDamage", true);
         if (damageAmount <= 1) {
             damageAmount = 1;
         }
@@ -320,6 +322,7 @@ public class PlayerStateMachine : MonoBehaviour {
             currentState = TurnState.DEAD;
         }
         UpdateResourceBars();
+
     }
 
     void CreatePlayerPanel() {
@@ -450,5 +453,9 @@ public class PlayerStateMachine : MonoBehaviour {
             return false;
         }
 
+    }
+
+    public void resetTakeDamageAnimation() {
+        animator.SetBool("takeDamage", false);
     }
 }
