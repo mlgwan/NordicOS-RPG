@@ -251,20 +251,20 @@ public class PlayerStateMachine : MonoBehaviour {
 
         if (!isMagic)
         {
-            calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+            calculatedDamage = (int)(((player.curATK + attackScalingDamage + 1/ (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
 
 
             int n = Random.Range(0, 100);
             if (n < BSM.performList[0].chosenAttack.critChance)
             {
-                calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * BSM.performList[0].chosenAttack.upperRandomBound) * 2;
+                calculatedDamage = (int)(((player.curATK + attackScalingDamage + 1/ (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * BSM.performList[0].chosenAttack.upperRandomBound) * 2;
 
                 hasCritted = true;
             }
 
         }
         else {
-            calculatedDamage = (int)(((player.curATK + attackScalingDamage / (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curMR + 1)) * BSM.performList[0].chosenAttack.attackDamage / 75) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+            calculatedDamage = (int)(((player.curATK + attackScalingDamage + 1/ (enemyToAttack.GetComponent<EnemyStateMachine>().enemy.curMR + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
         }
 
 

@@ -58,9 +58,13 @@ MonoBehaviour:
   hitChance: 0
   attackCost: 10
   isAOE: 1
+  isMagic: 0
+  lowerRandomBound: 1
+  upperRandomBound: 1
   applicationChance: 50
   statusEffectToApply: 5
   poisonDamage: 0
   burnDamage: 0
   frostBurnDamage: 0
+  bleedDamage: 0
   scalesWith: 1

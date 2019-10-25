@@ -27,7 +27,7 @@ public class See_through : MonoBehaviour {
             if (differenceX > seeThroughValue) differenceX = seeThroughValue;
             if (differenceX < 0.3f) differenceX = 0.3f;
           
-            print(differenceX);
+            //print(differenceX);
             threshold = seeThroughValue - differenceX;
             Color tmp = rend.material.color;
             tmp.a = differenceX; 

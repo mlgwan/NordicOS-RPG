@@ -19,6 +19,7 @@ public class InventoryManager : MonoBehaviour {
     public InventoryStates currentState;
 
     private bool inSubMenu;
+    private bool isInspecting;
 
     public GameObject finger;
     public GameObject blinkingFinger;
@@ -249,47 +250,53 @@ public class InventoryManager : MonoBehaviour {
 
         }
 
-        //Use
 
-        if (Input.GetKeyDown(KeyCode.Return) && !inSubMenu) {
-            
-            tempPopup = Instantiate(itemOptionsPopupPanel, InventoryUI.instance.itemHolderList[currentInventoryOption].transform.position + new Vector3(250,0,0), Quaternion.identity, GameObject.Find("ItemOptionsPopupPanelHolder").transform.Find("Holder")) as GameObject;
-            foreach (Transform point in tempPopup.transform.Find("SelectPoints").GetComponentInChildren<Transform>()) {
-                itemOptionsPopupList.Add(point);
-            }
-            tempItemName = Inventory.instance.inventoryList[currentInventoryOption].item.name;
-            inSubMenu = true;
-        }
-
-        //Order
-        if (Input.GetKeyDown(KeyCode.Backspace) && selectedItem == -1 && !inSubMenu)
-        {
-            blinkingFinger.SetActive(true);
-            blinkingFinger.transform.position = finger.transform.position;
-            selectedItem = currentInventoryOption;
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Backspace) && (selectedItem != -1) && (selectedItem != currentInventoryOption) && !inSubMenu) {
-            //Rearrange items
-            Inventory.instance.SwapItems(selectedItem, currentInventoryOption);
-            selectedItem = -1;
-            blinkingFinger.SetActive(false);
-            InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
-        }
-
-        if (blinkingFinger.activeInHierarchy) {
-            blinkingFinger.transform.position = InventoryUI.instance.itemHolderList[selectedItem].GetComponent<ItemHolder>().itemSelectPoint.transform.position;
-            
-        }
 
         if (!inSubMenu)
         {
+            //Use
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+
+                tempPopup = Instantiate(itemOptionsPopupPanel, InventoryUI.instance.itemHolderList[currentInventoryOption].transform.position + new Vector3(250, 0, 0), Quaternion.identity, GameObject.Find("ItemOptionsPopupPanelHolder").transform.Find("Holder")) as GameObject;
+                foreach (Transform point in tempPopup.transform.Find("SelectPoints").GetComponentInChildren<Transform>())
+                {
+                    itemOptionsPopupList.Add(point);
+                }
+                tempItemName = Inventory.instance.inventoryList[currentInventoryOption].item.name;
+                inSubMenu = true;
+            }
+
+            //Order
+            if (Input.GetKeyDown(KeyCode.Backspace) && selectedItem == -1)
+            {
+                blinkingFinger.SetActive(true);
+                blinkingFinger.transform.position = finger.transform.position;
+                selectedItem = currentInventoryOption;
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Backspace) && (selectedItem != -1) && (selectedItem != currentInventoryOption))
+            {
+                //Rearrange items
+                Inventory.instance.SwapItems(selectedItem, currentInventoryOption);
+                selectedItem = -1;
+                blinkingFinger.SetActive(false);
+                InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
+            }
+
+            if (blinkingFinger.activeInHierarchy)
+            {
+                blinkingFinger.transform.position = InventoryUI.instance.itemHolderList[selectedItem].GetComponent<ItemHolder>().itemSelectPoint.transform.position;
+
+            }
 
             finger.transform.position = InventoryUI.instance.itemHolderList[currentInventoryOption].GetComponent<ItemHolder>().itemSelectPoint.transform.position;
 
         }
 
-        else {
+        else if (inSubMenu && !isInspecting)
+        {
 
             finger.transform.position = itemOptionsPopupList[currentItemOption].position;
 
@@ -302,7 +309,9 @@ public class InventoryManager : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 1) // INSPECT
             {
                 itemDescriptionPanel.SetActive(true);
-                itemDescriptionPanel.transform.Find("DescriptionText").GetComponent<TextMeshPro>().text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
+                finger.SetActive(false);
+                itemDescriptionPanel.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>().text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
+                isInspecting = true;
             }
 
             if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 2) // DELETE
@@ -329,7 +338,15 @@ public class InventoryManager : MonoBehaviour {
                 currentItemOption++;
             }
 
-            
+
+        }
+
+        else if (isInspecting) {
+            if (Input.anyKeyDown) {
+                itemDescriptionPanel.SetActive(false);
+                finger.SetActive(true);
+                isInspecting = false;
+            }
         }
      
     }
