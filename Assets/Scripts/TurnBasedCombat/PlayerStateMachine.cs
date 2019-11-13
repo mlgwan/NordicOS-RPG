@@ -176,14 +176,19 @@ public class PlayerStateMachine : MonoBehaviour {
         //wait a bit
         animator.SetBool("isWalkToAttack", false);
         animator.SetBool("isAttack", true);
+
+        //do damage
+
+        if (!statusCheck) {
+            
+            DealDamage(BSM.performList[0].chosenAttack.isMagic);
+        }
+       
+
         yield return new WaitForSeconds(1.25f);
         animator.SetBool("isAttack", false);
         animator.SetBool("isWalkFromAttack", true);
 
-        //do damage
-        if (!statusCheck) {
-            DealDamage(BSM.performList[0].chosenAttack.isMagic);
-        }
        
 
         //animate back to startPosition
@@ -231,6 +236,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
     void DealDamage(bool isMagic)
     {
+
         player.curMP -= BSM.performList[0].chosenAttack.attackCost;
 
         int attackScalingDamage;
