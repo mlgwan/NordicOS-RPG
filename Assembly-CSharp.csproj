@@ -79,7 +79,7 @@
     <Compile Include="Assets\Scripts\GUI\TargetButton.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\Consumable.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\Equipment.cs" />
-    <Compile Include="Assets\Scripts\InventorySystem\EquipmenttUI.cs" />
+    <Compile Include="Assets\Scripts\InventorySystem\EquipmentUI.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\Inventory.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\InventoryManager.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\InventoryUI.cs" />

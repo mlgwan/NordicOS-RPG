@@ -33,6 +33,7 @@ public class DialogueManager : MonoBehaviour {
             dialogueActive = false;
 
             currentLine = 0;
+            GameObject.Find("PlayerCharacter").GetComponent<Movement>().inventoryIsOpen = false;
         }
 
         dialogueText.text = dialogueLines[currentLine];

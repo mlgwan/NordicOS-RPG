@@ -22,7 +22,7 @@ public class Movement : MonoBehaviour
     public GameObject startMenu;
     private GameObject startMenuHolder;
 
-    private bool inventoryIsOpen;
+    public bool inventoryIsOpen;
 
 
     float hitLength = 10f;
@@ -154,6 +154,7 @@ public class Movement : MonoBehaviour
             RegionData region = other.gameObject.GetComponent<RegionData>();
             GameManager.instance.currentRegion = region;
         }
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -165,6 +166,7 @@ public class Movement : MonoBehaviour
         if (other.tag == "Treasure") {
             if (Input.GetKeyUp(controls.acceptButton)) {
                 other.GetComponent<TreasureInventory>().AddToPlayerInventory();
+                
             }
         }
     }
@@ -175,5 +177,6 @@ public class Movement : MonoBehaviour
         {
             GameManager.instance.canGetEncountered = false;
         }
+
     }
 }

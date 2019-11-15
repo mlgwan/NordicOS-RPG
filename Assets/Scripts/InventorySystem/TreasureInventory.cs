@@ -23,6 +23,7 @@ public class TreasureInventory : MonoBehaviour {
             }
             GetComponent<DialogueHolder>().dialogueLines[1] = GetComponent<DialogueHolder>().dialogueLines[1].Replace("{itemName}", items[0].name);
             GetComponent<DialogueHolder>().DisplayBox();
+            GameObject.Find("PlayerCharacter").GetComponent<Movement>().inventoryIsOpen = true;
         }
         isLooted = true;
         UpdateSprite();
