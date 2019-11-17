@@ -12,6 +12,7 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject enemySelector;
     private Popups popups;
     private Animator animator;
+    private Animator cameraAnimator;
 
     public enum TurnState
     {
@@ -50,6 +51,7 @@ public class EnemyStateMachine : MonoBehaviour {
     private void Awake()
     {
         animator = gameObject.GetComponent<Animator>();
+        cameraAnimator = GameObject.Find("Main Camera").GetComponent<Animator>();
         popups = GameObject.Find("PopupManager").GetComponent<Popups>();
     }
 
@@ -176,6 +178,7 @@ public class EnemyStateMachine : MonoBehaviour {
         animator.SetBool("shouldTriggerUpDown", false);
         animator.SetBool("shouldTriggerOpenMouth", false);
         animator.SetBool("shouldTriggerWalk", true);
+        cameraAnimator.SetBool("isEnemyAttack", true);
         while (MoveTowardsTarget(enemyPosition))
         {
             yield return null;
@@ -193,12 +196,13 @@ public class EnemyStateMachine : MonoBehaviour {
         }
         //animate back to start position
         Vector3 firstPosition = startPosition;
+        cameraAnimator.SetBool("isEnemyAttack", false);
         while (MoveTowardsTarget(firstPosition))
         {
             yield return null;
         }
         animator.SetBool("shouldTriggerAttack", false);
-       
+
 
         //remove this performer from the list in BSM
         BSM.performList.RemoveAt(0);

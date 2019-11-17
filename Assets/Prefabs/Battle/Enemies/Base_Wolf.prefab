@@ -206,7 +206,7 @@ MonoBehaviour:
     EnemyType: 0
     rarity: 0
     experienceToReward: 0
-    level: 0
+    level: 3
   enemySelector: {fileID: 1244541818965370}
   currentState: 0
   targetOffset: 1.5

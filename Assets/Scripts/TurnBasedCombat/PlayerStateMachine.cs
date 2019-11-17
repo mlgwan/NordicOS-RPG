@@ -10,6 +10,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public BasePlayer player;
     public GameObject selector;
     private Popups popups;
+    private Animator cameraAnimator;
 
     private string originalText; //because stamina and MP are handled the same way this is used to reduce work
 
@@ -61,6 +62,7 @@ public class PlayerStateMachine : MonoBehaviour {
     {
         popups = GameObject.Find("PopupManager").GetComponent<Popups>();
         animator = gameObject.GetComponent<Animator>();
+        cameraAnimator = GameObject.Find("Main Camera").GetComponent<Animator>();
     }
 
     private void Start()
@@ -168,6 +170,7 @@ public class PlayerStateMachine : MonoBehaviour {
         }
         //animate the player towards the enemy
         animator.SetBool("isWalkToAttack", true);
+        cameraAnimator.SetBool("isCharacterAttack", true);
         while (MoveTowardsTarget(playerPosition))
         {
             yield return null;
@@ -188,6 +191,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
         //animate back to startPosition
         Vector3 firstPosition = startPosition;
+        cameraAnimator.SetBool("isCharacterAttack", false);
         while (MoveTowardsTarget(firstPosition)) {
             yield return null;
         }
