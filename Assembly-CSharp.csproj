@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Animations\ulf\ControlScript.cs" />
     <Compile Include="Assets\CameraFollow.cs" />
     <Compile Include="Assets\Gizmos\ColliderGizmo.cs" />
     <Compile Include="Assets\Scripts\CharacterClasses\BaseCharacterClass.cs" />
@@ -71,20 +72,24 @@
     <Compile Include="Assets\Scripts\Characters\Enemy\WolfAnimatorController.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\BasePlayer.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GUI\DialogueHolder.cs" />
+    <Compile Include="Assets\Scripts\GUI\DialogueManager.cs" />
     <Compile Include="Assets\Scripts\GUI\PlayerPanelStats.cs" />
     <Compile Include="Assets\Scripts\GUI\Popups.cs" />
     <Compile Include="Assets\Scripts\GUI\TargetButton.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\Consumable.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\Equipment.cs" />
-    <Compile Include="Assets\Scripts\InventorySystem\EquipmenttUI.cs" />
+    <Compile Include="Assets\Scripts\InventorySystem\EquipmentUI.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\Inventory.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\InventoryManager.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\InventoryUI.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\Item.cs" />
     <Compile Include="Assets\Scripts\InventorySystem\ItemHolder.cs" />
+    <Compile Include="Assets\Scripts\InventorySystem\TreasureInventory.cs" />
     <Compile Include="Assets\Scripts\Renderer Scripts\ChangeLayerForMesh.cs" />
     <Compile Include="Assets\Scripts\Renderer Scripts\InitialSceneCamera.cs" />
     <Compile Include="Assets\Scripts\Renderer Scripts\LayerControl.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\animations\player_battle_animations.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Abilities\Mana\Fire1.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Abilities\Mana\Ice1.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\Attacks\Abilities\Stamina\Smash.cs" />
@@ -96,6 +101,7 @@
     <Compile Include="Assets\Scripts\TurnBasedCombat\EnemyStateMachine.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\HandleTurn.cs" />
     <Compile Include="Assets\Scripts\TurnBasedCombat\PlayerStateMachine.cs" />
+    <Compile Include="Assets\Scripts\TurnBasedCombat\ulf_battle_animations.cs" />
     <Compile Include="Assets\Scripts\World\Movement.cs" />
     <Compile Include="Assets\Scripts\World\RegionData.cs" />
     <Compile Include="Assets\Scripts\World\See_through.cs" />
