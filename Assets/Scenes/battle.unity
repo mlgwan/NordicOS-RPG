@@ -3471,6 +3471,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56a86d7a9c45a244bb1c9cdf5b397d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finger: {fileID: 1134901082862994, guid: 45a10feb7b7e52547961597a18f7190a, type: 2}
+  targetSelectorsList: []
+  actionSelectorsList: []
+  abilitySelectorsList: []
   currentState: 0
   performList: []
   enemiesInBattle: []

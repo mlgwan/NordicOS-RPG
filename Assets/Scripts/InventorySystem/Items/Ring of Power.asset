@@ -15,7 +15,14 @@ MonoBehaviour:
   description: Forbidden and sealed away, this ring enhances the users power terrifyingly.
   itemID: 6
   icon: {fileID: 0}
-  type: 3
+  type: 5
   usableBy: 0
+  bonusHP: 0
+  bonusMP: 0
   damage: 100
   armor: 0
+  bonusSTR: 0
+  bonusDEX: 0
+  bonusINT: 0
+  bonusSPD: 0
+  isEquipped: 0
