@@ -7,8 +7,6 @@ using TMPro;
 
 public class BattleStateMachine : MonoBehaviour {
 
-    ControlScript controls = ControlScript.instance;
-
     private bool pickedAnAbility;
 
     int currentMenuOption = 0;
@@ -295,17 +293,17 @@ public class BattleStateMachine : MonoBehaviour {
                 break;
 
             case (PlayerGUI.SELECTACTION):
-                if (Input.GetKeyDown(controls.upButton) && currentMenuOption > 0)
+                if (Input.GetKeyDown(ControlScript.instance.upButton) && currentMenuOption > 0)
                 {
                     currentMenuOption--;
                 }
 
-                if (Input.GetKeyDown(controls.downButton) && currentMenuOption < actionSelectorsList.Count)
+                if (Input.GetKeyDown(ControlScript.instance.downButton) && currentMenuOption < actionSelectorsList.Count -1)
                 {
                     currentMenuOption++;
                 }
 
-                if (Input.GetKeyDown(controls.acceptButton) && currentMenuOption == 0)
+                if (Input.GetKeyDown(ControlScript.instance.acceptButton) && currentMenuOption == 0)
                 { // Basic Attack
                     Input1();
                     pickedAnAbility = false;
@@ -313,7 +311,7 @@ public class BattleStateMachine : MonoBehaviour {
                     currentMenuOption = 0;
                 }
 
-                if (Input.GetKeyDown(controls.acceptButton) && currentMenuOption == 1) // Abilities
+                if (Input.GetKeyDown(ControlScript.instance.acceptButton) && currentMenuOption == 1) // Abilities
                 {
                     Input3();
                     pickedAnAbility = true;
@@ -326,24 +324,24 @@ public class BattleStateMachine : MonoBehaviour {
 
             case (PlayerGUI.SELECTTARGET):
 
-                if (Input.GetKeyDown(controls.upButton) && currentMenuOption > 0)
+                if (Input.GetKeyDown(ControlScript.instance.upButton) && currentMenuOption > 0)
                 {
                     currentMenuOption--;
                 }
 
-                if (Input.GetKeyDown(controls.downButton) && currentMenuOption < targetSelectorsList.Count)
+                if (Input.GetKeyDown(ControlScript.instance.downButton) && currentMenuOption < targetSelectorsList.Count -1)
                 {
                     currentMenuOption++;
                 }
 
-                if (Input.GetKeyDown(controls.acceptButton))
+                if (Input.GetKeyDown(ControlScript.instance.acceptButton))
                 {
                     Input2(enemiesInBattle[currentMenuOption]);
                     playerInput = PlayerGUI.DONE;
                     currentMenuOption = 0;
                 }
 
-                if (Input.GetKeyDown(controls.escapeButton)) {
+                if (Input.GetKeyDown(ControlScript.instance.escapeButton)) {
                     if (!pickedAnAbility)
                     {
                         playerInput = PlayerGUI.SELECTACTION;
@@ -363,24 +361,27 @@ public class BattleStateMachine : MonoBehaviour {
                 break;
 
             case (PlayerGUI.ABILITIES):
-                if (Input.GetKeyDown(controls.upButton) && currentMenuOption > 0)
+
+                finger.transform.position = abilitySelectorsList[currentMenuOption].position;
+
+                if (Input.GetKeyDown(ControlScript.instance.upButton) && currentMenuOption > 0)
                 {
                     currentMenuOption--;
                 }
 
-                if (Input.GetKeyDown(controls.downButton) && currentMenuOption < abilitySelectorsList.Count)
+                if (Input.GetKeyDown(ControlScript.instance.downButton) && currentMenuOption < abilitySelectorsList.Count -1)
                 {
                     currentMenuOption++;
                 }
 
-                if (Input.GetKeyDown(controls.acceptButton))
+                if (Input.GetKeyDown(ControlScript.instance.acceptButton))
                 {
                     Input4(playersToManage[0].GetComponent<PlayerStateMachine>().player.abilities[currentMenuOption]);
                     playerInput = PlayerGUI.SELECTTARGET;
                     currentMenuOption = 0;
                 }
 
-                if (Input.GetKeyDown(controls.escapeButton))
+                if (Input.GetKeyDown(ControlScript.instance.escapeButton))
                 {
                     playerInput = PlayerGUI.SELECTACTION;
                     actionPanel.SetActive(true);
@@ -388,7 +389,7 @@ public class BattleStateMachine : MonoBehaviour {
                     currentMenuOption = 1; // because the second button is the abilites button
                 }
 
-                finger.transform.position = abilitySelectorsList[currentMenuOption].position;
+               
                 break;
             case (PlayerGUI.DONE):
                 playerInputDone();

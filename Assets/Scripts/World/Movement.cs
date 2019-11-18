@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Movement : MonoBehaviour
 {
-    ControlScript controls;
 
     // Normal Movements Variables
     public float walkSpeed;
@@ -34,7 +33,6 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
-        controls = ControlScript.instance;
 
         if (GameManager.instance.nextSpawnPoint != "")
         {
@@ -64,42 +62,42 @@ public class Movement : MonoBehaviour
     {
         if (!inventoryIsOpen) {
             resetToIdle();
-            if (Input.GetKeyDown(controls.upButton) ||
-                Input.GetKeyDown(controls.leftButton) ||
-                Input.GetKeyDown(controls.rightButton) ||
-                Input.GetKeyDown(controls.downButton))
+            if (Input.GetKeyDown(ControlScript.instance.upButton) ||
+                Input.GetKeyDown(ControlScript.instance.leftButton) ||
+                Input.GetKeyDown(ControlScript.instance.rightButton) ||
+                Input.GetKeyDown(ControlScript.instance.downButton))
             {
                 resetToIdle();
             }
-            if (Input.GetKey(controls.upButton))
+            if (Input.GetKey(ControlScript.instance.upButton))
             {
                 player.SetBool("isBackwards", true);
                 body.position += moveForwardBackward;
             }
-            else if (Input.GetKey(controls.downButton))
+            else if (Input.GetKey(ControlScript.instance.downButton))
             {
                 player.SetBool("isForwards", true);
                 body.position += -moveForwardBackward;
             }
-            if (Input.GetKey(controls.leftButton))
+            if (Input.GetKey(ControlScript.instance.leftButton))
             {
                 player.SetBool("isLeft", true);
                 body.position += -moveLeftRight;
             }
-            else if (Input.GetKey(controls.rightButton))
+            else if (Input.GetKey(ControlScript.instance.rightButton))
             {
                 player.SetBool("isRight", true);
                 body.position += moveLeftRight;
             }
         }
 
-        if (Input.GetKeyDown(controls.escapeButton) && !inventoryIsOpen) {
+        if (Input.GetKeyDown(ControlScript.instance.escapeButton) && !inventoryIsOpen) {
             inventoryIsOpen = true;
             startMenuHolder.SetActive(true);
             startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.OPTIONS;
         }
         
-        else if (Input.GetKeyDown(controls.escapeButton) && inventoryIsOpen && startMenu.GetComponent<InventoryManager>().currentState == InventoryManager.InventoryStates.OPTIONS) {
+        else if (Input.GetKeyDown(ControlScript.instance.escapeButton) && inventoryIsOpen && startMenu.GetComponent<InventoryManager>().currentState == InventoryManager.InventoryStates.OPTIONS) {
             inventoryIsOpen = false;
             startMenuHolder.SetActive(false);
             startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.DISABLED;
@@ -164,7 +162,7 @@ public class Movement : MonoBehaviour
         }
 
         if (other.tag == "Treasure") {
-            if (Input.GetKeyUp(controls.acceptButton)) {
+            if (Input.GetKeyUp(ControlScript.instance.acceptButton)) {
                 other.GetComponent<TreasureInventory>().AddToPlayerInventory();
                 
             }
