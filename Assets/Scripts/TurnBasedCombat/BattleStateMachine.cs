@@ -2,9 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class BattleStateMachine : MonoBehaviour {
+
+    private bool pickedAnAbility;
+
+    int currentMenuOption = 0;
+    public GameObject finger;
+    public List<Transform> targetSelectorsList; // contains the positions where the cursor jumps to when menu-ing
+    public List<Transform> actionSelectorsList; // contains the positions where the cursor jumps to when menu-ing
+    public List<Transform> abilitySelectorsList; // contains the positions where the cursor jumps to when menu-ing
 
 	public enum BattleStates
     {
@@ -31,8 +40,10 @@ public class BattleStateMachine : MonoBehaviour {
     public enum PlayerGUI {
         ACTIVATE,
         WAITING, //idle
-        INPUT1, //for now: basic attack
-        INPUT2, //for now: selecting
+        SELECTTARGET,
+        SELECTACTION, 
+        ABILITIES, 
+        ITEMS,
         DONE
 
     }
@@ -63,6 +74,7 @@ public class BattleStateMachine : MonoBehaviour {
 
     private void Awake()
     {
+        finger.SetActive(false);
 
         for (int i = 0; i < GameManager.instance.enemyAmount; i++) {
             GameObject newEnemy = Instantiate(GameManager.instance.enemiesToBattle[i], enemySpawnPoints[i].position, Quaternion.identity) as GameObject;
@@ -260,13 +272,18 @@ public class BattleStateMachine : MonoBehaviour {
         switch (playerInput) {
             case (PlayerGUI.ACTIVATE):
 
+
+
                 if (playersToManage.Count > 0) {
                     playersToManage[0].transform.Find("Selector").gameObject.SetActive(true);
                     playerChoice = new HandleTurn();
 
+                    currentMenuOption = 0;
+
                     actionPanel.SetActive(true);
                     CreateActionButtons();
-                    playerInput = PlayerGUI.WAITING;
+                    playerInput = PlayerGUI.SELECTACTION;
+                    finger.SetActive(true);
                 }
 
             break;
@@ -275,8 +292,108 @@ public class BattleStateMachine : MonoBehaviour {
 
                 break;
 
+            case (PlayerGUI.SELECTACTION):
+                if (Input.GetKeyDown(ControlScript.instance.upButton) && currentMenuOption > 0)
+                {
+                    currentMenuOption--;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.downButton) && currentMenuOption < actionSelectorsList.Count -1)
+                {
+                    currentMenuOption++;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.acceptButton) && currentMenuOption == 0)
+                { // Basic Attack
+                    Input1();
+                    pickedAnAbility = false;
+                    playerInput = PlayerGUI.SELECTTARGET;
+                    currentMenuOption = 0;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.acceptButton) && currentMenuOption == 1) // Abilities
+                {
+                    Input3();
+                    pickedAnAbility = true;
+                    playerInput = PlayerGUI.ABILITIES;
+                    currentMenuOption = 0;
+                }
+
+                finger.transform.position = actionSelectorsList[currentMenuOption].position;
+                break;
+
+            case (PlayerGUI.SELECTTARGET):
+
+                if (Input.GetKeyDown(ControlScript.instance.upButton) && currentMenuOption > 0)
+                {
+                    currentMenuOption--;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.downButton) && currentMenuOption < targetSelectorsList.Count -1)
+                {
+                    currentMenuOption++;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.acceptButton))
+                {
+                    Input2(enemiesInBattle[currentMenuOption]);
+                    playerInput = PlayerGUI.DONE;
+                    currentMenuOption = 0;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.escapeButton)) {
+                    if (!pickedAnAbility)
+                    {
+                        playerInput = PlayerGUI.SELECTACTION;
+                        actionPanel.SetActive(true);
+                        selectPanel.SetActive(false);
+                    }
+                    else
+                    {
+                        playerInput = PlayerGUI.ABILITIES;
+                        abilitiesPanel.SetActive(true);
+                        selectPanel.SetActive(false);
+                    }
+                    currentMenuOption = 0;
+                }
+
+                finger.transform.position = targetSelectorsList[currentMenuOption].position;
+                break;
+
+            case (PlayerGUI.ABILITIES):
+
+                finger.transform.position = abilitySelectorsList[currentMenuOption].position;
+
+                if (Input.GetKeyDown(ControlScript.instance.upButton) && currentMenuOption > 0)
+                {
+                    currentMenuOption--;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.downButton) && currentMenuOption < abilitySelectorsList.Count -1)
+                {
+                    currentMenuOption++;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.acceptButton))
+                {
+                    Input4(playersToManage[0].GetComponent<PlayerStateMachine>().player.abilities[currentMenuOption]);
+                    playerInput = PlayerGUI.SELECTTARGET;
+                    currentMenuOption = 0;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.escapeButton))
+                {
+                    playerInput = PlayerGUI.SELECTACTION;
+                    actionPanel.SetActive(true);
+                    abilitiesPanel.SetActive(false);
+                    currentMenuOption = 1; // because the second button is the abilites button
+                }
+
+               
+                break;
             case (PlayerGUI.DONE):
                 playerInputDone();
+                finger.SetActive(false);
                 break;
         }
     }
@@ -292,15 +409,16 @@ public class BattleStateMachine : MonoBehaviour {
             Destroy(enemyBtn);
         }
         enemyButtons.Clear();
+        targetSelectorsList.Clear();
 
         //create buttons
         foreach (GameObject enemy in enemiesInBattle) {
             GameObject newButton = Instantiate(enemyButton) as GameObject;
             TargetButton button = newButton.GetComponent<TargetButton>();
-
+            targetSelectorsList.Add(newButton.transform.Find("Text").Find("TargetSelector"));
             EnemyStateMachine curEnemy = enemy.GetComponent<EnemyStateMachine>();
 
-            Text buttonText = newButton.transform.Find("Text").gameObject.GetComponent<Text>();
+            TextMeshProUGUI buttonText = newButton.transform.Find("Text").gameObject.GetComponent<TextMeshProUGUI>();
             buttonText.text = curEnemy.enemy.theName;
 
             button.targetPrefab = enemy;
@@ -378,35 +496,38 @@ public class BattleStateMachine : MonoBehaviour {
             Destroy(actionButton);
         }
         actionButtons.Clear();
-
+        actionSelectorsList.Clear();
+        abilitySelectorsList.Clear();
     }
 
     void CreateActionButtons() {
         GameObject attackButton = Instantiate(actionButton) as GameObject;
-        Text attackButtonText = attackButton.transform.Find("Text").gameObject.GetComponent<Text>();
+        TextMeshProUGUI attackButtonText = attackButton.transform.Find("Text").gameObject.GetComponent<TextMeshProUGUI>();
         attackButtonText.text = "Attack";
         attackButton.GetComponent<Button>().onClick.AddListener(() => Input1());
         attackButton.transform.SetParent(actionSpacer, false);
         actionButtons.Add(attackButton);
+        actionSelectorsList.Add(attackButton.transform.Find("Text").Find("ActionSelector"));
 
         GameObject abilitiesButton = Instantiate(actionButton) as GameObject;
-        Text abilitiesButtonText = abilitiesButton.transform.Find("Text").gameObject.GetComponent<Text>();
+        TextMeshProUGUI abilitiesButtonText = abilitiesButton.transform.Find("Text").gameObject.GetComponent<TextMeshProUGUI>();
         abilitiesButtonText.text = "Abilities";
         abilitiesButton.GetComponent<Button>().onClick.AddListener(() => Input3());
         abilitiesButton.transform.SetParent(actionSpacer, false);
         actionButtons.Add(abilitiesButton);
+        actionSelectorsList.Add(abilitiesButton.transform.Find("Text").Find("ActionSelector"));
 
-       
+
         if (playersToManage[0].GetComponent<PlayerStateMachine>().player.abilities.Count > 0) {
             foreach (BaseAttack ability in playersToManage[0].GetComponent<PlayerStateMachine>().player.abilities) {
                 GameObject ability_Button = Instantiate(abilityButton) as GameObject;
-                Text abilityButtonText = ability_Button.transform.Find("Text").gameObject.GetComponent<Text>();
+                TextMeshProUGUI abilityButtonText = ability_Button.transform.Find("Text").gameObject.GetComponent<TextMeshProUGUI>();
                 abilityButtonText.text = ability.attackName;
                 AbilityButton abBtn = ability_Button.GetComponent<AbilityButton>();
                 abBtn.abilityToPerform = ability;
                 ability_Button.transform.SetParent(abilitiesSpacer, false);
                 actionButtons.Add(ability_Button);
-
+                abilitySelectorsList.Add(ability_Button.transform.Find("Text").Find("AbilitySelector"));
             }
 
         }

@@ -9,6 +9,7 @@ TagManager:
   - DeadEnemy
   - EncounterZone
   - Warp
+  - Treasure
   layers:
   - Default
   - TransparentFX

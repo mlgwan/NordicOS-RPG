@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Movement : MonoBehaviour
 {
+
     // Normal Movements Variables
     public float walkSpeed;
     private float curSpeed;
@@ -20,7 +21,7 @@ public class Movement : MonoBehaviour
     public GameObject startMenu;
     private GameObject startMenuHolder;
 
-    private bool inventoryIsOpen;
+    public bool inventoryIsOpen;
 
 
     float hitLength = 10f;
@@ -32,6 +33,7 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
+
         if (GameManager.instance.nextSpawnPoint != "")
         {
             GameObject spawnPoint = GameObject.Find(GameManager.instance.nextSpawnPoint);
@@ -60,42 +62,42 @@ public class Movement : MonoBehaviour
     {
         if (!inventoryIsOpen) {
             resetToIdle();
-            if (Input.GetKeyDown(KeyCode.W) ||
-                Input.GetKeyDown(KeyCode.S) ||
-                Input.GetKeyDown(KeyCode.A) ||
-                Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(ControlScript.instance.upButton) ||
+                Input.GetKeyDown(ControlScript.instance.leftButton) ||
+                Input.GetKeyDown(ControlScript.instance.rightButton) ||
+                Input.GetKeyDown(ControlScript.instance.downButton))
             {
                 resetToIdle();
             }
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(ControlScript.instance.upButton))
             {
                 player.SetBool("isBackwards", true);
                 body.position += moveForwardBackward;
             }
-            else if (Input.GetKey(KeyCode.S))
+            else if (Input.GetKey(ControlScript.instance.downButton))
             {
                 player.SetBool("isForwards", true);
                 body.position += -moveForwardBackward;
             }
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(ControlScript.instance.leftButton))
             {
                 player.SetBool("isLeft", true);
                 body.position += -moveLeftRight;
             }
-            else if (Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(ControlScript.instance.rightButton))
             {
                 player.SetBool("isRight", true);
                 body.position += moveLeftRight;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !inventoryIsOpen) {
+        if (Input.GetKeyDown(ControlScript.instance.escapeButton) && !inventoryIsOpen) {
             inventoryIsOpen = true;
             startMenuHolder.SetActive(true);
             startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.OPTIONS;
         }
         
-        else if (Input.GetKeyDown(KeyCode.Escape) && inventoryIsOpen && startMenu.GetComponent<InventoryManager>().currentState == InventoryManager.InventoryStates.OPTIONS) {
+        else if (Input.GetKeyDown(ControlScript.instance.escapeButton) && inventoryIsOpen && startMenu.GetComponent<InventoryManager>().currentState == InventoryManager.InventoryStates.OPTIONS) {
             inventoryIsOpen = false;
             startMenuHolder.SetActive(false);
             startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.DISABLED;
@@ -150,12 +152,20 @@ public class Movement : MonoBehaviour
             RegionData region = other.gameObject.GetComponent<RegionData>();
             GameManager.instance.currentRegion = region;
         }
+
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "EncounterZone") {
             GameManager.instance.canGetEncountered = true;
+        }
+
+        if (other.tag == "Treasure") {
+            if (Input.GetKeyUp(ControlScript.instance.acceptButton)) {
+                other.GetComponent<TreasureInventory>().AddToPlayerInventory();
+                
+            }
         }
     }
 
@@ -165,5 +175,6 @@ public class Movement : MonoBehaviour
         {
             GameManager.instance.canGetEncountered = false;
         }
+
     }
 }
