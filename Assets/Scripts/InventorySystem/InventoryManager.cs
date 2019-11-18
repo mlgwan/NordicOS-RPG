@@ -7,8 +7,6 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour {
 
-    ControlScript controls;
-
     public enum InventoryStates {
         DISABLED,
         OPTIONS,
@@ -52,11 +50,6 @@ public class InventoryManager : MonoBehaviour {
     private int fingerCounter;
     public int maxAmountOfItemsToDisplay = 5;
 
-    private void Start()
-    {
-        controls = ControlScript.instance;
-    }
-
     private void Update()
     {
         switch (currentState) {
@@ -98,23 +91,22 @@ public class InventoryManager : MonoBehaviour {
         equipmentPanel.SetActive(false);
         optionsPanel.SetActive(true);
 
-        if (Input.GetKeyDown(controls.upButton) && currentOption > 0) {
+        if (Input.GetKeyDown(KeyCode.W) && currentOption > 0) {
             currentOption--;
         }
 
-        else if (Input.GetKeyDown(controls.downButton) && currentOption < optionsList.Count - 1){
+        else if (Input.GetKeyDown(KeyCode.S) && currentOption < optionsList.Count - 1){
             currentOption++;
         }
 
-        if (Input.GetKeyDown(controls.acceptButton) && currentOption == 0)
+        if (Input.GetKeyDown(KeyCode.Return) && currentOption == 0)
         {
             currentState = InventoryStates.EQUIPMENT;
             // equipment panel
         }
 
-        else if (Input.GetKeyDown(controls.acceptButton) && currentOption == 1) {
+        else if (Input.GetKeyDown(KeyCode.Return) && currentOption == 1) {
             currentState = InventoryStates.INVENTORY;
-            InventoryUI.instance.RecreateList();
             // inventory panel
         }
 
@@ -129,29 +121,29 @@ public class InventoryManager : MonoBehaviour {
         equipmentPanel.SetActive(false);
         optionsPanel.SetActive(false);
 
-        if (Input.GetKeyDown(controls.leftButton) && currentInventoryOption > 0)
+        if (Input.GetKeyDown(KeyCode.A) && currentInventoryOption > 0)
         {
             currentInventoryOption--;
         }
 
-        else if (Input.GetKeyDown(controls.rightButton) && currentInventoryOption < inventoryOptionsList.Count - 1)
+        else if (Input.GetKeyDown(KeyCode.D) && currentInventoryOption < inventoryOptionsList.Count - 1)
         {
             currentInventoryOption++;
         }
 
-        if (Input.GetKeyDown(controls.escapeButton)) {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             currentInventoryOption = 0;
             currentState = InventoryStates.OPTIONS;
         }
 
 
-        if (Input.GetKeyDown(controls.acceptButton) && currentInventoryOption == 0)
+        if (Input.GetKeyDown(KeyCode.Return) && currentInventoryOption == 0)
         {
             currentState = InventoryStates.INVENTORY_USE;
             InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
             fingerCounter = 1;
         }
-        else if (Input.GetKeyDown(controls.acceptButton) && currentInventoryOption == 1)
+        else if (Input.GetKeyDown(KeyCode.Return) && currentInventoryOption == 1)
         {
             //sort items
             //Inventory.instance.inventoryList = Inventory.instance.inventoryList.OrderBy(x => x.item.itemID).ToList(); // By ID
@@ -174,30 +166,30 @@ public class InventoryManager : MonoBehaviour {
         equipmentPanel.SetActive(true);
         optionsPanel.SetActive(false);
 
-        if (Input.GetKeyDown(controls.upButton) && currentInventoryOption > 0)
+        if (Input.GetKeyDown(KeyCode.W) && currentInventoryOption > 0)
         {
             currentInventoryOption--;
         }
 
-        else if (Input.GetKeyDown(controls.downButton) && currentInventoryOption < equipmentOptionsList.Count - 1)
+        else if (Input.GetKeyDown(KeyCode.S) && currentInventoryOption < equipmentOptionsList.Count - 1)
         {
             currentInventoryOption++;
         }
 
-        if (Input.GetKeyDown(controls.escapeButton))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             currentInventoryOption = 0;
             currentState = InventoryStates.OPTIONS;
         }
 
 
-        if (Input.GetKeyDown(controls.acceptButton) && currentInventoryOption == 0)
+        if (Input.GetKeyDown(KeyCode.Return) && currentInventoryOption == 0)
         {
             currentState = InventoryStates.INVENTORY_USE;
             InventoryUI.instance.descriptionTextField.text = Inventory.instance.inventoryList[currentInventoryOption].item.description;
             fingerCounter = 1;
         }
-        else if (Input.GetKeyDown(controls.acceptButton) && currentInventoryOption == 1)
+        else if (Input.GetKeyDown(KeyCode.Return) && currentInventoryOption == 1)
         {
             //sort items
             //Inventory.instance.inventoryList = Inventory.instance.inventoryList.OrderBy(x => x.item.itemID).ToList(); // By ID
@@ -215,7 +207,7 @@ public class InventoryManager : MonoBehaviour {
 
     void UseAndOrder() {
 
-        if (Input.GetKeyDown(controls.escapeButton) && !inSubMenu)
+        if (Input.GetKeyDown(KeyCode.Escape) && !inSubMenu)
         {
             selectedItem = -1;
             currentInventoryOption = 0;
@@ -227,7 +219,7 @@ public class InventoryManager : MonoBehaviour {
             return;
         }
 
-        if (Input.GetKeyDown(controls.upButton) && currentInventoryOption > 0 && !inSubMenu) {
+        if (Input.GetKeyDown(KeyCode.W) && currentInventoryOption > 0 && !inSubMenu) {
             currentInventoryOption--;
 
             if (fingerCounter > 1)
@@ -242,7 +234,7 @@ public class InventoryManager : MonoBehaviour {
 
         }
 
-        else if (Input.GetKeyDown(controls.downButton) && currentInventoryOption < InventoryUI.instance.itemHolderList.Count - 1 && !inSubMenu) {
+        else if (Input.GetKeyDown(KeyCode.S) && currentInventoryOption < InventoryUI.instance.itemHolderList.Count - 1 && !inSubMenu) {
             currentInventoryOption++;
 
             if (fingerCounter < maxAmountOfItemsToDisplay)
@@ -264,7 +256,7 @@ public class InventoryManager : MonoBehaviour {
         {
             //Use
 
-            if (Input.GetKeyDown(controls.acceptButton))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
 
                 tempPopup = Instantiate(itemOptionsPopupPanel, InventoryUI.instance.itemHolderList[currentInventoryOption].transform.position + new Vector3(250, 0, 0), Quaternion.identity, GameObject.Find("ItemOptionsPopupPanelHolder").transform.Find("Holder")) as GameObject;
@@ -277,14 +269,14 @@ public class InventoryManager : MonoBehaviour {
             }
 
             //Order
-            if (Input.GetKeyDown(controls.selectButton) && selectedItem == -1)
+            if (Input.GetKeyDown(KeyCode.Backspace) && selectedItem == -1)
             {
                 blinkingFinger.SetActive(true);
                 blinkingFinger.transform.position = finger.transform.position;
                 selectedItem = currentInventoryOption;
             }
 
-            else if (Input.GetKeyDown(controls.selectButton) && (selectedItem != -1) && (selectedItem != currentInventoryOption))
+            else if (Input.GetKeyDown(KeyCode.Backspace) && (selectedItem != -1) && (selectedItem != currentInventoryOption))
             {
                 //Rearrange items
                 Inventory.instance.SwapItems(selectedItem, currentInventoryOption);
@@ -308,13 +300,13 @@ public class InventoryManager : MonoBehaviour {
 
             finger.transform.position = itemOptionsPopupList[currentItemOption].position;
 
-            if (Input.GetKeyDown(controls.acceptButton) && currentItemOption == 0) // USE
+            if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 0) // USE
             {
                 Inventory.instance.inventoryList[currentInventoryOption].item.UseItem(GameManager.instance.ulf);
                 InventoryUI.instance.RecreateList();
             }
 
-            if (Input.GetKeyDown(controls.acceptButton) && currentItemOption == 1) // INSPECT
+            if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 1) // INSPECT
             {
                 itemDescriptionPanel.SetActive(true);
                 finger.SetActive(false);
@@ -322,13 +314,13 @@ public class InventoryManager : MonoBehaviour {
                 isInspecting = true;
             }
 
-            if (Input.GetKeyDown(controls.acceptButton) && currentItemOption == 2) // DELETE
+            if (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 2) // DELETE
             {
                 Inventory.instance.RemoveItem(Inventory.instance.inventoryList[currentInventoryOption].item);
                 InventoryUI.instance.RecreateList();
             }
 
-            if (Input.GetKeyDown(controls.escapeButton) || tempItemName != Inventory.instance.inventoryList[currentInventoryOption].item.name || (Input.GetKeyDown(controls.acceptButton) && currentItemOption == 3)) //Escape or one runs out of item or CANCEL
+            if (Input.GetKeyDown(KeyCode.Escape) || tempItemName != Inventory.instance.inventoryList[currentInventoryOption].item.name || (Input.GetKeyDown(KeyCode.Return) && currentItemOption == 3)) //Escape or one runs out of item or CANCEL
             {
                 currentItemOption = 0;
                 itemOptionsPopupList.Clear();
@@ -336,12 +328,12 @@ public class InventoryManager : MonoBehaviour {
                 inSubMenu = false;
             }
 
-            if (Input.GetKeyDown(controls.upButton) && currentItemOption > 0)
+            if (Input.GetKeyDown(KeyCode.W) && currentItemOption > 0)
             {
                 currentItemOption--;
             }
 
-            else if (Input.GetKeyDown(controls.downButton) && currentItemOption < itemOptionsPopupList.Count - 1)
+            else if (Input.GetKeyDown(KeyCode.S) && currentItemOption < itemOptionsPopupList.Count - 1)
             {
                 currentItemOption++;
             }

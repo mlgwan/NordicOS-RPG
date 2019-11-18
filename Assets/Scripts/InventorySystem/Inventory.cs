@@ -29,19 +29,20 @@ public class Inventory : MonoBehaviour {
 
         for (int i = 0; i < inventoryList.Count; i++)
         {
-            if (inventoryList[i].item == itemToAdd && inventoryList[i].currentAmount > maxAmount)
+            if (inventoryList[i].item == itemToAdd && inventoryList[i].currentAmount < maxAmount)
             {
-                stackIsFull = true;
+                inventoryList[i].currentAmount++;
+                return;
             }
             else {
-                inventoryList[i].currentAmount++;
+                stackIsFull = true;
             }
         }
         if (!stackIsFull) {
             invItem.currentAmount++;
             inventoryList.Add(invItem);
         }
-        
+ 
     }
 
     public void RemoveItem(Item itemToRemove) {

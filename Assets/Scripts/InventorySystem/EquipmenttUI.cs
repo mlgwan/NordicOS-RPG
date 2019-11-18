@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EquipmentUI : MonoBehaviour {
+public class EquipmenttUI : MonoBehaviour {
 
     private Popups popups;
 
