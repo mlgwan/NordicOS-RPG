@@ -21,7 +21,7 @@ public class InventoryManager : MonoBehaviour {
     public InventoryStates currentState;
 
     private bool inSubMenu;
-    private bool isInspecting;
+    public bool isInspecting;
 
     public GameObject finger;
     public GameObject blinkingFinger;
@@ -350,7 +350,7 @@ public class InventoryManager : MonoBehaviour {
         }
 
         else if (isInspecting) {
-            if (Input.anyKeyDown) {
+            if (Input.GetKeyDown(controls.acceptButton)) {
                 itemDescriptionPanel.SetActive(false);
                 finger.SetActive(true);
                 isInspecting = false;

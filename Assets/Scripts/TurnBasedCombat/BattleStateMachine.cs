@@ -364,14 +364,23 @@ public class BattleStateMachine : MonoBehaviour {
 
                 finger.transform.position = abilitySelectorsList[currentMenuOption].position;
 
-                if (Input.GetKeyDown(ControlScript.instance.upButton) && currentMenuOption > 0)
+                if (Input.GetKeyDown(ControlScript.instance.upButton) && currentMenuOption > 1)
                 {
-                    currentMenuOption--;
+                    currentMenuOption-=2;
                 }
 
-                if (Input.GetKeyDown(ControlScript.instance.downButton) && currentMenuOption < abilitySelectorsList.Count -1)
+                if (Input.GetKeyDown(ControlScript.instance.downButton) && currentMenuOption < abilitySelectorsList.Count -2)
                 {
-                    currentMenuOption++;
+                    currentMenuOption+=2;
+                }
+                if (Input.GetKeyDown(ControlScript.instance.leftButton) && currentMenuOption > 0 && currentMenuOption % 2 == 1 )
+                {
+                    currentMenuOption-=1;
+                }
+
+                if (Input.GetKeyDown(ControlScript.instance.rightButton) && currentMenuOption < abilitySelectorsList.Count - 1 && currentMenuOption % 2 == 0)
+                {
+                    currentMenuOption+=1;
                 }
 
                 if (Input.GetKeyDown(ControlScript.instance.acceptButton))

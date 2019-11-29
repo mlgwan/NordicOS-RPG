@@ -198,6 +198,14 @@ MonoBehaviour:
       type: 2}
     abilities:
     - {fileID: 114357530170344402, guid: e5a1ff3efee9c65419164c3458f3766b, type: 2}
+    - {fileID: 114206486882188202, guid: 0fb2defbd97dab64ba59ba5990d070bc, type: 2}
+    - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
+    - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
+    - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
+    - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
+    - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
+    - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
+    - {fileID: 114482135140192660, guid: d042f6fd147a0c2449213e39c5a45275, type: 2}
     paralysed: 0
     poisoned: 0
     burned: 0

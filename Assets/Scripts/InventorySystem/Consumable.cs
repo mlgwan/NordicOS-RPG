@@ -23,35 +23,46 @@ public class Consumable : Item {
     {
         base.UseItem(user);
 
-
+        bool isUsable = false;
 
         //if (user.GetComponent<PlayerStateMachine>().player)
 
-        // remove item from inventory
-        Inventory.instance.RemoveItem(this);
-        Debug.Log("used");
+        if (isUsable)
+        {
+            // remove item from inventory
+            Inventory.instance.RemoveItem(this);
+            //add stats to selected character
+            user.GetComponent<PlayerStateMachine>().player.curHP += hpAmount;
+            user.GetComponent<PlayerStateMachine>().player.curMP += mpAmount;
+            user.GetComponent<PlayerStateMachine>().player.maxHP += bonusHP;
+            user.GetComponent<PlayerStateMachine>().player.maxMP += bonusMP;
 
-        //add stats to selected character
-        user.GetComponent<PlayerStateMachine>().player.curHP += hpAmount;
-        user.GetComponent<PlayerStateMachine>().player.curMP += mpAmount;
-        user.GetComponent<PlayerStateMachine>().player.maxHP += bonusHP;
-        user.GetComponent<PlayerStateMachine>().player.maxMP += bonusMP;
+            user.GetComponent<PlayerStateMachine>().player.maxATK += bonusATK;
+            user.GetComponent<PlayerStateMachine>().player.curATK += bonusATK;
+            user.GetComponent<PlayerStateMachine>().player.maxDEF += bonusDEF;
+            user.GetComponent<PlayerStateMachine>().player.curDEF += bonusDEF;
+            user.GetComponent<PlayerStateMachine>().player.maxSTR += bonusSTR;
+            user.GetComponent<PlayerStateMachine>().player.curSTR += bonusSTR;
+            user.GetComponent<PlayerStateMachine>().player.maxDEX += bonusDEX;
+            user.GetComponent<PlayerStateMachine>().player.curDEX += bonusDEX;
+            user.GetComponent<PlayerStateMachine>().player.maxINT += bonusINT;
+            user.GetComponent<PlayerStateMachine>().player.curINT += bonusINT;
+            user.GetComponent<PlayerStateMachine>().player.maxSPD += bonusSPD;
+            user.GetComponent<PlayerStateMachine>().player.curSPD += bonusSPD;
 
-        user.GetComponent<PlayerStateMachine>().player.maxATK += bonusATK;
-        user.GetComponent<PlayerStateMachine>().player.curATK += bonusATK;
-        user.GetComponent<PlayerStateMachine>().player.maxDEF += bonusDEF;
-        user.GetComponent<PlayerStateMachine>().player.curDEF += bonusDEF;
-        user.GetComponent<PlayerStateMachine>().player.maxSTR += bonusSTR;
-        user.GetComponent<PlayerStateMachine>().player.curSTR += bonusSTR;
-        user.GetComponent<PlayerStateMachine>().player.maxDEX += bonusDEX;
-        user.GetComponent<PlayerStateMachine>().player.curDEX += bonusDEX;
-        user.GetComponent<PlayerStateMachine>().player.maxINT += bonusINT;
-        user.GetComponent<PlayerStateMachine>().player.curINT += bonusINT;
-        user.GetComponent<PlayerStateMachine>().player.maxSPD += bonusSPD;
-        user.GetComponent<PlayerStateMachine>().player.curSPD += bonusSPD;
+            EndItemEffect(durationAmount, user); //ends the items effect after a given amount of time (might be better to do this after a certain amount of battles)
 
-        EndItemEffect(durationAmount, user); //ends the items effect after a given amount of time (might be better to do this after a certain amount of battles)
+        }
 
+        else {
+            if (!GameObject.Find("MenuCanvas").GetComponent<InventoryManager>().isInspecting) {
+                GameObject.Find("MenuCanvas").GetComponent<DialogueHolder>().DisplayBox();
+                GameObject.Find("MenuCanvas").GetComponent<InventoryManager>().isInspecting = true;
+            }
+           
+        }
+
+        
 
       
     }
