@@ -9,19 +9,20 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1939952943787808}
+  m_RootGameObject: {fileID: 1775301097783938}
   m_IsPrefabAsset: 1
---- !u!1 &1939952943787808
+--- !u!1 &1775301097783938
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4423676698438350}
-  - component: {fileID: 212509864150309726}
-  - component: {fileID: 65367178327530372}
-  - component: {fileID: 114927992773049078}
+  - component: {fileID: 4080264309668914}
+  - component: {fileID: 212836241741213014}
+  - component: {fileID: 65945617724298622}
+  - component: {fileID: 114316057612633662}
+  - component: {fileID: 114136872084743796}
   m_Layer: 0
   m_Name: Treasure
   m_TagString: Treasure
@@ -29,12 +30,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4423676698438350
+--- !u!4 &4080264309668914
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1939952943787808}
+  m_GameObject: {fileID: 1775301097783938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 31.936, y: 0.6305, z: 14.54}
   m_LocalScale: {x: 0.015, y: 0.015, z: 0.01}
@@ -42,24 +43,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &65367178327530372
+--- !u!65 &65945617724298622
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1939952943787808}
+  m_GameObject: {fileID: 1775301097783938}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.852272, y: 6.444393, z: 18.833065}
   m_Center: {x: -0.3268242, y: 1.42278, z: -4.6838284}
---- !u!114 &114927992773049078
+--- !u!114 &114136872084743796
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1939952943787808}
+  m_GameObject: {fileID: 1775301097783938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04dac792e284e4543bcaec0f6bf9ea21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: I found a {itemName}...
+  dialogueLines:
+  - I found a chest...
+  - It contains {itemName}...
+--- !u!114 &114316057612633662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1775301097783938}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47ebcfe0c5b7a4f47aa19053f1526c10, type: 3}
@@ -70,18 +86,12 @@ MonoBehaviour:
   unlootedSprite: {fileID: 21300000, guid: b470b726ffbe65244912b0c76eb8f23d, type: 3}
   items:
   - {fileID: 11400000, guid: 23acd37bf7fc46f4fa3ac063ae55bc24, type: 2}
-  - {fileID: 11400000, guid: 23acd37bf7fc46f4fa3ac063ae55bc24, type: 2}
-  - {fileID: 11400000, guid: 23acd37bf7fc46f4fa3ac063ae55bc24, type: 2}
-  - {fileID: 11400000, guid: 23acd37bf7fc46f4fa3ac063ae55bc24, type: 2}
-  - {fileID: 11400000, guid: 23acd37bf7fc46f4fa3ac063ae55bc24, type: 2}
-  - {fileID: 11400000, guid: 23acd37bf7fc46f4fa3ac063ae55bc24, type: 2}
-  - {fileID: 11400000, guid: 23acd37bf7fc46f4fa3ac063ae55bc24, type: 2}
---- !u!212 &212509864150309726
+--- !u!212 &212836241741213014
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1939952943787808}
+  m_GameObject: {fileID: 1775301097783938}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0

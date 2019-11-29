@@ -11,6 +11,8 @@ public class EnemyStateMachine : MonoBehaviour {
     public BaseEnemy enemy;
     public GameObject enemySelector;
     private Popups popups;
+    private Animator animator;
+    private Animator cameraAnimator;
 
     public enum TurnState
     {
@@ -48,6 +50,8 @@ public class EnemyStateMachine : MonoBehaviour {
 
     private void Awake()
     {
+        animator = gameObject.GetComponent<Animator>();
+        cameraAnimator = GameObject.Find("Main Camera").GetComponent<Animator>();
         popups = GameObject.Find("PopupManager").GetComponent<Popups>();
     }
 
@@ -170,26 +174,35 @@ public class EnemyStateMachine : MonoBehaviour {
         else {
             enemyPosition = startPosition;
         }
-        //animate the enemy near the hero to attack       
+        //animate the enemy near the hero to attack      
+        animator.SetBool("shouldTriggerUpDown", false);
+        animator.SetBool("shouldTriggerOpenMouth", false);
+        animator.SetBool("shouldTriggerWalk", true);
+        cameraAnimator.SetBool("isEnemyAttack", true);
         while (MoveTowardsTarget(enemyPosition))
         {
             yield return null;
         }
 
         //wait a bit
-        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("shouldTriggerWalk", false);
+        animator.SetBool("shouldTriggerAttack", true);
+        yield return new WaitForSeconds(0.53f);
+       
         //do damage
         if (!statusCheck)
         {
             DealDamage(BSM.performList[0].chosenAttack.isMagic);
         }
-        yield return new WaitForSeconds(0.5f);
         //animate back to start position
         Vector3 firstPosition = startPosition;
+        cameraAnimator.SetBool("isEnemyAttack", false);
         while (MoveTowardsTarget(firstPosition))
         {
             yield return null;
         }
+        animator.SetBool("shouldTriggerAttack", false);
+
 
         //remove this performer from the list in BSM
         BSM.performList.RemoveAt(0);
@@ -281,7 +294,9 @@ public class EnemyStateMachine : MonoBehaviour {
 
     public void TakeDamage(int damageAmount, bool statusDamage)
     {
-
+        animator.SetBool("shouldTakeDamage", true);
+        animator.SetBool("shouldTriggerUpDown", false);
+        animator.SetBool("shouldTriggerOpenMouth", false);
         if (damageAmount <= 1)
         {
             damageAmount = 1;
@@ -407,5 +422,8 @@ public class EnemyStateMachine : MonoBehaviour {
         }
 
     }
-
+    public void resetTakeDamageAnimation()
+    {
+        animator.SetBool("shouldTakeDamage", false);
+    }
 }

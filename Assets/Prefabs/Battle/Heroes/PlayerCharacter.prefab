@@ -278,7 +278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 0.005
-  startMenu: {fileID: 1584964446638234, guid: d767007ca2512bb41b1141403e0b54a7, type: 2}
+  startMenu: {fileID: 1350447960708496, guid: 0ac13872f23f0ca468ff544ddb68dd5b, type: 2}
+  inventoryIsOpen: 0
 --- !u!136 &136484517099507392
 CapsuleCollider:
   m_ObjectHideFlags: 1

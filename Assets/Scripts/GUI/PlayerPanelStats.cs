@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class PlayerPanelStats : MonoBehaviour {
 
-    public TextMeshProUGUI PlayerName;
-    public TextMeshProUGUI PlayerHP;
-    public TextMeshProUGUI PlayerMP;
+    public Text PlayerName;
+    public Text PlayerHP;
+    public Text PlayerMP;
     public Image PlayerHPBar;
     public Image PlayerMPBar;
     public Sprite PlayerIcon;
-    public TextMeshProUGUI PlayerLevel;
+    public Text PlayerLevel;
 }
