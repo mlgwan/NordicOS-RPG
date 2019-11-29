@@ -6918,6 +6918,7 @@ GameObject:
   - component: {fileID: 727975655}
   - component: {fileID: 727975654}
   - component: {fileID: 727975653}
+  - component: {fileID: 727975661}
   m_Layer: 5
   m_Name: MenuCanvas
   m_TagString: Untagged
@@ -6998,6 +6999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  isInspecting: 0
   finger: {fileID: 2053842651}
   blinkingFinger: {fileID: 1942107863}
   equipmentPanel: {fileID: 1858736013}
@@ -7101,6 +7103,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &727975661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 727975652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e8ac41f50e80f744ad19a2bb83a7ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: 
+  dialogueLines:
+  - This item can't be used
 --- !u!1 &728085382
 GameObject:
   m_ObjectHideFlags: 0
@@ -22207,12 +22223,12 @@ GameObject:
   - component: {fileID: 1892445069}
   - component: {fileID: 1892445070}
   m_Layer: 0
-  m_Name: Tree2
+  m_Name: 
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1892445069
 Transform:
   m_ObjectHideFlags: 0
@@ -22664,17 +22680,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1892445068
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1710865134032842, guid: e072031e77afc90459de60f3b134611d,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1892445069}
-  - component: {fileID: 1892445070}
-  m_IsActive: 0
 --- !u!224 &1943424573
 RectTransform:
   m_ObjectHideFlags: 0
