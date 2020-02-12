@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b3d800ce030c5d44ba032737531a3472
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ulfNormal: {fileID: 21300032, guid: 308cbbb0db948e848b5ae952946a2164, type: 3}
+  - ulfTired: {fileID: 21300034, guid: 308cbbb0db948e848b5ae952946a2164, type: 3}
+  - ulfAngry: {fileID: 21300036, guid: 308cbbb0db948e848b5ae952946a2164, type: 3}
+  - ulfHappy: {fileID: 21300038, guid: 308cbbb0db948e848b5ae952946a2164, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

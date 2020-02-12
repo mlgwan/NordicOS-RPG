@@ -117,17 +117,21 @@ public class Popups : MonoBehaviour {
         transform.position += new Vector3(0, moveYSpeed) * Time.deltaTime;
 
         disappearTimer -= Time.deltaTime;
-        if (disappearTimer < 0) {
-            //Start disappearing
-            float disappearSpeed = 3f;
-            textColor.a -= disappearSpeed * Time.deltaTime;
-            if (transform.GetComponent<TextMeshPro>() != null)
-            {
-                textMesh.color = textColor;
-            }
-            if (textColor.a < 0) {
-                Destroy(gameObject);
+        if (gameObject.name != "PopupManager")
+        {
+            if (disappearTimer < 0) {
+                //Start disappearing
+                float disappearSpeed = 3f;
+                textColor.a -= disappearSpeed * Time.deltaTime;
+                if (transform.GetComponent<TextMeshPro>() != null)
+                {
+                    textMesh.color = textColor;
+                }
+                if (textColor.a < 0) {
+                    Destroy(gameObject);
+                }
             }
         }
+        
     }
 }

@@ -10,7 +10,11 @@ public class EnemyStateMachine : MonoBehaviour {
     private BattleStateMachine BSM;
     public BaseEnemy enemy;
     public GameObject enemySelector;
+    public GameObject blood;
     private Popups popups;
+    private Animator animator;
+    private Animator cameraAnimator;
+   
 
     public enum TurnState
     {
@@ -32,6 +36,8 @@ public class EnemyStateMachine : MonoBehaviour {
     public GameObject playerToAttack;
     public float animSpeed = 12f;
 
+    public int specialAttackCharges = 0;
+
     public bool hasChosenAnAction;
 
     //death
@@ -48,6 +54,8 @@ public class EnemyStateMachine : MonoBehaviour {
 
     private void Awake()
     {
+        animator = gameObject.GetComponent<Animator>();
+        cameraAnimator = GameObject.Find("Main Camera").GetComponent<Animator>();
         popups = GameObject.Find("PopupManager").GetComponent<Popups>();
     }
 
@@ -68,6 +76,12 @@ public class EnemyStateMachine : MonoBehaviour {
                 break;
 
             case (TurnState.WAITING):
+                if (enemy.curHP <= 0)
+                {
+                    animator.SetBool("isDead", true);
+                    enemy.curHP = 0;
+                    currentState = TurnState.DEAD;
+                }
                 break;
 
             case (TurnState.ACTION):
@@ -94,9 +108,9 @@ public class EnemyStateMachine : MonoBehaviour {
 
                     //remove item from performList
                     if (BSM.enemiesInBattle.Count > 0) {
-                        for (int i = 1; i < BSM.performList.Count; i++)
+                        for (int i = 0; i < BSM.performList.Count; i++)
                         {
-                            if (BSM.performList[i].attackersGameObject == this.gameObject)
+                            if (BSM.performList[i].attackersGameObject.Equals(this.gameObject))
                             {
                                 BSM.performList.Remove(BSM.performList[i]);
                             }
@@ -108,18 +122,13 @@ public class EnemyStateMachine : MonoBehaviour {
 
                     }
 
-
-                    //change color / player death-animation
-                    this.gameObject.GetComponent<SpriteRenderer>().material.color = new Color32(102, 102, 102, 120);
-                    this.gameObject.GetComponent<Animator>().enabled = false;
                     //reset playerInput
-   
+                    BSM.currentState = BattleStateMachine.BattleStates.WAITING;
 
                     dead = true;
                     //reset the buttons for selecting enemies
                     BSM.EnemyButtons();
-                    //chek for win/loss
-                    BSM.currentState = BattleStateMachine.BattleStates.CHECKALIVE;
+
                 }
                 break;
 
@@ -136,66 +145,118 @@ public class EnemyStateMachine : MonoBehaviour {
                 attackersGameObject = this.gameObject,
                 attackersTarget = BSM.playersInBattle[Random.Range(0, BSM.playersInBattle.Count)],
             };
-            if (num < 70 || enemy.abilities.Count == 0)
+
+            if (gameObject.name == "Warg 1")
+            {
+                if (specialAttackCharges > 1)
+                {
+                    myAttack.chosenAttack = enemy.abilities[1];
+                    specialAttackCharges -= 1;
+                }
+
+                else if (specialAttackCharges == 1)
+                {
+                    myAttack.chosenAttack = enemy.abilities[0];
+                    specialAttackCharges -= 1;
+                }
+
+                else if (specialAttackCharges == 0) {
+                    if (num < 40)
+                    {
+                        myAttack.chosenAttack = enemy.basicAttack;
+                    }
+                    else if (BSM.enemiesInBattle.Count < 4)
+                    {
+                        myAttack.chosenAttack = enemy.abilities[Random.Range(0, enemy.abilities.Count)];
+                    }
+                }
+            }
+
+            else if (num < 30 || enemy.abilities.Count == 0 || specialAttackCharges == 0)
             {
                 myAttack.chosenAttack = enemy.basicAttack;
             }
-            else
-            {
-                myAttack.chosenAttack = enemy.abilities[Random.Range(0, enemy.abilities.Count)];
-            }
-        
-
-        
 
 
-    BSM.CollectAction(myAttack);
-            hasChosenAnAction = true;
+        if (myAttack.chosenAttack.name == "Howl") {
+            myAttack.attackersTarget = this.gameObject;
+
+        }
+
+
+        BSM.CollectAction(myAttack);
+        hasChosenAnAction = true;
     }
 
     private IEnumerator TimeForAction() {
+
+        Debug.Log(gameObject);
+        bool cameraCanMove = false;
 
         if (actionStarted) {
             yield break;
         }
         actionStarted = true;
 
-        bool statusCheck = CheckWhetherStatusAffectsTurn();
-        Vector3 enemyPosition;
-        if (!statusCheck)
+        if (BSM.performList[0].chosenAttack.attackName == "Howl")
         {
-            enemyPosition = new Vector3(playerToAttack.transform.position.x - 1.5f, playerToAttack.transform.position.y, playerToAttack.transform.position.z);
-
-        }
-        else {
-            enemyPosition = startPosition;
-        }
-        //animate the enemy near the hero to attack       
-        while (MoveTowardsTarget(enemyPosition))
-        {
-            yield return null;
-        }
-
-        //wait a bit
-        yield return new WaitForSeconds(0.5f);
-        //do damage
-        if (!statusCheck)
-        {
+            transform.Find("call_pack_ability_animation").gameObject.GetComponent<Animator>().Play("call pack", 0, 0.25f);
             DealDamage(BSM.performList[0].chosenAttack.isMagic);
+            yield return new WaitForSeconds(0.53f);
         }
-        yield return new WaitForSeconds(0.5f);
-        //animate back to start position
-        Vector3 firstPosition = startPosition;
-        while (MoveTowardsTarget(firstPosition))
-        {
-            yield return null;
+
+        else {
+
+       
+
+            bool statusCheck = CheckWhetherStatusAffectsTurn();
+            Vector3 enemyPosition;
+            if (!statusCheck)
+            {
+                enemyPosition = new Vector3(playerToAttack.transform.position.x - 1.5f, playerToAttack.transform.position.y, playerToAttack.transform.position.z);
+                cameraCanMove = true;
+            }
+            else {
+                enemyPosition = startPosition;
+            }
+            //animate the enemy near the hero to attack      
+            animator.SetBool("shouldTriggerUpDown", false);
+            animator.SetBool("shouldTriggerOpenMouth", false);
+            animator.SetBool("shouldTriggerWalk", true);
+            if (cameraCanMove) { cameraAnimator.SetBool("isEnemyAttack", true);}   
+            while (MoveTowardsTarget(enemyPosition))
+            {
+                yield return null;
+            }
+
+            //wait a bit
+            animator.SetBool("shouldTriggerWalk", false);
+            animator.SetBool("shouldTriggerAttack", true);
+            yield return new WaitForSeconds(0.75f);
+       
+            //do damage
+            if (!statusCheck)
+            {
+                DealDamage(BSM.performList[0].chosenAttack.isMagic);
+            }
+            //animate back to start position
+            Vector3 firstPosition = startPosition;
+            cameraAnimator.SetBool("isEnemyAttack", false);
+            while (MoveTowardsTarget(firstPosition))
+            {
+                yield return null;
+            }
+            animator.SetBool("shouldTriggerAttack", false);
         }
 
         //remove this performer from the list in BSM
-        BSM.performList.RemoveAt(0);
-
+        if (currentState!=TurnState.DEAD)
+        {
+            BSM.performList.RemoveAt(0);
+            BSM.currentState = BattleStateMachine.BattleStates.WAITING;
+        }
         //reset the BSM -> WAIT
-        BSM.currentState = BattleStateMachine.BattleStates.WAITING;
+        
         //end coroutine
         actionStarted = false;
         //reset this enemy state
@@ -206,6 +267,7 @@ public class EnemyStateMachine : MonoBehaviour {
             isStunned = false;
             enemy.stunned = false;
         }
+        
         currentState = TurnState.WAITING;
 
     }
@@ -216,71 +278,96 @@ public class EnemyStateMachine : MonoBehaviour {
 
     void DealDamage(bool isMagic)
     {
-        int attackScalingDamage;
-
-        switch (BSM.performList[0].chosenAttack.scalesWith) //position 0 will always hold the current performer
+        if (BSM.performList[0].chosenAttack.attackName == "Howl")
         {
-            case (BaseAttack.ScalesWith.NOTHING):
-                attackScalingDamage = 0;
-            break;
+            if ( BSM.enemiesInBattle.Count < BSM.enemySpawnPoints.Count) {
+            GameObject newEnemy = Instantiate(GameManager.instance.wolfPrefab, BSM.enemySpawnPoints[BSM.enemiesInBattle.Count].position, Quaternion.identity) as GameObject;
+            newEnemy.name = newEnemy.GetComponent<EnemyStateMachine>().enemy.theName += " " + (BSM.totalEnemiesInBattle.Count);
+            newEnemy.GetComponent<EnemyStateMachine>().enemy.theName = newEnemy.name;
+            newEnemy.GetComponent<EnemyStateMachine>().enemy.SetupStats();
 
-            case (BaseAttack.ScalesWith.STRENGTH):
-                attackScalingDamage = enemy.curSTR;
-            break;
-
-            case (BaseAttack.ScalesWith.DEXTERITY):
-                attackScalingDamage = enemy.curDEX;
-            break;
-
-            case (BaseAttack.ScalesWith.INT):
-                attackScalingDamage = enemy.curINT;
-            break;
-
-
-            default:
-                attackScalingDamage = 0;
-            break;
-        }
-
-        int calculatedDamage = 0;
-
-        if (!isMagic)
-        {
-            calculatedDamage = (int)(((enemy.curATK + attackScalingDamage + 1/ (playerToAttack.GetComponent<PlayerStateMachine>().player.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
-
-            int n = Random.Range(0, 100);
-            if (n < BSM.performList[0].chosenAttack.critChance)
-            {
-                calculatedDamage = (int)(((enemy.curATK + attackScalingDamage + 1/ (playerToAttack.GetComponent<PlayerStateMachine>().player.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * BSM.performList[0].chosenAttack.upperRandomBound) * 2;
-
-                hasCritted = true;
+            BSM.enemiesInBattle.Add(newEnemy);
+            BSM.totalEnemiesInBattle.Add(newEnemy);
             }
         }
-        else {
-            calculatedDamage = (int)(((enemy.curATK + attackScalingDamage + 1/ (playerToAttack.GetComponent<PlayerStateMachine>().player.curMR + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
-        }
 
-
-        if (BSM.performList[0].chosenAttack.isAOE)
-        {
-            for (int i = 0; i < BSM.GetComponent<BattleStateMachine>().playersInBattle.Count; i++)
-            {
-                CheckForStatusToApply(BSM.GetComponent<BattleStateMachine>().playersInBattle[i]);
-                BSM.GetComponent<BattleStateMachine>().playersInBattle[i].GetComponent<PlayerStateMachine>().hasBeenCritted = hasCritted;
-                BSM.GetComponent<BattleStateMachine>().playersInBattle[i].GetComponent<PlayerStateMachine>().TakeDamage(calculatedDamage, false);
-            }
-        }
         else
         {
-            CheckForStatusToApply(playerToAttack);
-            playerToAttack.GetComponent<PlayerStateMachine>().hasBeenCritted = hasCritted;
-            playerToAttack.GetComponent<PlayerStateMachine>().TakeDamage(calculatedDamage, false);
-        }
 
+
+            int attackScalingDamage;
+
+            switch (BSM.performList[0].chosenAttack.scalesWith) //position 0 will always hold the current performer
+            {
+                case (BaseAttack.ScalesWith.NOTHING):
+                    attackScalingDamage = 0;
+                    break;
+
+                case (BaseAttack.ScalesWith.STRENGTH):
+                    attackScalingDamage = enemy.curSTR;
+                    break;
+
+                case (BaseAttack.ScalesWith.DEXTERITY):
+                    attackScalingDamage = enemy.curDEX;
+                    break;
+
+                case (BaseAttack.ScalesWith.INT):
+                    attackScalingDamage = enemy.curINT;
+                    break;
+
+
+                default:
+                    attackScalingDamage = 0;
+                    break;
+            }
+
+            int calculatedDamage = 0;
+
+            if (!isMagic)
+            {
+                calculatedDamage = (int)(((enemy.curATK + attackScalingDamage + 1 / (playerToAttack.GetComponent<PlayerStateMachine>().player.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+
+                int n = Random.Range(0, 100);
+                if (n < BSM.performList[0].chosenAttack.critChance)
+                {
+                    calculatedDamage = (int)(((enemy.curATK + attackScalingDamage + 1 / (playerToAttack.GetComponent<PlayerStateMachine>().player.curDEF + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * BSM.performList[0].chosenAttack.upperRandomBound) * 2;
+
+                    hasCritted = true;
+                }
+            }
+            else
+            {
+                calculatedDamage = (int)(((enemy.curATK + attackScalingDamage + 1 / (playerToAttack.GetComponent<PlayerStateMachine>().player.curMR + 1)) * BSM.performList[0].chosenAttack.attackDamage / 50) * Random.Range(BSM.performList[0].chosenAttack.lowerRandomBound, BSM.performList[0].chosenAttack.upperRandomBound));
+            }
+
+
+            if (BSM.performList[0].chosenAttack.isAOE)
+            {
+                for (int i = 0; i < BSM.GetComponent<BattleStateMachine>().playersInBattle.Count; i++)
+                {
+                    CheckForStatusToApply(BSM.GetComponent<BattleStateMachine>().playersInBattle[i]);
+                    BSM.GetComponent<BattleStateMachine>().playersInBattle[i].GetComponent<PlayerStateMachine>().hasBeenCritted = hasCritted;
+                    BSM.GetComponent<BattleStateMachine>().playersInBattle[i].GetComponent<PlayerStateMachine>().TakeDamage(calculatedDamage, false);
+                }
+            }
+            else
+            {
+                CheckForStatusToApply(playerToAttack);
+                playerToAttack.GetComponent<PlayerStateMachine>().hasBeenCritted = hasCritted;
+                playerToAttack.GetComponent<PlayerStateMachine>().TakeDamage(calculatedDamage, false);
+            }
+
+        }
     }
 
     public void TakeDamage(int damageAmount, bool statusDamage)
     {
+        GameObject bloodObject = Instantiate(blood);
+        bloodObject.transform.position = new Vector3(gameObject.transform.position.x + 0.6f, gameObject.transform.position.y, gameObject.transform.position.z);
+        bloodObject.GetComponent<ParticleSystem>().Play();
+        animator.SetBool("shouldTakeDamage", true);
+        animator.SetBool("shouldTriggerUpDown", false);
+        animator.SetBool("shouldTriggerOpenMouth", false);
 
         if (damageAmount <= 1)
         {
@@ -301,6 +388,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
         if (enemy.curHP <= 0)
         {
+            animator.SetBool("isDead", true);
             enemy.curHP = 0;
             currentState = TurnState.DEAD;
         }
@@ -407,5 +495,8 @@ public class EnemyStateMachine : MonoBehaviour {
         }
 
     }
-
+    public void resetTakeDamageAnimation()
+    {
+        animator.SetBool("shouldTakeDamage", false);
+    }
 }

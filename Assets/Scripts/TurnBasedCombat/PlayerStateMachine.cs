@@ -9,7 +9,12 @@ public class PlayerStateMachine : MonoBehaviour {
     private BattleStateMachine BSM;
     public BasePlayer player;
     public GameObject selector;
+    public GameObject blood;
+    public GameObject sparks;
+    public GameObject solar_effect;
     private Popups popups;
+    private Animator cameraAnimator;
+    
 
     private string originalText; //because stamina and MP are handled the same way this is used to reduce work
 
@@ -55,12 +60,14 @@ public class PlayerStateMachine : MonoBehaviour {
     //GUI
     private PlayerPanelStats stats;
     public GameObject playerPanel;
+    public GameObject equipPlayerPanel;
     private Transform playerPanelSpacer;
 
     private void Awake()
     {
         popups = GameObject.Find("PopupManager").GetComponent<Popups>();
         animator = gameObject.GetComponent<Animator>();
+        cameraAnimator = GameObject.Find("Main Camera").GetComponent<Animator>();
     }
 
     private void Start()
@@ -76,6 +83,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
 
     void Update() {
+
         switch (currentState) {
             case (TurnState.CHOOSEACTION):
                 BSM.playersToManage.Add(this.gameObject);
@@ -86,7 +94,13 @@ public class PlayerStateMachine : MonoBehaviour {
                 break;
 
             case (TurnState.ACTION):
-                StartCoroutine(TimeForAction());
+                if (!dead)
+                {
+                    StartCoroutine(TimeForAction());
+                }
+                else {
+                    currentState = TurnState.DEAD;
+                }
                 break;
 
             case (TurnState.DEAD):
@@ -115,7 +129,7 @@ public class PlayerStateMachine : MonoBehaviour {
                     //remove item from performList
                     if (BSM.playersInBattle.Count > 0) {
 
-                        for (int i = 1; i < BSM.performList.Count; i++) {
+                        for (int i = 0; i < BSM.performList.Count; i++) {
                             if (BSM.performList[i].attackersGameObject == this.gameObject) {
                                 BSM.performList.Remove(BSM.performList[i]);
                                 }
@@ -126,13 +140,9 @@ public class PlayerStateMachine : MonoBehaviour {
                     }
                    
 
-                    //change color / player death-animation
-                    this.gameObject.GetComponent<SpriteRenderer>().material.color = new Color32(102, 102, 102, 120);
-                    this.gameObject.GetComponent<Animator>().enabled = false;
                     //reset playerInput
-                    BSM.currentState = BattleStateMachine.BattleStates.CHECKALIVE;
-
                     dead = true;
+                   
                 }
 
                 break;
@@ -142,14 +152,15 @@ public class PlayerStateMachine : MonoBehaviour {
 
     public void UpdateResourceBars() {
         healthBar.transform.localScale = new Vector2(Mathf.Clamp(((float)(player.curHP) / (float)(player.maxHP)), 0, 1), healthBar.transform.localScale.y);
-        stats.PlayerHP.text = "HP: " + player.curHP + " / " + player.maxHP;
+        stats.PlayerHP.text = "HP: " + player.curHP + "/" + player.maxHP;
 
         manaBar.transform.localScale = new Vector2(Mathf.Clamp(((float)(player.curMP) / (float)(player.maxMP)), 0, 1), healthBar.transform.localScale.y);
-        stats.PlayerMP.text = originalText + player.curMP + " / " + player.maxMP;
+        stats.PlayerMP.text = originalText + player.curMP + "/" + player.maxMP;
     }
 
     private IEnumerator TimeForAction()
     {
+        bool cameraCanMove = false;  // camera should only move over when ulf is actually attacking
 
         if (actionStarted)
         {
@@ -161,13 +172,19 @@ public class PlayerStateMachine : MonoBehaviour {
         Vector3 playerPosition;
         if (!statusCheck)
         {
-            playerPosition = new Vector3(enemyToAttack.transform.position.x + targetOffset, enemyToAttack.transform.position.y, enemyToAttack.transform.position.z);
+            playerPosition = new Vector3(enemyToAttack.transform.position.x + targetOffset,
+                enemyToAttack.transform.position.y,
+                enemyToAttack.transform.position.z);
+            cameraCanMove = true;
         }
         else {
             playerPosition = startPosition;
         }
         //animate the player towards the enemy
         animator.SetBool("isWalkToAttack", true);
+
+        if (cameraCanMove) { cameraAnimator.SetBool("isCharacterAttack", true); }
+
         while (MoveTowardsTarget(playerPosition))
         {
             yield return null;
@@ -176,23 +193,36 @@ public class PlayerStateMachine : MonoBehaviour {
         //wait a bit
         animator.SetBool("isWalkToAttack", false);
         animator.SetBool("isAttack", true);
+        yield return new WaitForSeconds(0.50f);
+        
+        if (cameraCanMove) {
+            GameObject sparksObject = Instantiate(sparks);
+            sparksObject.transform.position = new Vector3(gameObject.transform.position.x - 0.6f,
+                gameObject.transform.position.y,
+                gameObject.transform.position.z);
+            sparksObject.GetComponent<ParticleSystem>().Play();
+            if (BSM.performList[0].chosenAttack.attackName == "Solar")
+            {
+                GameObject solarObject = Instantiate(solar_effect);
+                solarObject.transform.position = new Vector3(gameObject.transform.position.x - 0.6f,
+                    gameObject.transform.position.y + 5,
+                    gameObject.transform.position.z);
+            }
+        }
+       
+        yield return new WaitForSeconds(0.75f);
+        animator.SetBool("isAttack", false);
+        animator.SetBool("isWalkFromAttack", true);
 
         //do damage
-
         if (!statusCheck) {
-            
             DealDamage(BSM.performList[0].chosenAttack.isMagic);
         }
        
 
-        yield return new WaitForSeconds(1.25f);
-        animator.SetBool("isAttack", false);
-        animator.SetBool("isWalkFromAttack", true);
-
-       
-
         //animate back to startPosition
         Vector3 firstPosition = startPosition;
+        cameraAnimator.SetBool("isCharacterAttack", false);
         while (MoveTowardsTarget(firstPosition)) {
             yield return null;
         }
@@ -236,7 +266,6 @@ public class PlayerStateMachine : MonoBehaviour {
 
     void DealDamage(bool isMagic)
     {
-
         player.curMP -= BSM.performList[0].chosenAttack.attackCost;
 
         int attackScalingDamage;
@@ -306,6 +335,9 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void TakeDamage(int damageAmount, bool statusDamage) {
+        GameObject bloodObject = Instantiate(blood);
+        bloodObject.transform.position = new Vector3(gameObject.transform.position.x + 0.6f, gameObject.transform.position.y, gameObject.transform.position.z);
+        bloodObject.GetComponent<ParticleSystem>().Play();
         animator.SetBool("takeDamage", true);
         if (damageAmount <= 1) {
             damageAmount = 1;
@@ -324,6 +356,7 @@ public class PlayerStateMachine : MonoBehaviour {
         
 
         if (player.curHP <= 0) {
+            animator.SetBool("isDead", true);
             player.curHP = 0;
             currentState = TurnState.DEAD;
         }
@@ -336,9 +369,9 @@ public class PlayerStateMachine : MonoBehaviour {
         stats = playerPanel.GetComponent<PlayerPanelStats>();
         stats.PlayerName.text = player.theName;
 
-        stats.PlayerHP.text = "HP: " +  player.curHP + " / " + player.maxHP;
+        stats.PlayerHP.text = "HP: " +  player.curHP + "/" + player.maxHP;
         originalText = stats.PlayerMP.text;
-        stats.PlayerMP.text = originalText + player.curMP + " / " + player.maxMP; //Because of the visual distinction between mana and stamina
+        stats.PlayerMP.text = originalText + player.curMP + "/" + player.maxMP; //Because of the visual distinction between mana and stamina
         stats.PlayerLevel.text = player.level.ToString();
         
         healthBar = stats.PlayerHPBar;
@@ -464,4 +497,5 @@ public class PlayerStateMachine : MonoBehaviour {
     public void resetTakeDamageAnimation() {
         animator.SetBool("takeDamage", false);
     }
+
 }

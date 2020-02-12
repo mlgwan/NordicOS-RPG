@@ -166,8 +166,8 @@ MonoBehaviour:
     curMP: 0
     maxATK: 5
     curATK: 5
-    maxDEF: 2
-    curDEF: 2
+    maxDEF: 20
+    curDEF: 20
     maxMR: 0
     curMR: 0
     maxSTR: 0
@@ -196,8 +196,7 @@ MonoBehaviour:
     baseSPD: 50
     basicAttack: {fileID: 114702011212673348, guid: 5c62d3be549566e468e8bef18fb4deb7,
       type: 2}
-    abilities:
-    - {fileID: 114437461171163456, guid: 46388d563a485f14ebe93348961bb6f0, type: 2}
+    abilities: []
     paralysed: 0
     poisoned: 0
     burned: 0
@@ -206,14 +205,14 @@ MonoBehaviour:
     dotToTake: 0
     EnemyType: 0
     rarity: 0
-    experienceToReward: 50
-    level: 10
-  enemySelector: {fileID: 1890472180945926, guid: 3e48bd40050e562478f99c1ed8171310,
-    type: 2}
+    experienceToReward: 0
+    level: 3
+  enemySelector: {fileID: 1244541818965370}
+  blood: {fileID: 1823944132965688, guid: 34aaf162c68319342a3c6455ec0fd1e6, type: 2}
   currentState: 0
   targetOffset: 1.5
   playerToAttack: {fileID: 0}
-  animSpeed: 20
+  animSpeed: 5
   hasChosenAnAction: 0
   hasBeenCritted: 0
   tickApplied: 0

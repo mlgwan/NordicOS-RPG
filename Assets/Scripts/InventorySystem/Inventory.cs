@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Inventory : MonoBehaviour {
 
@@ -19,13 +20,23 @@ public class Inventory : MonoBehaviour {
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+
     }
 
     public void AddItem(Item itemToAdd) {
+       
         InventoryItem invItem = new InventoryItem();
         invItem.item = itemToAdd;
         bool stackIsFull = false;
+        bool goOn = true; // for adding a new item
 
         for (int i = 0; i < inventoryList.Count; i++)
         {
@@ -33,15 +44,17 @@ public class Inventory : MonoBehaviour {
             {
                 stackIsFull = true;
             }
-            else {
+            else if (inventoryList[i].item == itemToAdd){
                 inventoryList[i].currentAmount++;
+                goOn = false;
             }
         }
-        if (!stackIsFull) {
+        if (!stackIsFull && goOn)
+        {
             invItem.currentAmount++;
             inventoryList.Add(invItem);
         }
-        
+
     }
 
     public void RemoveItem(Item itemToRemove) {

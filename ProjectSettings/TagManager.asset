@@ -10,6 +10,8 @@ TagManager:
   - EncounterZone
   - Warp
   - Treasure
+  - TextTrigger
+  - MenuCanvas
   layers:
   - Default
   - TransparentFX

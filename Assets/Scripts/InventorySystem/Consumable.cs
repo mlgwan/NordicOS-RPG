@@ -19,21 +19,39 @@ public class Consumable : Item {
     public int durationAmount; //how many battles/turns, used turns for now
     public float durationTime; //in seconds
 
+    public int restorationType; //used to determine usability: 0 = HP, 1 = MP, 2 = HP and MP ...
+
     public override void UseItem(GameObject user)
     {
         base.UseItem(user);
 
-        bool isUsable = false;
-
-        //if (user.GetComponent<PlayerStateMachine>().player)
-
-        if (isUsable)
+        if (isUsable(this, user.GetComponent<PlayerStateMachine>().player))
         {
             // remove item from inventory
             Inventory.instance.RemoveItem(this);
             //add stats to selected character
-            user.GetComponent<PlayerStateMachine>().player.curHP += hpAmount;
-            user.GetComponent<PlayerStateMachine>().player.curMP += mpAmount;
+            int restoredHP = 0; // these two are for the dialogue text
+            int restoredMP = 0;
+            if (user.GetComponent<PlayerStateMachine>().player.curHP + hpAmount > user.GetComponent<PlayerStateMachine>().player.maxHP)
+            {
+                restoredHP = user.GetComponent<PlayerStateMachine>().player.maxHP - user.GetComponent<PlayerStateMachine>().player.curHP;
+                user.GetComponent<PlayerStateMachine>().player.curHP = user.GetComponent<PlayerStateMachine>().player.maxHP;
+            }
+            else {
+                restoredHP = hpAmount;
+                user.GetComponent<PlayerStateMachine>().player.curHP += hpAmount;
+            }
+
+            if (user.GetComponent<PlayerStateMachine>().player.curMP + mpAmount > user.GetComponent<PlayerStateMachine>().player.maxMP)
+            {
+                restoredMP = user.GetComponent<PlayerStateMachine>().player.maxMP - user.GetComponent<PlayerStateMachine>().player.curMP;
+                user.GetComponent<PlayerStateMachine>().player.curMP = user.GetComponent<PlayerStateMachine>().player.maxMP;
+            }
+            else
+            {
+                restoredMP = mpAmount;
+                user.GetComponent<PlayerStateMachine>().player.curMP += mpAmount;
+            }
             user.GetComponent<PlayerStateMachine>().player.maxHP += bonusHP;
             user.GetComponent<PlayerStateMachine>().player.maxMP += bonusMP;
 
@@ -52,14 +70,27 @@ public class Consumable : Item {
 
             EndItemEffect(durationAmount, user); //ends the items effect after a given amount of time (might be better to do this after a certain amount of battles)
 
+            if (restorationType == 2)
+            {
+                GameObject.FindWithTag("MenuCanvas").GetComponent<DialogueHolder>().dialogueLines = new string[] { "Restored " + restoredHP + " HP and " + restoredMP + " MP." };
+            }
+            else if (restorationType == 0)
+            {
+                GameObject.FindWithTag("MenuCanvas").GetComponent<DialogueHolder>().dialogueLines = new string[] { "Restored " + restoredHP + " HP." };
+            }
+            else if (restorationType == 1) {
+                GameObject.FindWithTag("MenuCanvas").GetComponent<DialogueHolder>().dialogueLines = new string[] { "Restored " + restoredMP + " MP." };
+            }
+            GameObject.FindWithTag("MenuCanvas").GetComponent<DialogueHolder>().speakerSprites = new Sprite[] { SpeakerSprites.instance.ulfNormal };
+            GameObject.FindWithTag("MenuCanvas").GetComponent<DialogueHolder>().DisplayBox();
         }
 
-        else {
-            if (!GameObject.Find("MenuCanvas").GetComponent<InventoryManager>().isInspecting) {
-                GameObject.Find("MenuCanvas").GetComponent<DialogueHolder>().DisplayBox();
-                GameObject.Find("MenuCanvas").GetComponent<InventoryManager>().isInspecting = true;
-            }
-           
+        else
+        {
+            
+            GameObject.FindWithTag("MenuCanvas").GetComponent<DialogueHolder>().dialogueLines = new string[] { "I can't use this right now..." };
+            GameObject.FindWithTag("MenuCanvas").GetComponent<DialogueHolder>().speakerSprites = new Sprite[] { SpeakerSprites.instance.ulfAngry };
+            GameObject.FindWithTag("MenuCanvas").GetComponent<DialogueHolder>().DisplayBox();                    
         }
 
         
@@ -84,5 +115,42 @@ public class Consumable : Item {
         user.GetComponent<PlayerStateMachine>().player.maxSPD -= bonusSPD;
         user.GetComponent<PlayerStateMachine>().player.curSPD -= bonusSPD;
 
+    }
+
+    public bool isUsable(Consumable item, BasePlayer player) {
+
+        switch (restorationType) {
+            case (0):
+                if (player.curHP == player.maxHP)
+                {
+                    return false;
+                }
+                else {
+                    break;
+                }
+                
+            case (1):
+                if (player.curMP == player.maxMP)
+                {
+                    return false;
+                }
+                else
+                {
+                    break;
+                }
+            case (2):
+                if (player.curMP == player.maxMP && player.curHP == player.maxHP)
+                {
+                    return false;
+                }
+                else
+                {
+                    break;
+                }
+            default:
+                Debug.Log("Invalid restorationType");
+                break;
+        }
+        return true;
     }
 }

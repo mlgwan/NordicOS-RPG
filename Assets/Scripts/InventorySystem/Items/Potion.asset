@@ -14,7 +14,7 @@ MonoBehaviour:
   name: Potion
   description: Heals 10 HP.
   itemID: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 0458a802d0f4f4041adaaf03c708caa9, type: 3}
   type: 0
   usableBy: 0
   hpAmount: 10

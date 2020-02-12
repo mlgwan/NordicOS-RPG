@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-
 public class Movement : MonoBehaviour
 {
 
@@ -22,6 +21,7 @@ public class Movement : MonoBehaviour
     private GameObject startMenuHolder;
 
     public bool inventoryIsOpen;
+    public bool canMove;
 
 
     float hitLength = 10f;
@@ -33,7 +33,9 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
-
+        GetComponent<Animator>().SetBool("firstAnimationWasTriggered", GameManager.firstAnimTriggered);
+        GameObject.Find("UlfWrapper").GetComponent<Animator>().
+            SetBool("firstAnimationWasTriggered", GameManager.firstAnimTriggered);
         if (GameManager.instance.nextSpawnPoint != "")
         {
             GameObject spawnPoint = GameObject.Find(GameManager.instance.nextSpawnPoint);
@@ -52,15 +54,18 @@ public class Movement : MonoBehaviour
         player = GetComponent<Animator>();
         body = GetComponent<Transform>();
 
-        startMenu = GameObject.Find("MenuCanvas");
+        startMenu = GameObject.FindWithTag("MenuCanvas");
         startMenuHolder = startMenu.transform.Find("MenuHolder").gameObject;
 
+        startMenuHolder.SetActive(false);
 
     }
-
-    void FixedUpdate()
+    private void Update()
     {
-        if (!inventoryIsOpen) {
+        GetComponent<Animator>().SetBool("gameStarted", GameManager.gameStarted);
+
+        if (canMove)
+        {
             resetToIdle();
             if (Input.GetKeyDown(ControlScript.instance.upButton) ||
                 Input.GetKeyDown(ControlScript.instance.leftButton) ||
@@ -91,21 +96,37 @@ public class Movement : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(ControlScript.instance.escapeButton) && !inventoryIsOpen) {
-            inventoryIsOpen = true;
-            startMenuHolder.SetActive(true);
-            startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.OPTIONS;
+        if (Input.GetKeyDown(ControlScript.instance.escapeButton) && !GameObject.FindWithTag("MenuCanvas").transform.Find("DialogueManager").GetComponent<DialogueManager>().dialogueActive)
+        {
+
+
+            if (!inventoryIsOpen && canMove)
+            {
+                inventoryIsOpen = true;
+                canMove = false;
+                startMenuHolder.SetActive(true);
+                startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.OPTIONS;
+            }
+            else if (inventoryIsOpen && !canMove && startMenu.GetComponent<InventoryManager>().currentState == InventoryManager.InventoryStates.OPTIONS )
+            {
+                inventoryIsOpen = false;
+                canMove = true;
+                startMenuHolder.SetActive(false);
+                startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.DISABLED;
+            }
         }
-        
-        else if (Input.GetKeyDown(ControlScript.instance.escapeButton) && inventoryIsOpen && startMenu.GetComponent<InventoryManager>().currentState == InventoryManager.InventoryStates.OPTIONS) {
-            inventoryIsOpen = false;
-            startMenuHolder.SetActive(false);
-            startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.DISABLED;
+        currentPosition = transform.position;
+        if (currentPosition == lastPosition)
+        {
+            GameManager.instance.isWalking = false;
         }
-
-       
-
-
+        else {
+            GameManager.instance.isWalking = true;
+        }
+        lastPosition = currentPosition;
+    }
+    void FixedUpdate()
+    {        
         RaycastHit hit;
         /*
          * Cast a Raycast.
@@ -116,19 +137,10 @@ public class Movement : MonoBehaviour
             /*
              * Set the target location to the location of the hit.
              */
-            transform.position = new Vector3(transform.position.x, hit.point.y + transform.lossyScale.y, transform.position.z); //lossyscale gives the "height" of our overworld hero, so that he always stands on top of the surface
+            transform.position = new Vector3(transform.position.x, hit.point.y + transform.lossyScale.y /1.2f, transform.position.z); //lossyscale gives the "height" of our overworld hero, so that he always stands on top of the surface
 
         }
 
-        currentPosition = transform.position;
-        if (currentPosition == lastPosition)
-        {
-            GameManager.instance.isWalking = false;
-        }
-        else {
-            GameManager.instance.isWalking = true;
-        }
-        lastPosition = currentPosition;
     }
 
     void resetToIdle() {
@@ -164,7 +176,13 @@ public class Movement : MonoBehaviour
         if (other.tag == "Treasure") {
             if (Input.GetKeyUp(ControlScript.instance.acceptButton)) {
                 other.GetComponent<TreasureInventory>().AddToPlayerInventory();
-                
+
+            }
+        }
+
+        if (other.tag == "TextTrigger") {
+            if (Input.GetKeyDown(ControlScript.instance.acceptButton) && !inventoryIsOpen) {
+                other.GetComponent<DialogueHolder>().DisplayBox(true);
             }
         }
     }
@@ -176,5 +194,17 @@ public class Movement : MonoBehaviour
             GameManager.instance.canGetEncountered = false;
         }
 
+    }
+
+    public void triggerFirstAnimation()
+    {
+        GameManager.firstAnimTriggered = true;
+    }
+
+    public void closeMenu() {
+        inventoryIsOpen = false;
+        canMove = true;
+        startMenuHolder.SetActive(false);
+        startMenu.GetComponent<InventoryManager>().currentState = InventoryManager.InventoryStates.DISABLED;
     }
 }

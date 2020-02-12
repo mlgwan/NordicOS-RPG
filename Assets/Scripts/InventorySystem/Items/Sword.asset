@@ -14,7 +14,7 @@ MonoBehaviour:
   name: Sword
   description: A dull sword.
   itemID: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5baa775aa754a044d877a8cd46a1fd6e, type: 3}
   type: 1
   usableBy: 1
   bonusHP: 0
@@ -25,4 +25,5 @@ MonoBehaviour:
   bonusDEX: 0
   bonusINT: 0
   bonusSPD: 0
-  isEquipped: 0
+  bonusAbility: {fileID: 0}
+  isEquipped: 1

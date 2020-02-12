@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a164946c25b9ed5458e650e2c4356a3b, type: 3}
+  m_Name: Old Boots
+  m_EditorClassIdentifier: 
+  name: Old Boots
+  description: I have had these boots ever since I marauded the high sea with my crew...
+  itemID: 0
+  icon: {fileID: 21300006, guid: 9f56db9d7fa70d5428cf4f5e502de818, type: 3}
+  type: 4
+  usableBy: 1
+  bonusHP: 0
+  bonusMP: 0
+  damage: 0
+  armor: 2
+  bonusSTR: 0
+  bonusDEX: 0
+  bonusINT: 0
+  bonusSPD: 0
+  bonusAbility: {fileID: 0}
+  isEquipped: 1

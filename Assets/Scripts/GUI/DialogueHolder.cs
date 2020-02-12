@@ -5,23 +5,38 @@ using UnityEngine;
 public class DialogueHolder : MonoBehaviour {
 
     public string dialogue;
-    private DialogueManager dialogueManager;
+    public DialogueManager dialogueManager;
 
     public string[] dialogueLines;
+    public Sprite[] speakerSprites;
 
     private void Start()
     {
-        dialogueManager = DialogueManager.instance;
+        dialogueManager = GameObject.FindWithTag("MenuCanvas").transform.Find("DialogueManager").GetComponent<DialogueManager>();
     }
 
 
-    public void DisplayBox()
+    public void DisplayBox(bool treasure = false)
     {
-
+        refresh();
         if (!dialogueManager.dialogueActive) {
+            dialogueManager.speakerSprites = speakerSprites;
             dialogueManager.dialogueLines = dialogueLines;
-            dialogueManager.currentLine = 0;
+
+            if (treasure || GameManager.instance.gameState != GameManager.GameStates.WORLD_STATE)
+            {
+                dialogueManager.currentLine = 0;
+            }
+            else {
+                dialogueManager.currentLine = -0; // SOMETIMES -1 WORKS SOMETIMES IT DOESN'T
+            }
+                
+
             dialogueManager.ShowDialogue();
         }
+    }
+
+    public void refresh() {
+        dialogueManager = GameObject.FindWithTag("MenuCanvas").transform.Find("DialogueManager").GetComponent<DialogueManager>();
     }
 }

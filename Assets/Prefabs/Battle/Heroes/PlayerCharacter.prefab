@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4553873791439558}
   - component: {fileID: 212554702305242150}
-  - component: {fileID: 114520720005350378}
+  - component: {fileID: 114903659528546516}
   - component: {fileID: 95344381033807342}
   - component: {fileID: 54788547951958510}
   - component: {fileID: 136484517099507392}
@@ -96,7 +96,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1447580194367142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 30.054, y: 0.37, z: 14.224}
   m_LocalScale: {x: 0.06, y: 0.06, z: 0.06}
   m_Children:
   - {fileID: 4389911942894394}
@@ -112,7 +112,7 @@ Rigidbody:
   m_GameObject: {fileID: 1447580194367142}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 100
+  m_Drag: 0
   m_AngularDrag: 1
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -266,7 +266,7 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114520720005350378
+--- !u!114 &114903659528546516
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,8 +277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186a57bdb0fd75345b8739e99897310d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 0.005
-  startMenu: {fileID: 1584964446638234, guid: d767007ca2512bb41b1141403e0b54a7, type: 2}
+  walkSpeed: 0
+  startMenu: {fileID: 1350447960708496, guid: 0ac13872f23f0ca468ff544ddb68dd5b, type: 2}
+  inventoryIsOpen: 0
+  canMove: 0
 --- !u!136 &136484517099507392
 CapsuleCollider:
   m_ObjectHideFlags: 1

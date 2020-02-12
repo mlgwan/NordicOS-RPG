@@ -12,13 +12,25 @@ public class BasePlayer : BaseCharacter
     public int currentExperiencePoints;
     public int totalExperiencePoints;
 
+    
+    public Equipment weaponSlot;
+    public Equipment helmetSlot;
+    public Equipment armorSlot;
+    public Equipment bootsSlot;
+    public List<Equipment> equipmentSlots;
 
+    public Equipment startingWeapon;
+    public Equipment startingHelmet;
+    public Equipment startingArmor;
+    public Equipment startingBoots;
 
 
     public void reset()
     {
         curHP = maxHP;
-        curMP = maxMP;
+        curMP = maxMP; 
+        maxATK = startingWeapon.damage;
+        maxDEF = startingHelmet.armor + startingArmor.armor + startingBoots.armor;
         curATK = maxATK;
         curDEF = maxDEF;
         curSTR = maxSTR;
@@ -28,7 +40,17 @@ public class BasePlayer : BaseCharacter
         level = 0;
         currentExperiencePoints = 0;
         totalExperiencePoints = 0;
-    }
+        weaponSlot = startingWeapon;
+        helmetSlot = startingHelmet;
+        armorSlot = startingArmor;
+        bootsSlot = startingBoots;
+
+        resetEquipmentSlots();
+
+        foreach (Equipment e in equipmentSlots) {
+            e.isEquipped = true;
+        }
+}
 
     public void restore()
     {
@@ -91,6 +113,15 @@ public class BasePlayer : BaseCharacter
         }
 
         return (int) ((baseStat * 1.4f * level) / 50) + 3;
+    }
+
+    public void resetEquipmentSlots() {
+
+        equipmentSlots.Clear();
+        equipmentSlots.Add(weaponSlot);
+        equipmentSlots.Add(helmetSlot);
+        equipmentSlots.Add(armorSlot);
+        equipmentSlots.Add(bootsSlot);
     }
 
 }

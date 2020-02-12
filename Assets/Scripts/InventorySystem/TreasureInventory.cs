@@ -9,8 +9,9 @@ public class TreasureInventory : MonoBehaviour {
     public Sprite unlootedSprite;
     public List<Item> items;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         UpdateSprite();
 		
 	}
@@ -18,12 +19,12 @@ public class TreasureInventory : MonoBehaviour {
     public void AddToPlayerInventory() {
         if (!isLooted) {
             for (int i = 0; i < items.Count; i++)
-            {
+            {            
                 Inventory.instance.AddItem(items[i]);
             }
             GetComponent<DialogueHolder>().dialogueLines[1] = GetComponent<DialogueHolder>().dialogueLines[1].Replace("{itemName}", items[0].name);
-            GetComponent<DialogueHolder>().DisplayBox();
-            GameObject.Find("PlayerCharacter").GetComponent<Movement>().inventoryIsOpen = true;
+            GetComponent<DialogueHolder>().DisplayBox(true);
+            GameObject.Find("PlayerCharacter").GetComponent<Movement>().canMove = false;
         }
         isLooted = true;
         UpdateSprite();

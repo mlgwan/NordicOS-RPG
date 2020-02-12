@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
 
+    public GameObject wolfPrefab; // only because we want to get this over with
+
     public RegionData currentRegion;
+    public static bool gameStarted = false;
+
+    //dialogue boxes
+    public GameObject dialogueBoxOverworld;
+    public GameObject dialogueBoxBattle;
 
     //spawnpoints
     public string nextSpawnPoint;
@@ -31,6 +40,7 @@ public class GameManager : MonoBehaviour {
     public bool canGetEncountered;
     public bool gotAttacked;
     private static bool ulfWasAdded;
+    public static bool firstAnimTriggered = false;
 
     public static bool[] scriptedEncounters = new bool[100];
     public List<GameObject> scriptedEncounterZones;
@@ -52,13 +62,16 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
+
         if (!ulfWasAdded) { //ulf gets added once at the beginning of the game
+            heroes.Clear();
             ulf.GetComponent<PlayerStateMachine>().player.reset();
             ulf.GetComponent<PlayerStateMachine>().player.LevelXPSetUp();
             ulf.GetComponent<PlayerStateMachine>().player.LevelUp();
             ulf.GetComponent<PlayerStateMachine>().player.restoreFully();
             heroes.Add(ulf);
             ulfWasAdded = true;
+
         }
 
         //to make sure there is only one instance of our GameManager
@@ -70,24 +83,30 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
-        if (!GameObject.Find("Player")) {
+       
+        if (!GameObject.FindWithTag("Player")) {
             GameObject player = Instantiate(playerCharacter, nextPlayerPosition, Quaternion.identity) as GameObject;
-            player.name = "PlayerCharacter";
+            player.name = "UlfWrapper";
         }
-
-        CheckScriptedEncounters();
+       
+        
+        
+       
+        DontDestroyOnLoad(gameObject);
     }
+
+
 
     private void Update()
     {
         switch (gameState)
         {
-            case (GameStates.WORLD_STATE):
+            case (GameStates.WORLD_STATE): FindEncounterZones();
                 if (isWalking) {
                     RandomEncounter();
                 }
                 if (gotAttacked) {
+           
                     gameState = GameStates.BATTLE_STATE;
  
                 }
@@ -103,7 +122,10 @@ public class GameManager : MonoBehaviour {
 
             case (GameStates.BATTLE_STATE):
                 StartBattle();
-         
+                GameObject.FindWithTag("MenuCanvas").transform.Find("DialogueManager").GetComponent<DialogueManager>().dialogueBox = dialogueBoxBattle;
+                GameObject.FindWithTag("MenuCanvas").transform.Find("DialogueManager").GetComponent<DialogueManager>().dialogueText = dialogueBoxBattle.transform.Find("DialogueText").GetComponent<TextMeshProUGUI>();
+                GameObject.FindWithTag("MenuCanvas").transform.Find("DialogueManager").GetComponent<DialogueManager>().speakerImage = dialogueBoxBattle.transform.Find("SpeakerImage").GetComponent<Image>();
+                GameObject.FindWithTag("MenuCanvas").GetComponent<DialogueHolder>().refresh();
                 gameState = GameStates.IDLE;
 
                 break;
@@ -116,8 +138,14 @@ public class GameManager : MonoBehaviour {
 
     public void CheckScriptedEncounters() {
         for (int i = 0; i < scriptedEncounterZones.Count; i++) {
-            if (!scriptedEncounters[i]) {
-                scriptedEncounterZones[i].SetActive(true);
+            if (scriptedEncounters[i+1])
+            {
+                if (scriptedEncounterZones[i]!= null) {  scriptedEncounterZones[i].SetActive(true);}
+               
+            }
+            else {
+                if (scriptedEncounterZones[i] != null) { scriptedEncounterZones[i].SetActive(false);}
+                
             }
         }
     }
@@ -128,6 +156,9 @@ public class GameManager : MonoBehaviour {
 
     public void LoadSceneAfterBattle() {
         SceneManager.LoadScene(lastScene);
+        GameObject.FindWithTag("MenuCanvas").transform.Find("DialogueManager").GetComponent<DialogueManager>().dialogueBox = dialogueBoxOverworld;
+        GameObject.FindWithTag("MenuCanvas").transform.Find("DialogueManager").GetComponent<DialogueManager>().dialogueText = dialogueBoxOverworld.transform.Find("DialogueText").GetComponent<TextMeshProUGUI>();
+        GameObject.FindWithTag("MenuCanvas").transform.Find("DialogueManager").GetComponent<DialogueManager>().speakerImage = dialogueBoxOverworld.transform.Find("SpeakerImage").GetComponent<Image>();
     }
 
     void RandomEncounter() {
@@ -136,7 +167,7 @@ public class GameManager : MonoBehaviour {
             if (currentRegion != null && currentRegion.isScriptedEncounter) {
                 
                 gotAttacked = true;
-                
+                scriptedEncounters[currentRegion.regionId] = false;
             }
             else if (Random.Range(0, 1000) < 10)
             {
@@ -169,6 +200,25 @@ public class GameManager : MonoBehaviour {
         gotAttacked = false;
         canGetEncountered = false;
     }
+
+    void FindEncounterZones() {
+        scriptedEncounterZones[0] = GameObject.Find("ScriptedEncounterZone1");
+        scriptedEncounterZones[1] = GameObject.Find("ScriptedEncounterZone2");
+    }
+
+    public void resetGame() {
+        ulfWasAdded = false;
+        gameStarted = false;
+        isWalking = false;
+        canGetEncountered = false;
+        gotAttacked = false;
+        for (int i = 0; i < scriptedEncounters.Length; i++) {
+            scriptedEncounters[i] = false;
+        }
+        lastPlayerPosition = new Vector3(0, 0, 0);
+        nextPlayerPosition = new Vector3(30.075f, 0f, 14.136f);
+    }
+
 
     
 }

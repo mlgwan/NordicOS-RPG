@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class RegionData : MonoBehaviour {
 
+
+
     public bool isScriptedEncounter;
     public int maxAmountEnemies = 4;
     public string battleScene;
     public List<GameObject> possibleEnemies = new List<GameObject>();
     public int regionId;
+
+    public static RegionData instance;
+
+    private void Awake()
+    {
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
 }
 
