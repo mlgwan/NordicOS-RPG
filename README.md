@@ -14,3 +14,7 @@ D - move right
 Enter - accept
 Escape - cancel/go back/open menu
 Backspace - select (only used in inventory screen to sort items)
+
+
+Gameplay Footage:
+https://www.youtube.com/watch?v=2iODzWDgHCQ&feature=youtu.be
